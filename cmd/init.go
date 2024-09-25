@@ -8,7 +8,8 @@ import (
 )
 
 type YamlConfig struct {
-	BaseBranch string `yaml:"baseBranch"`
+	Name       string `yaml:"name"`
+	BaseBranch string `yaml:"base_branch"`
 	Nickname   string `yaml:"nickname"`
 }
 
@@ -19,6 +20,7 @@ var initCmd = &cobra.Command{
 	Short: "初始化 Git Flow 配置",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := YamlConfig{
+			Name:       "project_name",
 			BaseBranch: "origin/develop",
 			Nickname:   nickname,
 		}

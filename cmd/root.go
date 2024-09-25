@@ -11,7 +11,6 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "github-flow",
 	Short: "My github flow.",
-	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("🌈 Welcome to GitHub Flow CLI!")
 	},
