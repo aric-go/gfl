@@ -1,0 +1,9 @@
+name: replace-in-files
+files:
+  - ".*"
+  - "*"
+  - "!rif.config.yaml"
+replacements:
+  - item: "${PROJECT_NAME}"
+  - from: PROJECT_DESCRIPTION
+    to: My github flow.
