@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "go run main.go",
-    "build": "go build -o dist/ghf main.go",
-    "bin:link": "ln -s $(pwd)/dist/ghf /usr/local/bin/ghf",
-    "bin:unlink": "rm /usr/local/bin/ghf"
+    "build": "go build -o dist/gfl main.go",
+    "bin:link": "ln -s $(pwd)/dist/gfl /usr/local/bin/gfl",
+    "bin:unlink": "rm /usr/local/bin/gfl"
   }
 }
