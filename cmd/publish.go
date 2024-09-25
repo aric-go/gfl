@@ -20,9 +20,10 @@ var publishCmd = &cobra.Command{
 		branchName := string(currentBranch)
 		branchName = branchName[:len(branchName)-1] // 移除末尾换行符
 
-		// 执行命令: git push origin current-branch
-		if err := exec.Command("git", "push", "origin", branchName).Run(); err != nil {
-			fmt.Println("推送分支失败:", err)
+		// 执行命令: git push origin -u feature/aric/new-feature
+		_, err = exec.Command("git", "push", "origin", "-u", branchName).Output()
+		if err != nil {
+			fmt.Println("推送失败:", err)
 		} else {
 			fmt.Printf("已推送当前分支: %s 到远程仓库\n", branchName)
 		}
