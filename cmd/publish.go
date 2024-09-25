@@ -9,20 +9,22 @@ import (
 
 var publishCmd = &cobra.Command{
 	Use:   "publish",
-	Short: "发布功能分支",
+	Short: "发布当前分支",
 	Run: func(cmd *cobra.Command, args []string) {
-		config := readConfig()
-		if config == nil {
+		// 获取当前分支名称
+		currentBranch, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").Output()
+		if err != nil {
+			fmt.Println("无法获取当前分支:", err)
 			return
 		}
+		branchName := string(currentBranch)
+		branchName = branchName[:len(branchName)-1] // 移除末尾换行符
 
-		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
-
-		// 执行命令: git push origin feature/aric/new-feature
+		// 执行命令: git push origin current-branch
 		if err := exec.Command("git", "push", "origin", branchName).Run(); err != nil {
 			fmt.Println("推送分支失败:", err)
 		} else {
-			fmt.Printf("已推送分支: %s 到远程仓库\n", branchName)
+			fmt.Printf("已推送当前分支: %s 到远程仓库\n", branchName)
 		}
 	},
 }
