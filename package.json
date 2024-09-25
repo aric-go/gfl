@@ -4,5 +4,10 @@
   "private": true,
   "type": "module",
   "description": "My github flow.",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "go run main.go",
+    "build": "go build -o dist/ghf main.go",
+    "bin:link": "ln -s $(pwd)/dist/ghf /usr/local/bin/ghf"
+  }
 }
