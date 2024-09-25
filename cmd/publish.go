@@ -1,40 +1,32 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
 	"fmt"
+	"os/exec"
 
 	"github.com/spf13/cobra"
 )
 
-// publishCmd represents the publish command
 var publishCmd = &cobra.Command{
 	Use:   "publish",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "发布功能分支",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("publish called")
+		config := readConfig()
+		if config == nil {
+			return
+		}
+
+		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
+
+		// 执行命令: git push origin feature/aric/new-feature
+		if err := exec.Command("git", "push", "origin", branchName).Run(); err != nil {
+			fmt.Println("推送分支失败:", err)
+		} else {
+			fmt.Printf("已推送分支: %s 到远程仓库\n", branchName)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(publishCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// publishCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// publishCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

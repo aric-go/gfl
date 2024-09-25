@@ -1,56 +1,61 @@
-// cmd/start.go
 package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
-	"os"
 	"os/exec"
+
+	"github.com/spf13/cobra"
+	"io/ioutil"
 )
 
-type Config struct {
-	DefaultBranch string `yaml:"defaultBranch"`
-}
+var featureName string
 
 var startCmd = &cobra.Command{
-	Use:   "start [feature-name]",
-	Short: "Start a new feature",
-	Args:  cobra.ExactArgs(1),
+	Use:   "start",
+	Short: "开始一个新功能",
 	Run: func(cmd *cobra.Command, args []string) {
-		featureName := args[0]
-
-		// 读取配置文件
-		configFile, err := ioutil.ReadFile(".gflow.config.yml")
-		if err != nil {
-			fmt.Println("Error reading config file:", err)
+		config := readConfig()
+		if config == nil {
 			return
 		}
-		var config Config
-		yaml.Unmarshal(configFile, &config)
 
-		// 执行 git fetch
-		execCmd("git", "fetch", "origin", config.DefaultBranch)
+		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
 
-		// 创建新分支
-		branchName := fmt.Sprintf("feature/%s", featureName)
-		execCmd("git", "checkout", "-b", branchName, fmt.Sprintf("origin/%s", config.DefaultBranch))
+		// 执行命令: git fetch origin develop
+		if err := exec.Command("git", "fetch", "origin", config.BaseBranch).Run(); err != nil {
+			fmt.Println("拉取分支失败:", err)
+			return
+		}
 
-		fmt.Printf("Feature branch '%s' started successfully.\n", branchName)
+		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
+		if err := exec.Command("git", "checkout", "-b", branchName, config.BaseBranch).Run(); err != nil {
+			fmt.Println("创建分支失败:", err)
+		} else {
+			fmt.Printf("已创建功能分支: %s\n", branchName)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(startCmd)
+	startCmd.Flags().StringVarP(&featureName, "feature", "f", "", "新功能的名称")
+	startCmd.MarkFlagRequired("feature")
 }
 
-func execCmd(command string, args ...string) {
-	cmd := exec.Command(command, args...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Run()
+// 读取配置文件
+func readConfig() *YamlConfig {
+	data, err := ioutil.ReadFile(".gflow.config.yml")
 	if err != nil {
-		fmt.Printf("Error executing %s: %v\n", command, err)
+		fmt.Println("读取配置文件失败:", err)
+		return nil
 	}
+
+	var config YamlConfig
+	if err := yaml.Unmarshal(data, &config); err != nil {
+		fmt.Println("解析配置文件失败:", err)
+		return nil
+	}
+
+	return &config
 }
