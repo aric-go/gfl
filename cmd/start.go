@@ -23,7 +23,7 @@ var startCmd = &cobra.Command{
 		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
 
 		// 执行命令: git fetch origin develop
-		if err := exec.Command("git", "fetch", "origin", config.BaseBranch).Run(); err != nil {
+		if err := exec.Command("git", "fetch", "origin").Run(); err != nil {
 			fmt.Println("拉取分支失败:", err)
 			return
 		}
