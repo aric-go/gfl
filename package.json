@@ -8,6 +8,7 @@
   "scripts": {
     "start": "go run main.go",
     "build": "go build -o dist/ghf main.go",
-    "bin:link": "ln -s $(pwd)/dist/ghf /usr/local/bin/ghf"
+    "bin:link": "ln -s $(pwd)/dist/ghf /usr/local/bin/ghf",
+    "bin:unlink": "rm /usr/local/bin/ghf"
   }
 }
