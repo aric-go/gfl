@@ -2,24 +2,23 @@ package cmd
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
-	"os/exec"
-
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 	"io/ioutil"
+	"os/exec"
 )
 
-var featureName string
-
 var startCmd = &cobra.Command{
-	Use:   "start",
+	Use:   "start [feature-name]",
 	Short: "开始一个新功能",
+	Args:  cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := readConfig()
 		if config == nil {
 			return
 		}
 
+		featureName := args[0] // 从参数中获取功能名称
 		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
 
 		// 执行命令: git fetch origin develop
@@ -39,8 +38,6 @@ var startCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(startCmd)
-	startCmd.Flags().StringVarP(&featureName, "feature", "f", "", "新功能的名称")
-	startCmd.MarkFlagRequired("feature")
 }
 
 // 读取配置文件
