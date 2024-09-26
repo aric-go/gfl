@@ -2,9 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"os/exec"
-
 	"github.com/spf13/cobra"
+	"os/exec"
 )
 
 var publishCmd = &cobra.Command{
