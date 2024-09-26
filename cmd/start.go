@@ -20,7 +20,7 @@ var startCmd = &cobra.Command{
 
 		featureName := args[0] // 从参数中获取功能名称
 		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
-		baseRemoteBranch := fmt.Sprintf("remote/%s", config.BaseBranch)
+		baseRemoteBranch := fmt.Sprintf("origin/%s", config.BaseBranch)
 
 		// 执行命令: git fetch origin develop
 		if err := exec.Command("git", "fetch", "origin").Run(); err != nil {
