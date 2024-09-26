@@ -8,9 +8,9 @@ import (
 )
 
 type YamlConfig struct {
-	Name       string `yaml:"name"`
-	BaseBranch string `yaml:"base_branch"`
+	BaseBranch string `yaml:"baseBranch"`
 	Nickname   string `yaml:"nickname"`
+	Repository string `yaml:"repository"`
 }
 
 var nickname string
@@ -21,8 +21,7 @@ var initCmd = &cobra.Command{
 	Short: "初始化 Git Flow 配置",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := YamlConfig{
-			Name:       "project_name",
-			BaseBranch: "origin/develop",
+			BaseBranch: "develop",
 			Nickname:   nickname,
 		}
 
@@ -57,8 +56,6 @@ var initCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(initCmd)
 
-	// 添加 --nickname 标志
-	initCmd.Flags().StringVarP(&nickname, "nickname", "n", "default_nickname", "设置昵称")
 	// 添加 --force 标志
 	initCmd.Flags().BoolVarP(&force, "force", "f", false, "强制覆盖已存在的配置文件")
 }

@@ -20,6 +20,7 @@ var startCmd = &cobra.Command{
 
 		featureName := args[0] // 从参数中获取功能名称
 		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
+		baseRemoteBranch := fmt.Sprintf("remote/%s", config.BaseBranch)
 
 		// 执行命令: git fetch origin develop
 		if err := exec.Command("git", "fetch", "origin").Run(); err != nil {
@@ -28,7 +29,7 @@ var startCmd = &cobra.Command{
 		}
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
-		if err := exec.Command("git", "checkout", "-b", branchName, config.BaseBranch).Run(); err != nil {
+		if err := exec.Command("git", "checkout", "-b", branchName, baseRemoteBranch).Run(); err != nil {
 			fmt.Println("创建分支失败:", err)
 		} else {
 			fmt.Printf("已创建功能分支: %s\n", branchName)
