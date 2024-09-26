@@ -14,6 +14,7 @@ type YamlConfig struct {
 }
 
 var nickname string
+var force bool
 
 var initCmd = &cobra.Command{
 	Use:   "init",
@@ -23,6 +24,11 @@ var initCmd = &cobra.Command{
 			Name:       "project_name",
 			BaseBranch: "origin/develop",
 			Nickname:   nickname,
+		}
+
+		if _, err := os.Stat(".gflow.config.yml"); !os.IsNotExist(err) && !force {
+			fmt.Println(".gflow.config.yml 文件已存在，如需覆盖请使用 --force 选项")
+			return
 		}
 
 		// 将配置写入 .gflow.config.yml 文件
@@ -53,4 +59,6 @@ func init() {
 
 	// 添加 --nickname 标志
 	initCmd.Flags().StringVarP(&nickname, "nickname", "n", "default_nickname", "设置昵称")
+	// 添加 --force 标志
+	initCmd.Flags().BoolVarP(&force, "force", "f", false, "强制覆盖已存在的配置文件")
 }
