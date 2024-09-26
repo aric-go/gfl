@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
+	"os"
 	"os/exec"
 )
 
@@ -42,7 +42,7 @@ func init() {
 
 // 读取配置文件
 func readConfig() *YamlConfig {
-	data, err := ioutil.ReadFile(".gflow.config.yml")
+	data, err := os.ReadFile(".gflow.config.yml")
 	if err != nil {
 		fmt.Println("读取配置文件失败:", err)
 		return nil
