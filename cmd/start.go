@@ -2,12 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/briandowns/spinner"
+	"github-flow/utils"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 	"os"
-	"os/exec"
-	"time"
 )
 
 var startCmd = &cobra.Command{
@@ -16,9 +14,6 @@ var startCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := readConfig()
-		spin := spinner.New(spinner.CharSets[35], 200*time.Millisecond) // Build our new spinner
-		spin.Color("green")
-
 		if config == nil {
 			return
 		}
@@ -28,23 +23,18 @@ var startCmd = &cobra.Command{
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.BaseBranch)
 
 		// 执行命令: git fetch origin develop
-		spin.Start()
-		spin.Suffix = " 拉取远程分支...\n"
-		if err := exec.Command("git", "fetch", "origin").Run(); err != nil {
-			fmt.Println("拉取分支失败:", err)
-			spin.Stop()
+		if err := utils.RunCommandWithSpin("git fetch origin develop", " 拉取远程分支...\n"); err != nil {
+			fmt.Println("拉取远程分支失败:", err)
 			return
 		}
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
-		spin.Start()
-		spin.Suffix = " 正在创建功能分支...\n"
-		if err := exec.Command("git", "checkout", "-b", branchName, baseRemoteBranch).Run(); err != nil {
+		if err := utils.RunCommandWithSpin("git checkout -b "+branchName+" "+baseRemoteBranch, " 正在创建功能分支...\n"); err != nil {
 			fmt.Println("创建分支失败:", err)
+			return
 		} else {
 			fmt.Printf("已创建功能分支: %s\n", branchName)
 		}
-		spin.Stop()
 	},
 }
 
