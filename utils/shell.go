@@ -29,7 +29,7 @@ func RunCommandWithSpin(command string, message string) error {
 
 	if err := cmd.Run(); err != nil {
 		spin.Stop()
-		return fmt.Errorf("执行命令失败: %w", err)
+		return fmt.Errorf("执行命令失败: %w, 命令: %s", err, command)
 	}
 
 	spin.Stop()
