@@ -39,7 +39,7 @@ var startCmd = &cobra.Command{
 		if err := utils.RunCommandWithSpin(command2, " 正在创建功能分支...\n"); err != nil {
 			return
 		}
-		fmt.Printf("已创建功能分支: %s\n", branchName)
+		fmt.Printf("✅ 已创建功能分支: %s\n", branchName)
 	},
 }
 

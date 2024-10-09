@@ -14,7 +14,7 @@ var publishCmd = &cobra.Command{
 		if err := utils.RunCommandWithSpin("git push -u origin HEAD", " 正在推送当前分支到远程仓库 \n"); err != nil {
 			return
 		}
-		fmt.Println("已推送当前分支到远程仓库，并设置上游分支")
+		fmt.Println("✅ 已推送当前分支到远程仓库，并设置上游分支")
 	},
 }
 
