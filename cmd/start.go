@@ -8,6 +8,10 @@ import (
 	"os"
 )
 
+var (
+	skipFetch bool
+)
+
 var startCmd = &cobra.Command{
 	Use:   "start [feature-name]",
 	Short: "开始一个新功能",
@@ -23,8 +27,11 @@ var startCmd = &cobra.Command{
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.BaseBranch)
 
 		// 执行命令: git fetch origin develop
-		command1 := fmt.Sprintf("git fetch origin")
-		utils.RunCommandWithSpin(command1, " 拉取远程分支...\n")
+		if !skipFetch {
+			command1 := fmt.Sprintf("git fetch origin")
+			utils.RunCommandWithSpin(command1, " 拉取远程分支...\n")
+		}
+
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
 
 		command2 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
@@ -34,6 +41,8 @@ var startCmd = &cobra.Command{
 }
 
 func init() {
+	// add --skip-fetch flag to start command
+	startCmd.Flags().BoolVarP(&skipFetch, "skip-fetch", "s", false, "跳过拉取远程分支步骤")
 	rootCmd.AddCommand(startCmd)
 }
 
