@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+var spin = spinner.New(spinner.CharSets[35], 200*time.Millisecond)
+
 func RunShell(cmd string) (string, error) {
 	out, err := exec.Command("bash", "-c", cmd).Output()
 	if err != nil {
@@ -17,7 +19,6 @@ func RunShell(cmd string) (string, error) {
 }
 
 func RunCommandWithSpin(command string, message string) error {
-	spin := spinner.New(spinner.CharSets[35], 200*time.Millisecond)
 	spin.Color("green")
 	spin.Start()
 	spin.Suffix = message
