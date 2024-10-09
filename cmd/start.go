@@ -23,7 +23,7 @@ var startCmd = &cobra.Command{
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.BaseBranch)
 
 		// 执行命令: git fetch origin develop
-		if err := utils.RunCommandWithSpin("git fetch origin develop", " 拉取远程分支...\n"); err != nil {
+		if err := utils.RunCommandWithSpin("git fetch origin", " 拉取远程分支...\n"); err != nil {
 			fmt.Println("拉取远程分支失败:", err)
 			return
 		}
