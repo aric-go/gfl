@@ -19,7 +19,7 @@ func RunShell(cmd string) (string, error) {
 }
 
 func RunCommandWithSpin(command string, message string) error {
-	spin.Color("green")
+	_ = spin.Color("green")
 	spin.Start()
 	spin.Suffix = message
 
