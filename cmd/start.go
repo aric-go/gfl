@@ -16,7 +16,8 @@ var startCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := readConfig()
-		spin := spinner.New(spinner.CharSets[33], 200*time.Millisecond) // Build our new spinner
+		spin := spinner.New(spinner.CharSets[35], 200*time.Millisecond) // Build our new spinner
+		spin.Color("green")
 
 		if config == nil {
 			return
@@ -28,7 +29,7 @@ var startCmd = &cobra.Command{
 
 		// 执行命令: git fetch origin develop
 		spin.Start()
-		spin.Suffix = "拉取远程分支...\n"
+		spin.Suffix = " 拉取远程分支...\n"
 		if err := exec.Command("git", "fetch", "origin").Run(); err != nil {
 			fmt.Println("拉取分支失败:", err)
 			spin.Stop()
@@ -37,7 +38,7 @@ var startCmd = &cobra.Command{
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
 		spin.Start()
-		spin.Suffix = "正在创建功能分支...\n"
+		spin.Suffix = " 正在创建功能分支...\n"
 		if err := exec.Command("git", "checkout", "-b", branchName, baseRemoteBranch).Run(); err != nil {
 			fmt.Println("创建分支失败:", err)
 		} else {
