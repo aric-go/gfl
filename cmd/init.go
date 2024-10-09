@@ -18,7 +18,7 @@ var force bool
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "初始化 Git Flow 配置",
+	Short: "初始化 Github Flow 配置",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := YamlConfig{
 			BaseBranch: "develop",
