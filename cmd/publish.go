@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"github-flow/utils"
 	"github.com/spf13/cobra"
-	"os/exec"
 )
 
 var publishCmd = &cobra.Command{
@@ -11,11 +11,10 @@ var publishCmd = &cobra.Command{
 	Short: "发布当前分支",
 	Run: func(cmd *cobra.Command, args []string) {
 		// 执行命令: git push -u origin HEAD
-		if err := exec.Command("git", "push", "-u", "origin", "HEAD").Run(); err != nil {
-			fmt.Println("推送当前分支失败:", err)
-		} else {
-			fmt.Println("已推送当前分支到远程仓库，并设置上游分支")
+		if err := utils.RunCommandWithSpin("git push -u origin HEAD", " 正在推送当前分支到远程仓库 \n"); err != nil {
+			return
 		}
+		fmt.Println("已推送当前分支到远程仓库，并设置上游分支")
 	},
 }
 
