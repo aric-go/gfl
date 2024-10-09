@@ -10,7 +10,7 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "github-flow",
-	Short: "My github flow.",
+	Short: "Github Flow CLI",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("🌈 Welcome to GitHub Flow CLI!")
 	},
