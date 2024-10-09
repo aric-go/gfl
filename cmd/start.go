@@ -29,13 +29,17 @@ var startCmd = &cobra.Command{
 		// 执行命令: git fetch origin develop
 		if !skipFetch {
 			command1 := fmt.Sprintf("git fetch origin")
-			utils.RunCommandWithSpin(command1, " 拉取远程分支...\n")
+			if err := utils.RunCommandWithSpin(command1, " 正在拉取远程分支...\n"); err != nil {
+				return
+			}
 		}
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
 
 		command2 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
-		utils.RunCommandWithSpin(command2, " 正在创建功能分支...\n")
+		if err := utils.RunCommandWithSpin(command2, " 正在创建功能分支...\n"); err != nil {
+			return
+		}
 		fmt.Printf("已创建功能分支: %s\n", branchName)
 	},
 }

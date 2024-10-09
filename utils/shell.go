@@ -18,7 +18,7 @@ func RunShell(cmd string) (string, error) {
 	return string(out), nil
 }
 
-func RunCommandWithSpin(command string, message string) {
+func RunCommandWithSpin(command string, message string) error {
 	spin.Color("green")
 	spin.Start()
 	spin.Suffix = message
@@ -29,8 +29,9 @@ func RunCommandWithSpin(command string, message string) {
 
 	if err := cmd.Run(); err != nil {
 		spin.Stop()
-		fmt.Println("执行命令失败: ", err)
+		return fmt.Errorf("执行命令失败: %w", err)
 	}
 
 	spin.Stop()
+	return nil
 }
