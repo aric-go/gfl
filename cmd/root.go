@@ -11,6 +11,7 @@ var rootCmd = &cobra.Command{
 	Use:   "github-flow",
 	Short: "Github Flow CLI",
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("版本: %s\n", cmd.Version)
 		fmt.Print("🌈 Welcome to GitHub Flow CLI!\n\n")
 		_ = cmd.Help()
 	},
