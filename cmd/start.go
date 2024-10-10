@@ -29,7 +29,7 @@ var startCmd = &cobra.Command{
 		// 执行命令: git fetch origin develop
 		if !skipFetch {
 			command1 := fmt.Sprintf("git fetch origin")
-			if err := utils.RunCommandWithSpin(command1, " 正在拉取远程分支...\n"); err != nil {
+			if err := utils.RunCommandWithSpin(command1, " 正在同步远程分支...\n"); err != nil {
 				return
 			}
 		}
