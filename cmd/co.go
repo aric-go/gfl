@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github-flow/utils"
 	"github.com/spf13/cobra"
 )
@@ -11,7 +10,8 @@ var coCmd = &cobra.Command{
 	Use:   "co",
 	Short: "交互式的git分支切换",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("co called", utils.GetLocalBranches())
+		branches := utils.GetLocalBranches()
+		utils.BuildCommandList(branches)
 	},
 }
 
