@@ -2,7 +2,7 @@
  * @Author: aric 1290657123@qq.com
  * @Date: 2024-10-11 21:30:36
  * @LastEditors: aric 1290657123@qq.com
- * @LastEditTime: 2024-10-11 21:31:33
+ * @LastEditTime: 2024-10-11 21:33:06
  */
 package utils
 
@@ -35,9 +35,8 @@ func BuildCommandList(branches []string) {
 		return
 	}
 
-	// 打印选择的模块名称
-	//bun create answers.Module --no-git --no-install
-	command := fmt.Sprintf("bun create %s --no-git --no-install", answers.Module)
+	// git checkout the branch
+	command := fmt.Sprintf("git checkout %s", answers.Module)
 	if _, err := RunShell(command); err != nil {
 		fmt.Println(err.Error())
 	}
