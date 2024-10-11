@@ -35,3 +35,16 @@ func RunCommandWithSpin(command string, message string) error {
 	spin.Stop()
 	return nil
 }
+
+func GetLocalBranches() []string {
+	output, err := RunShell("git branch")
+	if err != nil {
+		fmt.Println("执行命令失败:", err)
+		return nil
+	}
+
+	// 将输出转换为字符串并按行分割
+	branches := strings.Split(strings.TrimSpace(string(output)), "\n")
+
+	return branches
+}
