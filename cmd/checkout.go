@@ -5,10 +5,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// coCmd represents the co command
-var coCmd = &cobra.Command{
-	Use:   "co",
-	Short: "交互式的git分支切换",
+// checkoutCmd represents the co command
+var checkoutCmd = &cobra.Command{
+	Use:     "checkout",
+	Aliases: []string{"co"},
+	Short:   "交互式的git分支切换(alias: co)",
 	Run: func(cmd *cobra.Command, args []string) {
 		branches := utils.GetLocalBranches()
 		utils.BuildCommandList(branches)
@@ -16,7 +17,7 @@ var coCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(coCmd)
+	rootCmd.AddCommand(checkoutCmd)
 
 	// Here you will define your flags and configuration settings.
 

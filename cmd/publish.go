@@ -7,8 +7,9 @@ import (
 )
 
 var publishCmd = &cobra.Command{
-	Use:   "publish",
-	Short: "发布当前分支",
+	Use:     "publish",
+	Aliases: []string{"p"},
+	Short:   "发布当前分支(alias: p)",
 	Run: func(cmd *cobra.Command, args []string) {
 		// 执行命令: git push -u origin HEAD
 		if err := utils.RunCommandWithSpin("git push -u origin HEAD", " 正在推送当前分支到远程仓库 \n"); err != nil {

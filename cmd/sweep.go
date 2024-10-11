@@ -14,9 +14,10 @@ var (
 )
 
 var sweepCmd = &cobra.Command{
-	Use:   "sweep [keyword]",
-	Short: "清理包含特定关键词的分支",
-	Args:  cobra.ExactArgs(1), // 需要一个关键词参数
+	Use:     "sweep [keyword]",
+	Aliases: []string{"clean", "rm"},
+	Short:   "清理包含特定关键词的分支(alias: clean, rm)",
+	Args:    cobra.ExactArgs(1), // 需要一个关键词参数
 	Run: func(cmd *cobra.Command, args []string) {
 		keyword := args[0]
 

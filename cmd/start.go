@@ -13,9 +13,10 @@ var (
 )
 
 var startCmd = &cobra.Command{
-	Use:   "start [feature-name]",
-	Short: "开始一个新功能",
-	Args:  cobra.ExactArgs(1), // 要求提供一个参数
+	Use:     "start [feature-name]",
+	Short:   "开始一个新功能(alias: s)",
+	Aliases: []string{"s"},
+	Args:    cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := readConfig()
 		if config == nil {
