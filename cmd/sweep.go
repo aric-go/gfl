@@ -58,7 +58,9 @@ func cleanLocalBranches(keyword string) {
 			// 执行命令: git branch -d branch-name
 			command := fmt.Sprintf("git branch -d %s", branch)
 			if err := utils.RunCommandWithSpin(command, "🚗 正在删除本地分支\n"); err != nil {
-				fmt.Printf("删除本地分支 %s 失败: %s\n", branch, err)
+				fmt.Printf("💔 删除本地分支 %s 失败: %s\n", branch, err)
+			} else {
+				fmt.Printf("✅ 本地分支 %s 删除成功\n", branch)
 			}
 		}
 	}
@@ -68,7 +70,7 @@ func cleanRemoteBranches(keyword string) {
 	// 获取远程分支列表
 	branches, err := exec.Command("git", "branch", "-r").Output()
 	if err != nil {
-		fmt.Println("获取远程分支列表失败:", err)
+		fmt.Println("💔 获取远程分支列表失败:", err)
 		return
 	}
 
@@ -84,9 +86,9 @@ func cleanRemoteBranches(keyword string) {
 			remoteBranch := strings.TrimPrefix(branch, "origin/")
 			command := fmt.Sprintf("git push origin --delete %s", remoteBranch)
 			if err := utils.RunCommandWithSpin(command, "🚗 正在删除远程分支\n"); err != nil {
-				fmt.Printf("删除远程分支 %s 失败: %s\n", branch, err)
+				fmt.Printf("💔 删除远程分支 %s 失败: %s\n", branch, err)
 			} else {
-				fmt.Printf("远程分支 %s 删除成功\n", branch)
+				fmt.Printf("✅ 远程分支 %s 删除成功\n", branch)
 			}
 		}
 	}
