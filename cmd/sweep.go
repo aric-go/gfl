@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github-flow/utils"
 	"os/exec"
 	"strings"
 
@@ -55,11 +56,9 @@ func cleanLocalBranches(keyword string) {
 
 		if strings.Contains(branch, keyword) {
 			// 执行命令: git branch -d branch-name
-			fmt.Printf("正在删除本地分支: %s\n", branch)
-			if err := exec.Command("git", "branch", "-d", branch).Run(); err != nil {
+			command := fmt.Sprintf("git branch -d %s", branch)
+			if err := utils.RunCommandWithSpin(command, "🚗 正在删除本地分支\n"); err != nil {
 				fmt.Printf("删除本地分支 %s 失败: %s\n", branch, err)
-			} else {
-				fmt.Printf("本地分支 %s 删除成功\n", branch)
 			}
 		}
 	}
