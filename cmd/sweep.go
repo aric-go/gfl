@@ -82,9 +82,8 @@ func cleanRemoteBranches(keyword string) {
 		if strings.Contains(branch, keyword) {
 			// 提取分支名称（去掉远程名）
 			remoteBranch := strings.TrimPrefix(branch, "origin/")
-			// 执行命令: git push origin --delete remote-branch-name
-			fmt.Printf("正在删除远程分支: %s\n", branch)
-			if err := exec.Command("git", "push", "origin", "--delete", remoteBranch).Run(); err != nil {
+			command := fmt.Sprintf("git push origin --delete %s", remoteBranch)
+			if err := utils.RunCommandWithSpin(command, "🚗 正在删除远程分支\n"); err != nil {
 				fmt.Printf("删除远程分支 %s 失败: %s\n", branch, err)
 			} else {
 				fmt.Printf("远程分支 %s 删除成功\n", branch)
