@@ -28,7 +28,7 @@ var prCmd = &cobra.Command{
 		}
 
 		// 生成 GitHub PR URL
-		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.BaseBranch, currentBranch)
+		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.DevBaseBranch, currentBranch)
 
 		// 打开浏览器
 		err = openBrowser(prURL)
