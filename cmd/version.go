@@ -8,7 +8,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 )
 
@@ -22,8 +21,6 @@ var versionCmd = &cobra.Command{
 	Short: "Print the version number of the program",
 	Long:  `All software has versions. This is the version number of the program`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Version:", Version)
-		fmt.Println("Build Time:", BuildTime)
 		cmd.Println("Version:", Version)
 		cmd.Println("Build Time:", BuildTime)
 	},
