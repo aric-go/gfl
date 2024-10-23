@@ -2,17 +2,18 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
-	"os"
 )
 
 type YamlConfig struct {
-	DevBaseBranch        string   `yaml:"devBaseBranch"`
-	ProductionBaseBranch string   `yaml:"productionBaseBranch"`
-	Nickname             string   `yaml:"nickname"`
-	Repository           string   `yaml:"repository"`
-	ProtectedBranches    []string `yaml:"protectedBranches"`
+	DevBaseBranch     string   `yaml:"devBaseBranch"`
+	HotfixBaseBranch  string   `yaml:"hotfixBaseBranch"`
+	Nickname          string   `yaml:"nickname"`
+	Repository        string   `yaml:"repository"`
+	ProtectedBranches []string `yaml:"protectedBranches"`
 }
 
 var nickname string
@@ -23,10 +24,10 @@ var initCmd = &cobra.Command{
 	Short: "初始化 Github Flow 配置",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := YamlConfig{
-			DevBaseBranch:        "develop",
-			ProductionBaseBranch: "main",
-			Nickname:             nickname,
-			ProtectedBranches:    []string{"main", "master", "beta", "alpha", "develop", "dev"},
+			DevBaseBranch:     "develop",
+			HotfixBaseBranch:  "main",
+			Nickname:          nickname,
+			ProtectedBranches: []string{"main", "master", "beta", "alpha", "develop", "dev"},
 		}
 
 		if _, err := os.Stat(".gflow.config.yml"); !os.IsNotExist(err) && !force {

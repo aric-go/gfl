@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"github-flow/utils"
+
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +18,7 @@ var hotfixCmd = &cobra.Command{
 		config := readConfig()
 		featureName := args[0] // 从参数中获取Hotfix名称
 		branchName := fmt.Sprintf("hotfix/%s/%s", config.Nickname, featureName)
-		baseRemoteBranch := fmt.Sprintf("origin/%s", config.ProductionBaseBranch)
+		baseRemoteBranch := fmt.Sprintf("origin/%s", config.HotfixBaseBranch)
 
 		// 执行命令: git fetch origin develop
 		if !skipFetch {
