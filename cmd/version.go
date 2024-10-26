@@ -8,6 +8,7 @@
 package cmd
 
 import (
+	"github-flow/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -18,11 +19,9 @@ var (
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Print the version number of the program",
-	Long:  `All software has versions. This is the version number of the program`,
+	Short: "获取程序版本",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Println("Version:", Version)
-		cmd.Println("Build Time:", BuildTime)
+		cmd.Println("Version:", utils.GetLatestVersion())
 	},
 	DisableAutoGenTag: true,
 }
