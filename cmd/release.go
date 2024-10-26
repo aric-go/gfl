@@ -39,7 +39,7 @@ var releaseCmd = &cobra.Command{
 		// 2. push release branch
 		command2 := fmt.Sprintf("git push -u origin %s", branchName)
 		if err := utils.RunCommandWithSpin(command2, "2.正在推送 Release...\n"); err != nil {
-			fmt.Println(err)
+			fmt.Println("step 2 failed: ", err)
 			return
 		}
 		// 3. create release tag
