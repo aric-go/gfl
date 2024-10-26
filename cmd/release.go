@@ -20,8 +20,8 @@ var releaseCmd = &cobra.Command{
 		}
 
 		// print new version
-		fmt.Printf("🏡 上一个版本: %s\n", version)
-		fmt.Printf("🎉 新版本: %s\n", newVersion)
+		fmt.Printf("🌈 上一版本: %s\n", version)
+		fmt.Printf("🎉 新的版本: %s\n", newVersion)
 
 		config := readConfig()
 		if config == nil {
