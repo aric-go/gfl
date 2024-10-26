@@ -38,10 +38,10 @@ var startCmd = &cobra.Command{
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
 		command2 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
-		if err := utils.RunCommandWithSpin(command2, " 正在创建功能分支...\n"); err != nil {
+		if err := utils.RunCommandWithSpin(command2, " 正在创建分支...\n"); err != nil {
 			return
 		}
-		fmt.Printf("✅ 已创建功能分支: %s\n", branchName)
+		fmt.Printf("✅ 已创建%s分支: %s\n", startName.ActionName, branchName)
 	},
 }
 
