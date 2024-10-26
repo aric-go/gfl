@@ -25,11 +25,7 @@ var startCmd = &cobra.Command{
 		}
 
 		startName := parseStartName(args[0])
-
-		fmt.Printf("开始 %s %s\n", startName.ActionName, startName.FeatureName)
-
-		featureName := args[0] // 从参数中获取功能名称
-		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
+		branchName := fmt.Sprintf("%s/%s/%s", startName.ActionName, config.Nickname, startName.FeatureName)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
 
 		// 执行命令: git fetch origin develop
