@@ -1,8 +1,11 @@
 package utils
 
 import (
+	"bytes"
 	"fmt"
 	"golang.org/x/mod/semver"
+	"os/exec"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -63,9 +66,44 @@ func GetLatestVersion() string {
 		fmt.Println(err)
 	}
 
-	version, err := RunShell("git describe --tags --abbrev=0")
-	if err != nil {
+	if result, err := GetLatestLocalVersion(); err == nil {
+		return result
+	} else {
 		fmt.Println(err)
 	}
-	return strings.TrimSpace(version)
+
+	return ""
+}
+
+func GetLatestLocalVersion() (string, error) {
+	// 运行 `git tag` 获取本地所有标签
+	cmd := exec.Command("git", "tag")
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("执行命令失败: %w", err)
+	}
+
+	// 解析标签并过滤出语义化版本
+	var versions []string
+	lines := strings.Split(out.String(), "\n")
+	for _, line := range lines {
+		tag := strings.TrimSpace(line)
+		if semver.IsValid(tag) {
+			versions = append(versions, tag)
+		}
+	}
+
+	// 检查是否有语义化版本标签
+	if len(versions) == 0 {
+		return "", fmt.Errorf("没有找到语义化版本的标签")
+	}
+
+	// 对标签进行排序并获取最大版本
+	sort.Slice(versions, func(i, j int) bool {
+		return semver.Compare(versions[i], versions[j]) < 0
+	})
+
+	// 返回最大版本
+	return versions[len(versions)-1], nil
 }
