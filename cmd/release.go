@@ -18,7 +18,17 @@ var releaseCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println("release called with: ", versionType, version, newVersion)
+
+		config := readConfig()
+		if config == nil {
+			return
+		}
+		branchName := fmt.Sprintf("%s/release-%s", "release", newVersion)
+		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
+		command := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
+		if err := utils.RunCommandWithSpin(command, " 正在创建 Release...\n"); err != nil {
+			return
+		}
 	},
 }
 
