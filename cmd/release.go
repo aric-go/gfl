@@ -25,10 +25,27 @@ var releaseCmd = &cobra.Command{
 		}
 		branchName := fmt.Sprintf("%s/release-%s", "release", newVersion)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
-		command := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
-		if err := utils.RunCommandWithSpin(command, " 正在创建 Release...\n"); err != nil {
+		// 1. create release branch
+		command1 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
+		if err := utils.RunCommandWithSpin(command1, "1.正在创建 Release...\n"); err != nil {
 			return
 		}
+		// 2. push release branch
+		command2 := fmt.Sprintf("git push -u origin %s", branchName)
+		if err := utils.RunCommandWithSpin(command2, "2.正在推送 Release...\n"); err != nil {
+			return
+		}
+		// 3. create release tag
+		command3 := fmt.Sprintf("git tag -a %s -m 'Release %s'", newVersion, newVersion)
+		if err := utils.RunCommandWithSpin(command3, "3.正在创建 Release Tag...\n"); err != nil {
+			return
+		}
+		// 4. push release tag
+		command4 := fmt.Sprintf("git push origin %s", newVersion)
+		if err := utils.RunCommandWithSpin(command4, "4.正在推送 Release Tag...\n"); err != nil {
+			return
+		}
+		fmt.Printf("Release %s 创建成功！\n", newVersion)
 	},
 }
 
