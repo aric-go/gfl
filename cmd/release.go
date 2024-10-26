@@ -62,6 +62,6 @@ var releaseCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(releaseCmd)
 	// Here you will define your flags and configuration settings.
-	// add Type (MINOR, MAJOR, PATCH) enum
-	releaseCmd.Flags().StringP("type", "t", "PATCH", "版本类型: minor, major, patch")
+	// add Type (MAJOR, MINOR, PATCH) enum
+	releaseCmd.Flags().StringP("type", "t", "PATCH", "版本类型: major, minor, patch")
 }
