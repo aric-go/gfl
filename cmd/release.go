@@ -58,6 +58,12 @@ var releaseCmd = &cobra.Command{
 			return
 		}
 		fmt.Printf("Release %s 创建成功！\n", newVersion)
+
+		// 5. switch back to original branch
+		command5 := fmt.Sprintf("git checkout -")
+		if err := utils.RunCommandWithSpin(command5, "5.正在切换回原分支...\n"); err != nil {
+			return
+		}
 	},
 }
 
