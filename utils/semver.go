@@ -8,7 +8,7 @@ import (
 )
 
 // IncrementVersion 根据传入的 part (MAJOR, MINOR, PATCH) 更新相应版本号
-func IncrementVersion(currentVersion, part string) (string, error) {
+func IncrementVersion(currentVersion string, versionType string) (string, error) {
 	// 检查版本号是否有效
 	if !semver.IsValid(currentVersion) {
 		return "", fmt.Errorf("无效的版本号: %s", currentVersion)
@@ -35,8 +35,8 @@ func IncrementVersion(currentVersion, part string) (string, error) {
 		return "", fmt.Errorf("转换 PATCH 部分出错: %v", err)
 	}
 
-	// 根据传入的 part 值递增对应部分
-	switch strings.ToUpper(part) {
+	// 根据传入的 versionType 值递增对应部分
+	switch strings.ToUpper(versionType) {
 	case "MAJOR":
 		major++
 		minor = 0
@@ -47,10 +47,18 @@ func IncrementVersion(currentVersion, part string) (string, error) {
 	case "PATCH":
 		patch++
 	default:
-		return "", fmt.Errorf("无效的版本部分: %s", part)
+		return "", fmt.Errorf("无效的版本部分: %s", versionType)
 	}
 
 	// 构造新的版本号
 	newVersion := fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 	return newVersion, nil
+}
+
+func GetLatestVersion() string {
+	version, err := RunShell("git describe --tags --abbrev=0")
+	if err != nil {
+		fmt.Println(err)
+	}
+	return strings.TrimSpace(version)
 }
