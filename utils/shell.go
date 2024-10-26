@@ -25,7 +25,6 @@ func RunCommandWithSpin(command string, message string) error {
 
 	// 解析命令和参数
 	cmdArgs := strings.Fields(command)
-	fmt.Println("cmdArgs:", cmdArgs, len(cmdArgs))
 	cmd := exec.Command(cmdArgs[0], cmdArgs[1:]...) // 第一个元素是命令，后面的元素是参数
 
 	if err := cmd.Run(); err != nil {
