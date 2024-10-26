@@ -56,6 +56,13 @@ func IncrementVersion(currentVersion string, versionType string) (string, error)
 }
 
 func GetLatestVersion() string {
+	//git fetch --tags
+	command := "git fetch --tags"
+	_, err := RunShell(command)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	version, err := RunShell("git describe --tags --abbrev=0")
 	if err != nil {
 		fmt.Println(err)
