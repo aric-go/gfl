@@ -25,6 +25,12 @@ var releaseCmd = &cobra.Command{
 		}
 		branchName := fmt.Sprintf("%s/release-%s", "release", newVersion)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
+		// 0. fetch remote branch
+		//command0 := fmt.Sprintf("git fetch origin")
+		//if err := utils.RunCommandWithSpin(command0, " 正在同步远程分支...\n"); err != nil {
+		//	return
+		//}
+
 		// 1. create release branch
 		command1 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
 		if err := utils.RunCommandWithSpin(command1, "1.正在创建 Release...\n"); err != nil {
