@@ -32,6 +32,7 @@ var releaseCmd = &cobra.Command{
 		// 0. fetch remote branch
 		command0 := fmt.Sprintf("git fetch origin")
 		if err := utils.RunCommandWithSpin(command0, "0. 正在同步远程分支...\n"); err != nil {
+			fmt.Println("step 0 failed: ", err)
 			return
 		}
 
