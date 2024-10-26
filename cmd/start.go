@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 	"os"
+	"strings"
 )
 
 var (
@@ -22,6 +23,10 @@ var startCmd = &cobra.Command{
 		if config == nil {
 			return
 		}
+
+		startName := parseStartName(args[0])
+
+		fmt.Printf("开始 %s %s\n", startName.ActionName, startName.FeatureName)
 
 		featureName := args[0] // 从参数中获取功能名称
 		branchName := fmt.Sprintf("feature/%s/%s", config.Nickname, featureName)
@@ -65,4 +70,25 @@ func readConfig() *YamlConfig {
 	}
 
 	return &config
+}
+
+type StartName struct {
+	ActionName  string
+	FeatureName string
+}
+
+func parseStartName(name string) *StartName {
+	hasColon := strings.Contains(name, ":")
+	if hasColon {
+		parts := strings.Split(name, ":")
+		return &StartName{
+			ActionName:  parts[0],
+			FeatureName: parts[1],
+		}
+	} else {
+		return &StartName{
+			ActionName:  "feature",
+			FeatureName: name,
+		}
+	}
 }
