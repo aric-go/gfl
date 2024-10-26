@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"github-flow/utils"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -11,8 +11,13 @@ var rootCmd = &cobra.Command{
 	Use:   "github-flow",
 	Short: "Github Flow CLI",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Current version: %s\n", Version)
-		fmt.Print("🌈 Welcome to GitHub Flow CLI!\n\n")
+
+		isVersion, _ := cmd.Flags().GetBool("version")
+		if isVersion {
+			cmd.Println("🌈 Github Flow Version:", utils.GetLatestVersion())
+			return
+		}
+		cmd.Print("🌈 Welcome to GitHub Flow CLI!\n\n")
 		_ = cmd.Help()
 	},
 }
@@ -24,4 +29,9 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func init() {
+	// add --version flag
+	rootCmd.Flags().BoolP("version", "v", false, "show version")
 }

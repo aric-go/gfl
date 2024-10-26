@@ -21,7 +21,7 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "获取程序版本",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Println("Version:", utils.GetLatestVersion())
+		cmd.Println("🌈 Github Flow Version:", utils.GetLatestVersion())
 	},
 	DisableAutoGenTag: true,
 }
