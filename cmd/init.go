@@ -10,6 +10,7 @@ import (
 
 type YamlConfig struct {
 	DevBaseBranch     string   `yaml:"devBaseBranch"`
+	HotfixBaseBranch  string   `yaml:"hotfixBaseBranch"`
 	Nickname          string   `yaml:"nickname"`
 	Repository        string   `yaml:"repository"`
 	ProtectedBranches []string `yaml:"protectedBranches"`
