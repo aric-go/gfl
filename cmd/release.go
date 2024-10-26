@@ -16,7 +16,6 @@ var releaseCmd = &cobra.Command{
 		versionType, _ := cmd.Flags().GetString("type")
 		newVersion, err := utils.IncrementVersion(version, versionType)
 		if err != nil {
-			newVersion = "v1.0.0"
 			fmt.Println(err)
 		}
 

@@ -96,7 +96,7 @@ func GetLatestLocalVersion() (string, error) {
 
 	// 检查是否有语义化版本标签
 	if len(versions) == 0 {
-		return "", fmt.Errorf("没有找到语义化版本的标签")
+		return "v1.0.0", nil
 	}
 
 	// 对标签进行排序并获取最大版本
