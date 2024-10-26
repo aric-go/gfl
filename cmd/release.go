@@ -23,7 +23,7 @@ var releaseCmd = &cobra.Command{
 		if config == nil {
 			return
 		}
-		branchName := fmt.Sprintf("%s/release-%s", "release", newVersion)
+		branchName := fmt.Sprintf("%s/release-%s", "releases", newVersion)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
 		// 0. fetch remote branch
 		//command0 := fmt.Sprintf("git fetch origin")
