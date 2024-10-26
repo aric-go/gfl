@@ -26,8 +26,8 @@ var releaseCmd = &cobra.Command{
 		if config == nil {
 			return
 		}
-		branchName := fmt.Sprintf("%s/release-%s", "releases", newVersion)
-		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
+		//branchName := fmt.Sprintf("%s/release-%s", "releases", newVersion)
+		//baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
 		// 0. fetch remote branch
 		//command0 := fmt.Sprintf("git fetch origin")
 		//if err := utils.RunCommandWithSpin(command0, " 正在同步远程分支...\n"); err != nil {
@@ -35,18 +35,18 @@ var releaseCmd = &cobra.Command{
 		//}
 
 		// 1. create release branch
-		fmt.Printf("step1: create release branch %s\n", branchName)
-		command1 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
-		if err := utils.RunCommandWithSpin(command1, "1.正在创建 Release...\n"); err != nil {
-			return
-		}
-		// 2. push release branch
-		fmt.Printf("step2: push release branch %s\n", branchName)
-		command2 := fmt.Sprintf("git push -u origin %s", branchName)
-		if err := utils.RunCommandWithSpin(command2, "2.正在推送 Release...\n"); err != nil {
-			fmt.Println("step 2 failed: ", err)
-			return
-		}
+		//fmt.Printf("step1: create release branch %s\n", branchName)
+		//command1 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
+		//if err := utils.RunCommandWithSpin(command1, "1.正在创建 Release...\n"); err != nil {
+		//	return
+		//}
+		//// 2. push release branch
+		//fmt.Printf("step2: push release branch %s\n", branchName)
+		//command2 := fmt.Sprintf("git push -u origin %s", branchName)
+		//if err := utils.RunCommandWithSpin(command2, "2.正在推送 Release...\n"); err != nil {
+		//	fmt.Println("step 2 failed: ", err)
+		//	return
+		//}
 		// 3. create release tag
 		fmt.Printf("step3: create release tag %s\n", newVersion)
 		command3 := fmt.Sprintf("git tag -a %s -m 'Release %s'", newVersion, newVersion)
