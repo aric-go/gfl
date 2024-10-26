@@ -49,7 +49,7 @@ var releaseCmd = &cobra.Command{
 		//}
 		// 3. create release tag
 		fmt.Printf("step3: create release tag %s\n", newVersion)
-		command3 := fmt.Sprintf("git tag -a %s -m 'Release %s'", newVersion, newVersion)
+		command3 := fmt.Sprintf("git tag -a %s -m Release %s", newVersion, newVersion)
 		if err := utils.RunCommandWithSpin(command3, "3.正在创建 Release Tag...\n"); err != nil {
 			fmt.Println("step 3 failed: ", err)
 			return
