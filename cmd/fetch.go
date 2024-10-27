@@ -6,21 +6,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const (
-	CommandShort   = "同步远程仓库到本地(alias: f)"
-	CommandString  = "git fetch origin"
-	IngRemote      = " 获取远程仓库中...\n"
-	SuccessMessage = "✅ 获取远程仓库成功。\n"
-)
-
 // fetchCmd represents the fetch command
 var fetchCmd = &cobra.Command{
 	Use:     "fetch",
 	Aliases: []string{"f"},
-	Short:   CommandShort,
+	Short:   "同步远程仓库到本地(alias: f)",
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := utils.RunCommandWithSpin(CommandString, IngRemote); err == nil {
-			fmt.Printf(SuccessMessage)
+		if err := utils.RunCommandWithSpin("git fetch origin", " 获取远程仓库中...\n"); err == nil {
+			fmt.Printf("✅ 获取远程仓库成功。\n")
+		}
+
+		if err := utils.RunCommandWithSpin("git remote update origin --prune", " 获取远程仓库中...\n"); err == nil {
+			fmt.Printf("✅ 成功同步远程仓库到本地。\n")
 		}
 	},
 }
