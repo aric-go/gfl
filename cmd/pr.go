@@ -33,7 +33,12 @@ var prCmd = &cobra.Command{
 			return
 		}
 
-		utils.CreatePr(config.DevBaseBranch, currentBranch)
+		var baseBranch = config.DevBaseBranch
+		if args != nil && len(args) > 0 {
+			baseBranch = args[0]
+		}
+
+		utils.CreatePr(baseBranch, currentBranch)
 	},
 }
 
