@@ -11,6 +11,7 @@ import (
 type YamlConfig struct {
 	DevBaseBranch     string   `yaml:"devBaseBranch"`
 	HotfixBaseBranch  string   `yaml:"hotfixBaseBranch"`
+	ProductionBranch  string   `yaml:"productionBranch"`
 	Nickname          string   `yaml:"nickname"`
 	Repository        string   `yaml:"repository"`
 	ProtectedBranches []string `yaml:"protectedBranches"`
@@ -25,6 +26,8 @@ var initCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		config := YamlConfig{
 			DevBaseBranch:     "develop",
+			HotfixBaseBranch:  "hotfix",
+			ProductionBranch:  "main",
 			Nickname:          nickname,
 			ProtectedBranches: []string{"main", "master", "beta", "alpha", "develop", "dev"},
 		}

@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"github-flow/utils"
 	"os/exec"
-	"runtime"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -33,12 +33,7 @@ var prCmd = &cobra.Command{
 		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.DevBaseBranch, currentBranch)
 
 		// 打开浏览器
-		err = openBrowser(prURL)
-		if err != nil {
-			fmt.Println("无法打开浏览器:", err)
-		} else {
-			fmt.Printf("已打开 PR 页面: %s\n", prURL)
-		}
+		utils.CreatePr(prURL)
 	},
 }
 
@@ -56,22 +51,4 @@ func getCurrentBranch() (string, error) {
 
 	// 去除换行符
 	return strings.TrimSpace(string(output)), nil
-}
-
-// 打开浏览器函数
-func openBrowser(url string) error {
-	var err error
-
-	switch runtime.GOOS {
-	case "linux":
-		err = exec.Command("xdg-open", url).Start()
-	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
-	case "darwin":
-		err = exec.Command("open", url).Start()
-	default:
-		err = fmt.Errorf("无法识别的操作系统")
-	}
-
-	return err
 }
