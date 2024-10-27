@@ -22,18 +22,16 @@ var prCmd = &cobra.Command{
 
 		baseBranch := config.DevBaseBranch
 
-		// 取得参数
-		argBranch := args[0]
+		// 取得参数, 如果没有参数, 则使用默认分支
+		if len(args) > 0 {
+			baseBranch = args[0]
+		}
 
 		// 获取当前的分支名称
 		currentBranch, err := getCurrentBranch()
 		if err != nil {
 			fmt.Println("无法获取当前分支:", err)
 			return
-		}
-
-		if argBranch == "" {
-			baseBranch = argBranch
 		}
 
 		// 生成 GitHub PR URL
