@@ -51,5 +51,5 @@ func init() {
 	rootCmd.AddCommand(tagCmd)
 	// Here you will define your flags and configuration settings.
 	// add Type (MAJOR, MINOR, PATCH) enum
-	releaseCmd.Flags().StringP("type", "t", "PATCH", "版本类型: major, minor, patch")
+	tagCmd.Flags().StringP("type", "t", "PATCH", "版本类型: major, minor, patch")
 }
