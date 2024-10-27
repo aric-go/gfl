@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// 这里有个小问题 release + tag 这个过程，应该是先创建 release 分支，然后再创建 tag，最后再切换回原分支。？？
 // releaseCmd represents the release command
 var releaseCmd = &cobra.Command{
 	Use:     "release",

@@ -1,139 +1,193 @@
-<mxfile host="drawio-plugin" modified="2024-10-27T01:30:10.168Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="3xlvfaPdAnOJ1HDk_WeN" version="22.1.22" type="embed">
+<mxfile host="drawio-plugin" modified="2024-10-27T01:37:37.406Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="v6uTgJFfSYkjtfWJSBgl" version="22.1.22" type="embed">
   <diagram id="23iRSUPoRavnBvh4doch" name="Page-1">
-    <mxGraphModel dx="816" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="816" dy="478" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="23" value="Assets" style="childLayout=tableLayout;recursiveResize=0;strokeColor=#98bf21;fillColor=#A7C942;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="490" y="220" width="730" height="360" as="geometry" />
+        <mxCell id="23" value="Assets" style="childLayout=tableLayout;recursiveResize=0;strokeColor=#98bf21;fillColor=#A7C942;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="490" y="220" width="730" height="510" as="geometry" />
         </mxCell>
-        <mxCell id="24" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=0;strokeColor=inherit;fillColor=#ffffff;" vertex="1" parent="23">
+        <mxCell id="24" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=0;strokeColor=inherit;fillColor=#ffffff;" parent="23" vertex="1">
           <mxGeometry width="730" height="54" as="geometry" />
         </mxCell>
-        <mxCell id="25" value="命令" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=#A7C942;align=center;fontStyle=1;fontColor=#FFFFFF;html=1;" vertex="1" parent="24">
+        <mxCell id="25" value="命令" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=#A7C942;align=center;fontStyle=1;fontColor=#FFFFFF;html=1;" parent="24" vertex="1">
           <mxGeometry width="242" height="54" as="geometry">
             <mxRectangle width="242" height="54" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="26" value="使用" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=#A7C942;align=center;fontStyle=1;fontColor=#FFFFFF;html=1;" vertex="1" parent="24">
+        <mxCell id="26" value="使用" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=#A7C942;align=center;fontStyle=1;fontColor=#FFFFFF;html=1;" parent="24" vertex="1">
           <mxGeometry x="242" width="246" height="54" as="geometry">
             <mxRectangle width="246" height="54" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="27" value="备注" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=#A7C942;align=center;fontStyle=1;fontColor=#FFFFFF;html=1;" vertex="1" parent="24">
+        <mxCell id="27" value="备注" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=#A7C942;align=center;fontStyle=1;fontColor=#FFFFFF;html=1;" parent="24" vertex="1">
           <mxGeometry x="488" width="242" height="54" as="geometry">
             <mxRectangle width="242" height="54" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="28" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=0;strokeColor=inherit;fillColor=#ffffff;" vertex="1" parent="23">
+        <mxCell id="28" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=0;strokeColor=inherit;fillColor=#ffffff;" parent="23" vertex="1">
           <mxGeometry y="54" width="730" height="52" as="geometry" />
         </mxCell>
-        <mxCell id="29" value="初始化配置文件" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;align=center;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+        <mxCell id="29" value="初始化配置文件" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;align=center;whiteSpace=wrap;html=1;" parent="28" vertex="1">
           <mxGeometry width="242" height="52" as="geometry">
             <mxRectangle width="242" height="52" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="30" value="gfl init" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;align=center;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+        <mxCell id="30" value="gfl init" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;align=center;whiteSpace=wrap;html=1;" parent="28" vertex="1">
           <mxGeometry x="242" width="246" height="52" as="geometry">
             <mxRectangle width="246" height="52" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="31" value="初始化 .gflow.config.yml" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;align=center;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+        <mxCell id="31" value="初始化 .gflow.config.yml" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;align=center;whiteSpace=wrap;html=1;" parent="28" vertex="1">
           <mxGeometry x="488" width="242" height="52" as="geometry">
             <mxRectangle width="242" height="52" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="32" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" vertex="1" parent="23">
+        <mxCell id="32" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" parent="23" vertex="1">
           <mxGeometry y="106" width="730" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="33" value="开始新功能" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="32">
+        <mxCell id="33" value="开始新功能" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="32" vertex="1">
           <mxGeometry width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="34" value="gfl init start" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="32">
+        <mxCell id="34" value="gfl init start" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="32" vertex="1">
           <mxGeometry x="242" width="246" height="50" as="geometry">
             <mxRectangle width="246" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="35" value="生成 feature/aric/v1030/login-ui" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="32">
+        <mxCell id="35" value="生成 feature/aric/v1030/login-ui" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="32" vertex="1">
           <mxGeometry x="488" width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="36" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=0;strokeColor=inherit;fillColor=#ffffff;" vertex="1" parent="23">
+        <mxCell id="36" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=0;strokeColor=inherit;fillColor=#ffffff;" parent="23" vertex="1">
           <mxGeometry y="156" width="730" height="54" as="geometry" />
         </mxCell>
-        <mxCell id="37" value="开发过程中修复一个bug" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;fontStyle=0;align=center;whiteSpace=wrap;html=1;" vertex="1" parent="36">
+        <mxCell id="37" value="开发过程中修复一个bug" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;fontStyle=0;align=center;whiteSpace=wrap;html=1;" parent="36" vertex="1">
           <mxGeometry width="242" height="54" as="geometry">
             <mxRectangle width="242" height="54" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="38" value="gfl init start fix:abc-bug1" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;fontStyle=0;align=center;whiteSpace=wrap;html=1;" vertex="1" parent="36">
+        <mxCell id="38" value="gfl init start fix:abc-bug1" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;fontStyle=0;align=center;whiteSpace=wrap;html=1;" parent="36" vertex="1">
           <mxGeometry x="242" width="246" height="54" as="geometry">
             <mxRectangle width="246" height="54" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="39" value="生成 fix/aric/v1030/login-ui" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;fontStyle=0;align=center;whiteSpace=wrap;html=1;" vertex="1" parent="36">
+        <mxCell id="39" value="生成 fix/aric/v1030/login-ui" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;fontStyle=0;align=center;whiteSpace=wrap;html=1;" parent="36" vertex="1">
           <mxGeometry x="488" width="242" height="54" as="geometry">
             <mxRectangle width="242" height="54" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="40" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" vertex="1" parent="23">
+        <mxCell id="40" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" parent="23" vertex="1">
           <mxGeometry y="210" width="730" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="41" value="开始一个Hotfix" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="40">
+        <mxCell id="41" value="开始一个Hotfix" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="40" vertex="1">
           <mxGeometry width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="42" value="gfl hotfix hotfix-123" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="40">
+        <mxCell id="42" value="gfl hotfix hotfix-123" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="40" vertex="1">
           <mxGeometry x="242" width="246" height="50" as="geometry">
             <mxRectangle width="246" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="43" value="生成生成 hotfix/aric/v1030/login-ui" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="40">
+        <mxCell id="43" value="生成生成 hotfix/aric/v1030/login-ui" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="40" vertex="1">
           <mxGeometry x="488" width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="48" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" vertex="1" parent="23">
+        <mxCell id="48" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" parent="23" vertex="1">
           <mxGeometry y="260" width="730" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="49" value="提PR" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="48">
+        <mxCell id="49" value="提PR" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="48" vertex="1">
           <mxGeometry width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="50" value="glf pr" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="48">
+        <mxCell id="50" value="glf pr" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="48" vertex="1">
           <mxGeometry x="242" width="246" height="50" as="geometry">
             <mxRectangle width="246" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="51" value="从当前分支提一个 pr 到 dev" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="48">
+        <mxCell id="51" value="从当前分支提一个 pr 到 dev" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="48" vertex="1">
           <mxGeometry x="488" width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="52" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" vertex="1" parent="23">
+        <mxCell id="52" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" parent="23" vertex="1">
           <mxGeometry y="310" width="730" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="53" value="定期 main 同步到 dev" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="52">
+        <mxCell id="53" value="定期 main 同步到 dev" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="52" vertex="1">
           <mxGeometry width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="54" value="gfl pr --sync" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="52">
+        <mxCell id="54" value="gfl pr --sync" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="52" vertex="1">
           <mxGeometry x="242" width="246" height="50" as="geometry">
             <mxRectangle width="246" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="55" value="定期同步 main 到 dev 分支" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="52">
+        <mxCell id="55" value="定期同步 main 到 dev 分支" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" parent="52" vertex="1">
           <mxGeometry x="488" width="242" height="50" as="geometry">
             <mxRectangle width="242" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="56" value="&amp;nbsp;🎩 gfl 功能预览" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="57" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" vertex="1" parent="23">
+          <mxGeometry y="360" width="730" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="58" value="发布 alpha 环境&amp;nbsp;" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="57">
+          <mxGeometry width="242" height="50" as="geometry">
+            <mxRectangle width="242" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="59" value="gfl pr alpha" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="57">
+          <mxGeometry x="242" width="246" height="50" as="geometry">
+            <mxRectangle width="246" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="60" value="提PR，以当前分支为基础&lt;br&gt;通常当前分支为创建好的&amp;nbsp; release 分支" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="57">
+          <mxGeometry x="488" width="242" height="50" as="geometry">
+            <mxRectangle width="242" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="61" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" vertex="1" parent="23">
+          <mxGeometry y="410" width="730" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="62" value="发布 beta 环境" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="61">
+          <mxGeometry width="242" height="50" as="geometry">
+            <mxRectangle width="242" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="63" value="gfl pr beta" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="61">
+          <mxGeometry x="242" width="246" height="50" as="geometry">
+            <mxRectangle width="246" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="64" value="-" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="61">
+          <mxGeometry x="488" width="242" height="50" as="geometry">
+            <mxRectangle width="242" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="65" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=1;strokeColor=inherit;fillColor=#EAF2D3;" vertex="1" parent="23">
+          <mxGeometry y="460" width="730" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="66" value="发布 production 环境" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="65">
+          <mxGeometry width="242" height="50" as="geometry">
+            <mxRectangle width="242" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="67" value="gfl pr main" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="65">
+          <mxGeometry x="242" width="246" height="50" as="geometry">
+            <mxRectangle width="246" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="68" value="提PR，以当前分支" style="connectable=0;recursiveResize=0;strokeColor=inherit;fillColor=inherit;whiteSpace=wrap;html=1;" vertex="1" parent="65">
+          <mxGeometry x="488" width="242" height="50" as="geometry">
+            <mxRectangle width="242" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="56" value="&amp;nbsp;🎩 gfl 功能预览" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="489" y="160" width="730" height="30" as="geometry" />
         </mxCell>
       </root>
