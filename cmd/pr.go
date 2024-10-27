@@ -20,6 +20,11 @@ var prCmd = &cobra.Command{
 			return
 		}
 
+		var headBranch string
+
+		// 取得参数
+		argBranch := args[0]
+
 		// 获取当前的分支名称
 		currentBranch, err := getCurrentBranch()
 		if err != nil {
@@ -27,8 +32,12 @@ var prCmd = &cobra.Command{
 			return
 		}
 
+		if argBranch == "" {
+			headBranch = currentBranch
+		}
+
 		// 生成 GitHub PR URL
-		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.DevBaseBranch, currentBranch)
+		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.DevBaseBranch, headBranch)
 
 		// 打开浏览器
 		err = openBrowser(prURL)
