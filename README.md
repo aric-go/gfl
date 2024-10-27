@@ -15,7 +15,6 @@ Usage:
 Available Commands:
   checkout    交互式的git分支切换(alias: co)
   completion  Generate the autocompletion script for the specified shell
-  fetch       同步远程仓库到本地仓库/更新所有远程仓库的引用(alias: f)
   help        Help about any command
   hotfix      开始一个hotfix分支
   init        初始化 Github Flow 配置
@@ -24,7 +23,7 @@ Available Commands:
   release     以最近 tag(eg:v1.0.0) 为基准，生成新的 release 版本
   start       开始一个新功能(alias: s)
   sweep       清理包含特定关键词的分支(alias: clean, rm)
-  sync        定期同步 main 到 develop 分支
+  sync        同步远程仓库到本地仓库/更新所有远程仓库的引用
   version     获取程序版本
 
 Flags:

@@ -19,6 +19,12 @@ var prCmd = &cobra.Command{
 		if config == nil {
 			return
 		}
+		isSync, _ := cmd.Flags().GetBool("sync")
+
+		if isSync {
+			utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
+			return
+		}
 
 		// 获取当前的分支名称
 		currentBranch, err := getCurrentBranch()
@@ -45,4 +51,9 @@ func getCurrentBranch() (string, error) {
 
 	// 去除换行符
 	return strings.TrimSpace(string(output)), nil
+}
+
+func init() {
+	// add sync flag bool
+	prCmd.Flags().BoolP("sync", "s", false, "不定期同步 production 分支 develop 分支")
 }
