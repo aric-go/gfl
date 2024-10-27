@@ -14,7 +14,7 @@ var syncCmd = &cobra.Command{
 		if config == nil {
 			return
 		}
-		utils.CreatePr(config.ProductionBranch, config.DevBaseBranch)
+		utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
 	},
 }
 
