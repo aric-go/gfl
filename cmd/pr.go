@@ -22,8 +22,11 @@ var prCmd = &cobra.Command{
 
 		baseBranch := config.DevBaseBranch
 
-		// 取得参数
-		argBranch := args[0]
+		// 取得参数, 如果没有参数, 则使用默认分支
+		argBranch := ""
+		if len(args) > 0 {
+			argBranch = args[0]
+		}
 
 		// 获取当前的分支名称
 		currentBranch, err := getCurrentBranch()
