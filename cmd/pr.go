@@ -20,7 +20,7 @@ var prCmd = &cobra.Command{
 			return
 		}
 
-		var headBranch string
+		baseBranch := config.DevBaseBranch
 
 		// 取得参数
 		argBranch := args[0]
@@ -33,11 +33,11 @@ var prCmd = &cobra.Command{
 		}
 
 		if argBranch == "" {
-			headBranch = currentBranch
+			baseBranch = argBranch
 		}
 
 		// 生成 GitHub PR URL
-		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.DevBaseBranch, headBranch)
+		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, baseBranch, currentBranch)
 
 		// 打开浏览器
 		err = openBrowser(prURL)
