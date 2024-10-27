@@ -37,6 +37,8 @@ var prCmd = &cobra.Command{
 		}
 
 		// 生成 GitHub PR URL
+		// @example: https://github.com/applyai-dev/applyai-frontend/compare/dev...feature/aric/gogogo?expand=1
+		// https://github.com/applyai-dev/applyai-frontend/compare/${baseBranch}...${headBranch}?expand=1
 		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, baseBranch, currentBranch)
 
 		// 打开浏览器
