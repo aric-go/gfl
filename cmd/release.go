@@ -23,7 +23,7 @@ var releaseCmd = &cobra.Command{
 		fmt.Printf("🌈 上一版本: %s\n", version)
 		fmt.Printf("🎉 新的版本: %s\n", newVersion)
 
-		config := readConfig()
+		config := utils.ReadConfig()
 		if config == nil {
 			return
 		}

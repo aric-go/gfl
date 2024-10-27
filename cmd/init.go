@@ -2,20 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"github-flow/utils"
 	"os"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
-
-type YamlConfig struct {
-	DevBaseBranch     string   `yaml:"devBaseBranch"`
-	HotfixBaseBranch  string   `yaml:"hotfixBaseBranch"`
-	ProductionBranch  string   `yaml:"productionBranch"`
-	Nickname          string   `yaml:"nickname"`
-	Repository        string   `yaml:"repository"`
-	ProtectedBranches []string `yaml:"protectedBranches"`
-}
 
 var nickname string
 var force bool
@@ -24,7 +16,7 @@ var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "初始化 Github Flow 配置",
 	Run: func(cmd *cobra.Command, args []string) {
-		config := YamlConfig{
+		config := utils.YamlConfig{
 			DevBaseBranch:     "develop",
 			HotfixBaseBranch:  "hotfix",
 			ProductionBranch:  "main",

@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"github-flow/utils"
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v3"
-	"os"
 	"strings"
 )
 
@@ -19,7 +17,7 @@ var startCmd = &cobra.Command{
 	Aliases: []string{"s"},
 	Args:    cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
-		config := readConfig()
+		config := utils.ReadConfig()
 		if config == nil {
 			return
 		}
@@ -49,23 +47,6 @@ func init() {
 	// add --skip-fetch flag to start command
 	startCmd.Flags().BoolVarP(&skipFetch, "skip-fetch", "s", false, "跳过拉取远程分支步骤")
 	rootCmd.AddCommand(startCmd)
-}
-
-// 读取配置文件
-func readConfig() *YamlConfig {
-	data, err := os.ReadFile(".gflow.config.yml")
-	if err != nil {
-		fmt.Println("读取配置文件失败:", err)
-		return nil
-	}
-
-	var config YamlConfig
-	if err := yaml.Unmarshal(data, &config); err != nil {
-		fmt.Println("解析配置文件失败:", err)
-		return nil
-	}
-
-	return &config
 }
 
 type StartName struct {

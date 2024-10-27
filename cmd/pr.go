@@ -15,7 +15,7 @@ var prCmd = &cobra.Command{
 	Short: "打开 GitHub 的 PR 页面",
 	Run: func(cmd *cobra.Command, args []string) {
 		// 读取配置文件获取默认分支和仓库
-		config := readConfig()
+		config := utils.ReadConfig()
 		if config == nil {
 			return
 		}
@@ -27,13 +27,7 @@ var prCmd = &cobra.Command{
 			return
 		}
 
-		// 生成 GitHub PR URL
-		// @example: https://github.com/applyai-dev/applyai-frontend/compare/dev...feature/aric/gogogo?expand=1
-		// https://github.com/applyai-dev/applyai-frontend/compare/${baseBranch}...${headBranch}?expand=1
-		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.DevBaseBranch, currentBranch)
-
-		// 打开浏览器
-		utils.CreatePr(prURL)
+		utils.CreatePr(config.DevBaseBranch, currentBranch)
 	},
 }
 

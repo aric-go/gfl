@@ -15,7 +15,7 @@ var hotfixCmd = &cobra.Command{
 	Use:   "hotfix",
 	Short: "开始一个hotfix分支",
 	Run: func(cmd *cobra.Command, args []string) {
-		config := readConfig()
+		config := utils.ReadConfig()
 		featureName := args[0] // 从参数中获取Hotfix名称
 		branchName := fmt.Sprintf("hotfix/%s/%s", config.Nickname, featureName)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.HotfixBaseBranch)
