@@ -3,6 +3,12 @@
 
 ![Alt text](./__uml__/img.png)
 
+## actions
+- [feature](docs/release.md)
+- [bugfix](docs/bugfix.md)
+- [hotfix](docs/hotfix.md)
+- [release](docs/release.md)
+
 ## usage
 ```bash
 $ gfl -h

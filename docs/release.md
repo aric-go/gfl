@@ -10,7 +10,8 @@
 # 简写: gfl rls
 gfl release
 
-# 全并代码到各环境，完成发布，并提醒测试
+# 合并代码到各环境，完成发布，并提醒测试
+# ----------- 以下操作，确认你是在最新的 releases/release-vx.y.z  分支上 ----------
 gfl pr alpha
 gfl pr beta
 gfl pr main
