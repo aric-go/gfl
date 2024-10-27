@@ -20,11 +20,6 @@ var prCmd = &cobra.Command{
 			return
 		}
 
-		baseBranch := config.DevBaseBranch
-
-		// 取得参数
-		argBranch := args[0]
-
 		// 获取当前的分支名称
 		currentBranch, err := getCurrentBranch()
 		if err != nil {
@@ -32,14 +27,10 @@ var prCmd = &cobra.Command{
 			return
 		}
 
-		if argBranch == "" {
-			baseBranch = argBranch
-		}
-
 		// 生成 GitHub PR URL
 		// @example: https://github.com/applyai-dev/applyai-frontend/compare/dev...feature/aric/gogogo?expand=1
 		// https://github.com/applyai-dev/applyai-frontend/compare/${baseBranch}...${headBranch}?expand=1
-		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, baseBranch, currentBranch)
+		prURL := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, config.DevBaseBranch, currentBranch)
 
 		// 打开浏览器
 		err = openBrowser(prURL)
