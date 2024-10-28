@@ -17,13 +17,11 @@ func CreatePr(base string, head string) {
 	// https://github.com/applyai-dev/applyai-frontend/compare/${baseBranch}...${headBranch}?expand=1
 	url := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, base, head)
 
-	prURL := fmt.Sprintf(url)
-	err := openBrowser(prURL)
-	err = openBrowser(prURL)
+	err := openBrowser(url)
 	if err != nil {
 		fmt.Println("无法打开浏览器:", err)
 	} else {
-		fmt.Printf("已打开 PR 页面: %s\n", prURL)
+		fmt.Printf("已打开 PR 页面: %s\n", url)
 	}
 }
 
