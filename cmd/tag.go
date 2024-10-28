@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github-flow/utils"
+
 	"github.com/spf13/cobra"
 )
 
@@ -51,5 +52,5 @@ func init() {
 	rootCmd.AddCommand(tagCmd)
 	// Here you will define your flags and configuration settings.
 	// add Type (MAJOR, MINOR, PATCH) enum
-	tagCmd.Flags().StringP("type", "t", "PATCH", "版本类型: major, minor, patch")
+	tagCmd.Flags().StringP("type", "t", "patch", "版本类型: major, minor, patch")
 }
