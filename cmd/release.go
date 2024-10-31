@@ -56,12 +56,6 @@ var releaseCmd = &cobra.Command{
 			fmt.Println("step 2 failed: ", err)
 			return
 		}
-
-		// 6. switch back to original branch
-		command6 := "git checkout -"
-		if err := utils.RunCommandWithSpin(command6, "6.正在切换回原分支...\n"); err != nil {
-			return
-		}
 	},
 }
 
