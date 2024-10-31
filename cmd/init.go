@@ -18,7 +18,6 @@ var initCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.YamlConfig{
 			DevBaseBranch:     "develop",
-			HotfixBaseBranch:  "hotfix",
 			ProductionBranch:  "main",
 			Nickname:          nickname,
 			ProtectedBranches: []string{"main", "master", "beta", "alpha", "develop", "dev"},

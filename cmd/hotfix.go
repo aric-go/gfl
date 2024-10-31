@@ -22,7 +22,7 @@ var hotfixCmd = &cobra.Command{
 		branchName := fmt.Sprintf("hotfix/%s/%s", config.Nickname, featureName)
 
 		// 如果用户传入了 -b 则使用用户的分支，否则使用配置的默认分支
-		baseBranch := config.HotfixBaseBranch
+		baseBranch := config.ProductionBranch
 		if branchFlag != "" {
 			baseBranch = branchFlag
 		}

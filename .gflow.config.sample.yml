@@ -1,5 +1,4 @@
 devBaseBranch: dev
-hotfixBaseBranch: alpha
 productionBranch: main
 nickname: "xiaoming"
 repository: "aric-go/github-flow"

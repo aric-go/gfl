@@ -2,13 +2,13 @@ package utils
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 type YamlConfig struct {
 	DevBaseBranch     string   `yaml:"devBaseBranch"`
-	HotfixBaseBranch  string   `yaml:"hotfixBaseBranch"`
 	ProductionBranch  string   `yaml:"productionBranch"`
 	Nickname          string   `yaml:"nickname"`
 	Repository        string   `yaml:"repository"`
