@@ -32,7 +32,7 @@ var releaseCmd = &cobra.Command{
 		branchName := fmt.Sprintf("%s/release-%s", "releases", newVersion)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
 		// 1. fetch remote branch
-		command1 := fmt.Sprintf("git fetch origin")
+		command1 := "git fetch origin"
 		if err := utils.RunCommandWithSpin(command1, "1. 正在同步远程分支...\n"); err != nil {
 			fmt.Println("step 1 failed: ", err)
 			return
@@ -51,7 +51,7 @@ var releaseCmd = &cobra.Command{
 		}
 
 		// 6. switch back to original branch
-		command6 := fmt.Sprintf("git checkout -")
+		command6 := "git checkout -"
 		if err := utils.RunCommandWithSpin(command6, "6.正在切换回原分支...\n"); err != nil {
 			return
 		}
