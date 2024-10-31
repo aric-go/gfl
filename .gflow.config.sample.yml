@@ -2,4 +2,4 @@ devBaseBranch: dev
 hotfixBaseBranch: alpha
 productionBranch: main
 nickname: "xiaoming"
-repository: "applyai-dev/applyai-frontend"
+repository: "aric-go/github-flow"
