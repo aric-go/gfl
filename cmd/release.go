@@ -71,5 +71,5 @@ func init() {
 	// add Type (MAJOR, MINOR, PATCH) enum
 	releaseCmd.Flags().StringP("type", "t", "patch", "版本类型: major, minor, patch")
 	// add hotfix flag
-	releaseCmd.Flags().BoolP("hotfix", "h", false, "是否为紧急修复版本")
+	releaseCmd.Flags().BoolP("hotfix", "x", false, "是否为紧急修复版本")
 }
