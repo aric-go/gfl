@@ -28,7 +28,7 @@ var tagCmd = &cobra.Command{
 			return
 		}
 		// 2. checkout to releases/release-x.x.x branch
-		command1 := fmt.Sprintf("git checkout -b releases/release-%s", newVersion)
+		command1 := fmt.Sprintf("git checkout releases/release-%s", newVersion)
 		if err := utils.RunCommandWithSpin(command1, "1. 正在切换到 Release 分支...\n"); err != nil {
 			return
 		}
