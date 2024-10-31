@@ -2,5 +2,5 @@ package utils
 
 func GetLatestReleaseBranch() string {
 	version := GetLatestVersion()
-	return "releases/releases-" + version
+	return "releases/release-" + version
 }
