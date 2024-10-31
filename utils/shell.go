@@ -23,6 +23,8 @@ func RunCommandWithSpin(command string, message string) error {
 	spin.Start()
 	spin.Suffix = message
 
+	fmt.Println("🌈 正在执行命令: ", command)
+
 	// 解析命令和参数
 	cmdArgs := strings.Fields(command)
 	cmd := exec.Command(cmdArgs[0], cmdArgs[1:]...) // 第一个元素是命令，后面的元素是参数
