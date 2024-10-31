@@ -18,4 +18,10 @@ gfl publish
 # 开发需求
 # 开发完成后，提交PR到当前的预生产分支
 gfl pr alpha
+
+# alpha 测试通过后, 合并到main分支
+gfl pr main
+# main 确认没有问题，打 release + tag
+gfl release
+gfl tag
 ```
