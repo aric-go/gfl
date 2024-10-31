@@ -10,8 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var branchFlag string
-
 // hotfixCmd represents the hotfix command
 var hotfixCmd = &cobra.Command{
 	Use:   "hotfix",
@@ -21,12 +19,7 @@ var hotfixCmd = &cobra.Command{
 		featureName := args[0] // 从参数中获取Hotfix名称
 		branchName := fmt.Sprintf("hotfix/%s/%s", config.Nickname, featureName)
 
-		// 如果用户传入了 -b 则使用用户的分支，否则使用配置的默认分支
-		baseBranch := config.ProductionBranch
-		if branchFlag != "" {
-			baseBranch = branchFlag
-		}
-		baseRemoteBranch := fmt.Sprintf("origin/%s", baseBranch)
+		baseRemoteBranch := fmt.Sprintf("origin/%s", utils.GetLatestReleaseBranch())
 
 		// 执行命令: git fetch origin
 		if !skipFetch {
@@ -46,7 +39,6 @@ var hotfixCmd = &cobra.Command{
 }
 
 func init() {
-	hotfixCmd.Flags().StringVarP(&branchFlag, "branch", "b", "", "指定一个自定义的 base 分支")
 	hotfixCmd.Flags().BoolVarP(&skipFetch, "skip-fetch", "s", false, "跳过 git fetch 步骤")
 	rootCmd.AddCommand(hotfixCmd)
 }
