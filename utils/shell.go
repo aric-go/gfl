@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"github.com/briandowns/spinner"
+	"log"
 	"os/exec"
 	"strings"
 	"time"
@@ -22,8 +23,14 @@ func RunCommandWithSpin(command string, message string) error {
 	_ = spin.Color("green")
 	spin.Start()
 	spin.Suffix = message
+	config := ReadConfig()
+	if config == nil {
+		log.Fatalf("读取配置文件失败")
+	}
 
-	fmt.Println("🌈 正在执行命令: ", command)
+	if config.Debug {
+		fmt.Println("🌈 正在执行命令: ", command)
+	}
 
 	// 解析命令和参数
 	cmdArgs := strings.Fields(command)
