@@ -27,21 +27,27 @@ var tagCmd = &cobra.Command{
 		if config == nil {
 			return
 		}
-		// 1. fetch remote branch
-		command1 := fmt.Sprintf("git fetch --tags")
-		if err := utils.RunCommandWithSpin(command1, "1. 正在同步远程tag...\n"); err != nil {
+		// 2. checkout to releases/release-x.x.x branch
+		command1 := fmt.Sprintf("git checkout -b releases/release-%s", newVersion)
+		if err := utils.RunCommandWithSpin(command1, "1. 正在切换到 Release 分支...\n"); err != nil {
+			return
+		}
+
+		// 2. fetch remote branch
+		command2 := "git fetch --tags"
+		if err := utils.RunCommandWithSpin(command2, "2. 正在同步远程tag...\n"); err != nil {
 			fmt.Println("step 1 failed: ", err)
 			return
 		}
 
-		// 4. create release tag
-		command4 := fmt.Sprintf("git tag -a %s -m 'Release-%s'", newVersion, newVersion)
-		if err := utils.RunCommandWithSpin(command4, "4.正在创建 Release Tag...\n"); err != nil {
+		// 3. create release tag
+		command3 := fmt.Sprintf("git tag -a %s -m 'Release-%s'", newVersion, newVersion)
+		if err := utils.RunCommandWithSpin(command3, "3.正在创建 Release Tag...\n"); err != nil {
 			return
 		}
-		// 5. push release tag
-		command5 := fmt.Sprintf("git push origin %s", newVersion)
-		if err := utils.RunCommandWithSpin(command5, "5.正在推送 Release Tag...\n"); err != nil {
+		// 4. push release tag
+		command4 := fmt.Sprintf("git push origin %s", newVersion)
+		if err := utils.RunCommandWithSpin(command4, "4.正在推送 Release Tag...\n"); err != nil {
 			return
 		}
 		fmt.Printf("Release %s 创建成功！\n", newVersion)
