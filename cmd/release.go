@@ -16,6 +16,7 @@ var releaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		version := utils.GetLatestVersion()
 		versionType, _ := cmd.Flags().GetString("type")
+		hotfix, _ := cmd.Flags().GetBool("hotfix")
 		newVersion, err := utils.IncrementVersion(version, versionType)
 		if err != nil {
 			fmt.Println(err)
@@ -29,8 +30,14 @@ var releaseCmd = &cobra.Command{
 		if config == nil {
 			return
 		}
+
+		remoteBranch := config.DevBaseBranch
+		if hotfix {
+			remoteBranch = config.ProductionBranch
+		}
+
 		branchName := fmt.Sprintf("%s/release-%s", "releases", newVersion)
-		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
+		baseRemoteBranch := fmt.Sprintf("origin/%s", remoteBranch)
 		// 1. fetch remote branch
 		command1 := "git fetch origin"
 		if err := utils.RunCommandWithSpin(command1, "1. 正在同步远程分支...\n"); err != nil {
@@ -65,4 +72,7 @@ func init() {
 	releaseCmd.Flags().StringP("type", "t", "patch", "版本类型: major, minor, patch")
 	// add version flag manual set verison
 	releaseCmd.Flags().StringP("version", "v", "", "手动指定版本号")
+
+	// add hotfix flag
+	releaseCmd.Flags().BoolP("hotfix", "h", false, "是否为紧急修复版本")
 }
