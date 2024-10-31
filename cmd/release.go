@@ -70,9 +70,6 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// add Type (MAJOR, MINOR, PATCH) enum
 	releaseCmd.Flags().StringP("type", "t", "patch", "版本类型: major, minor, patch")
-	// add version flag manual set verison
-	releaseCmd.Flags().StringP("version", "v", "", "手动指定版本号")
-
 	// add hotfix flag
 	releaseCmd.Flags().BoolP("hotfix", "h", false, "是否为紧急修复版本")
 }
