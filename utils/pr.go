@@ -17,7 +17,7 @@ func CreatePr(base string, head string) {
 	// https://github.com/applyai-dev/applyai-frontend/compare/${baseBranch}...${headBranch}?expand=1
 	url := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, base, head)
 
-	err := openBrowser(url)
+	err := OpenBrowser(url)
 	if err != nil {
 		fmt.Println("无法打开浏览器:", err)
 	} else {
@@ -26,7 +26,7 @@ func CreatePr(base string, head string) {
 }
 
 // 打开浏览器函数
-func openBrowser(url string) error {
+func OpenBrowser(url string) error {
 	var err error
 
 	switch runtime.GOOS {

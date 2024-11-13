@@ -8,7 +8,7 @@
   "scripts": {
     "start": "go run main.go",
     "build": "go build -ldflags '-s -w' -o dist/gfl main.go",
-    "bin:link": "ln -s $(pwd)/dist/gfl /usr/local/bin/gfl",
+    "bin:link": "ln -sf $(pwd)/dist/gfl /usr/local/bin/gfl",
     "bin:unlink": "rm /usr/local/bin/gfl",
     "prepare": "husky"
   },

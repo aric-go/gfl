@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github-flow/utils"
+	"log"
 	"os/exec"
 	"strings"
 
@@ -20,9 +21,19 @@ var prCmd = &cobra.Command{
 			return
 		}
 		isSync, _ := cmd.Flags().GetBool("sync")
+		isOpen, _ := cmd.Flags().GetBool("open")
 
 		if isSync {
 			utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
+			return
+		}
+
+		if isOpen {
+			prsUrl := fmt.Sprintf("https://github.com/%s/pulls", config.Repository)
+			err := utils.OpenBrowser(prsUrl)
+			if err != nil {
+				log.Fatal(err)
+			}
 			return
 		}
 
@@ -61,4 +72,6 @@ func getCurrentBranch() (string, error) {
 func init() {
 	// add sync flag bool
 	prCmd.Flags().BoolP("sync", "s", false, "不定期同步 production 分支 develop 分支")
+	// open pull requests page
+	prCmd.Flags().BoolP("open", "o", false, "打开 GitHub 的 PR 列表页面")
 }
