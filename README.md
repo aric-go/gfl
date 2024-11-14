@@ -30,6 +30,7 @@ Available Commands:
   start       开始一个新功能(alias: s)
   sweep       清理包含特定关键词的分支(alias: clean, rm)
   sync        同步远程仓库到本地仓库/更新所有远程仓库的引用
+  tag         以最近 tag(eg:v1.0.0) 为基准，生成新的 tag 版本
   version     获取程序版本
 
 Flags:
