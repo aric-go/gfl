@@ -51,6 +51,14 @@ var tagCmd = &cobra.Command{
 			return
 		}
 		fmt.Printf("Release %s 创建成功！\n", newVersion)
+
+		// 5. create release use gh cli
+		// ❯ gh release create v1.1.2 --generate-notes
+		command5 := fmt.Sprintf("gh release create %s --generate-notes", newVersion)
+		if err := utils.RunCommandWithSpin(command5, "5.正在创建 Release...\n"); err != nil {
+			return
+		}
+		fmt.Printf("Release %s 创建成功！\n", newVersion)
 	},
 }
 
