@@ -1,6 +1,6 @@
 {
   "name": "github-flow",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "My github flow.",
@@ -15,5 +15,13 @@
   },
   "dependencies": {
     "husky": "^9.1.6"
-  }
+  },
+  "keywords": [
+    "flow",
+    "gfl",
+    "git",
+    "gitflow",
+    "github",
+    "cli"
+  ]
 }
