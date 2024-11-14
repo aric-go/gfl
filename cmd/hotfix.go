@@ -19,7 +19,7 @@ var hotfixCmd = &cobra.Command{
 		featureName := args[0] // 从参数中获取Hotfix名称
 		branchName := fmt.Sprintf("hotfix/%s/%s", config.Nickname, featureName)
 
-		baseRemoteBranch := fmt.Sprintf("origin/%s", utils.GetLatestReleaseBranch())
+		//baseRemoteBranch := fmt.Sprintf("origin/%s", utils.GetLatestReleaseBranch())
 
 		// 执行命令: git fetch origin
 		if !skipFetch {
@@ -30,7 +30,7 @@ var hotfixCmd = &cobra.Command{
 		}
 
 		// 执行命令: git checkout -b hotfix/aric/new-feature origin/develop
-		command2 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
+		command2 := fmt.Sprintf("git checkout -b %s %s", branchName, config.ProductionBranch)
 		fmt.Println("command2:", command2)
 		if err := utils.RunCommandWithSpin(command2, " 正在创建Hotfix分支...\n"); err != nil {
 			return
