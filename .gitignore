@@ -16,3 +16,4 @@ package-lock.json
 __pycache__
 dist
 .gflow.config.yml
+dist/
