@@ -9,7 +9,8 @@
   },
   "hooks": {
     "before:init": ["git fetch --tags"],
-    "after:init": ["t2k"]
+    "after:init": ["t2k"],
+    "after:bump": ["unset GITLAB_TOKEN","goreleaser release --rm-dist"]
   },
   "github": {
     "release": false,
