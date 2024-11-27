@@ -9,6 +9,16 @@
 - [hotfix](docs/hotfix.md)
 - [release](docs/release.md)
 
+## release
+```shell
+# update tag
+nrcip
+# release bin file
+goreleaser release --clean
+# upload dist to oss bucket
+oss://web-alo7-com/assets/bins/gfl-releases/
+```
+
 ## usage
 ```bash
 $ gfl -h
