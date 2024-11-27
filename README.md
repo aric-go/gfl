@@ -17,6 +17,11 @@ nrcip
 goreleaser release --clean
 # upload dist to oss bucket
 oss://web-alo7-com/assets/bins/gfl-releases/
+
+# list oss
+oss://web-alo7-com/assets/bins/gfl-releases/
+# upload oss
+cd dist && aliyun oss sync . oss://web-alo7-com/assets/bins/gfl-releases/ --delete
 ```
 
 ## usage
