@@ -7,15 +7,12 @@ import (
 )
 
 func CreatePr(base string, head string) {
-	config := ReadConfig()
-	if config == nil {
-		return
-	}
+	repo, _ := GetRepository()
 
 	// 生成 GitHub PR URL
 	// @example: https://github.com/applyai-dev/applyai-frontend/compare/dev...feature/aric/gogogo?expand=1
 	// https://github.com/applyai-dev/applyai-frontend/compare/${baseBranch}...${headBranch}?expand=1
-	url := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", config.Repository, base, head)
+	url := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", repo, base, head)
 
 	err := OpenBrowser(url)
 	if err != nil {

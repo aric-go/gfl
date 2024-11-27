@@ -17,10 +17,9 @@ var initCmd = &cobra.Command{
 	Short: "初始化 Github Flow 配置",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.YamlConfig{
-			DevBaseBranch:     "develop",
-			ProductionBranch:  "main",
-			Nickname:          nickname,
-			ProtectedBranches: []string{"main", "master", "beta", "alpha", "develop", "dev"},
+			DevBaseBranch:    "develop",
+			ProductionBranch: "main",
+			Nickname:         nickname,
 		}
 
 		if _, err := os.Stat(".gflow.config.yml"); !os.IsNotExist(err) && !force {

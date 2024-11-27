@@ -23,13 +23,15 @@ var prCmd = &cobra.Command{
 		isSync, _ := cmd.Flags().GetBool("sync")
 		isOpen, _ := cmd.Flags().GetBool("open")
 
+		repo, _ := utils.GetRepository()
+
 		if isSync {
 			utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
 			return
 		}
 
 		if isOpen {
-			prsUrl := fmt.Sprintf("https://github.com/%s/pulls", config.Repository)
+			prsUrl := fmt.Sprintf("https://github.com/%s/pulls", repo)
 			err := utils.OpenBrowser(prsUrl)
 			if err != nil {
 				log.Fatal(err)

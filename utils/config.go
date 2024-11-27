@@ -8,12 +8,10 @@ import (
 )
 
 type YamlConfig struct {
-	Debug             bool     `yaml:"debug"`
-	DevBaseBranch     string   `yaml:"devBaseBranch"`
-	ProductionBranch  string   `yaml:"productionBranch"`
-	Nickname          string   `yaml:"nickname"`
-	Repository        string   `yaml:"repository"`
-	ProtectedBranches []string `yaml:"protectedBranches"`
+	Debug            bool   `yaml:"debug"`
+	DevBaseBranch    string `yaml:"devBaseBranch"`
+	ProductionBranch string `yaml:"productionBranch"`
+	Nickname         string `yaml:"nickname"`
 }
 
 func ReadConfig() *YamlConfig {
