@@ -21,7 +21,7 @@ oss://web-alo7-com/assets/bins/gfl-releases/
 # list oss
 oss://web-alo7-com/assets/bins/gfl-releases/
 # upload oss
-cd dist && aliyun oss sync . oss://web-alo7-com/assets/bins/gfl-releases/ --delete
+cd dist && aliyun oss sync . oss://web-alo7-com/assets/bins/gfl-releases/ --delete --force
 ```
 
 ## usage
