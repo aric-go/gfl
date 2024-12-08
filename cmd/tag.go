@@ -10,7 +10,7 @@ import (
 var tagCmd = &cobra.Command{
 	Use:     "tag",
 	Aliases: []string{"t"},
-	Short:   "以最近 tag(eg:v1.0.0) 为基准，生成新的 tag 版本",
+	Short:   "以最近 tag(eg:v1.0.0) 为基准，为 release 分支生成新的 tag 版本，以上一个 tag 为基准，生成新的 tag 版本",
 	Run: func(cmd *cobra.Command, args []string) {
 		version := utils.GetLatestVersion()
 		versionType, _ := cmd.Flags().GetString("type")
