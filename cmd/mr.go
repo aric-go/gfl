@@ -1,6 +1,3 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -23,7 +20,7 @@ var mrCmd = &cobra.Command{
 		}
 
 		if isSync {
-			utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
+			utils.CreateMr(config.DevBaseBranch, config.ProductionBranch)
 			return
 		}
 
@@ -47,5 +44,5 @@ func init() {
 	rootCmd.AddCommand(mrCmd)
 
 	// add sync flag bool
-	prCmd.Flags().BoolP("sync", "s", false, "不定期同步 production 分支 develop 分支")
+	mrCmd.Flags().BoolP("sync", "s", false, "不定期同步 production 分支 develop 分支")
 }
