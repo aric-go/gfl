@@ -2,4 +2,4 @@ debug: true
 devBaseBranch: dev
 productionBranch: main
 nickname: "xiaoming"
-repository: "aric-go/github-flow"
+gitlabHost: git.saybot.net

@@ -12,6 +12,7 @@ type YamlConfig struct {
 	DevBaseBranch    string `yaml:"devBaseBranch"`
 	ProductionBranch string `yaml:"productionBranch"`
 	Nickname         string `yaml:"nickname"`
+	GitlabHost       string `yaml:"gitlabHost"`
 }
 
 func ReadConfig() *YamlConfig {
