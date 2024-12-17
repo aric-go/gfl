@@ -16,9 +16,17 @@ var mrCmd = &cobra.Command{
 	Short: "Gitlab merge request",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
+		isSync, _ := cmd.Flags().GetBool("sync")
+
 		if config == nil {
 			return
 		}
+
+		if isSync {
+			utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
+			return
+		}
+
 		// 获取当前的分支名称
 		currentBranch, err := getCurrentBranch()
 		if err != nil {
@@ -38,13 +46,6 @@ var mrCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(mrCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// mrCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// mrCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// add sync flag bool
+	prCmd.Flags().BoolP("sync", "s", false, "不定期同步 production 分支 develop 分支")
 }
