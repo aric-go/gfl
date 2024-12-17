@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github-flow/utils"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -14,6 +15,8 @@ var mrCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
 		isSync, _ := cmd.Flags().GetBool("sync")
+		isOpen, _ := cmd.Flags().GetBool("open")
+		repo, _ := utils.GetRepository()
 
 		if config == nil {
 			return
@@ -21,6 +24,15 @@ var mrCmd = &cobra.Command{
 
 		if isSync {
 			utils.CreateMr(config.DevBaseBranch, config.ProductionBranch)
+			return
+		}
+
+		if isOpen {
+			prsUrl := fmt.Sprintf("%s/%s/-/merge_requests", config.GitlabHost, repo)
+			err := utils.OpenBrowser(prsUrl)
+			if err != nil {
+				log.Fatal(err)
+			}
 			return
 		}
 
@@ -44,5 +56,6 @@ func init() {
 	rootCmd.AddCommand(mrCmd)
 
 	// add sync flag bool
+	mrCmd.Flags().BoolP("open", "o", false, "打开当前仓库的 pull requests 页面")
 	mrCmd.Flags().BoolP("sync", "s", false, "不定期同步 production 分支 develop 分支")
 }
