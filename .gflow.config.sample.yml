@@ -2,4 +2,4 @@ debug: true
 devBaseBranch: dev
 productionBranch: main
 nickname: "xiaoming"
-gitlabHost: git.saybot.net
+gitlabHost: https://git.saybot.net

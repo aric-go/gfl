@@ -8,7 +8,7 @@ func CreateMr(base string, head string) {
 	repo, _ := GetRepository()
 	config := ReadConfig()
 
-	baseURL := fmt.Sprintf("https://%s/%s", config.GitlabHost, repo)
+	baseURL := fmt.Sprintf("%s/%s", config.GitlabHost, repo)
 
 	// 生成 GitHub MR URL
 	// @example: https://gitlab.com/myteam/awesome-project/-/merge_requests/new?merge_request[source_branch]=feature/login-page&merge_request[target_branch]=main
