@@ -56,6 +56,6 @@ func init() {
 	rootCmd.AddCommand(mrCmd)
 
 	// add sync flag bool
-	mrCmd.Flags().BoolP("open", "o", false, "打开当前仓库的 pull requests 页面")
+	mrCmd.Flags().BoolP("open", "o", false, "打开当前仓库的 merge requests 页面")
 	mrCmd.Flags().BoolP("sync", "s", false, "不定期同步 production 分支 develop 分支")
 }
