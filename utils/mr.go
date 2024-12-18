@@ -12,7 +12,7 @@ func CreateMr(base string, head string) {
 
 	// 生成 GitHub MR URL
 	// @example: https://gitlab.com/myteam/awesome-project/-/merge_requests/new?merge_request[source_branch]=feature/login-page&merge_request[target_branch]=main
-	url := fmt.Sprintf("%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s", baseURL, base, head)
+	url := fmt.Sprintf("%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s", baseURL, head, base)
 
 	err := OpenBrowser(url)
 	if err != nil {
