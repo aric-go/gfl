@@ -44,6 +44,9 @@ var initCmd = &cobra.Command{
 		}
 
 		_, err = file.Write(data)
+
+		utils.AddGitIgnore()
+
 		if err != nil {
 			fmt.Println("无法写入配置文件:", err)
 		} else {
