@@ -59,7 +59,8 @@ func IptPublishList(config *YamlConfig) {
 
 	selected, err := ipt.Ipt("What is your favorite color?", opts)
 	if err != nil {
-		panic(err)
+		fmt.Println("选择发布项目终止:", err)
+		return
 	}
 
 	var currentBranch string
