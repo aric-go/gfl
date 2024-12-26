@@ -37,7 +37,7 @@ var mrCmd = &cobra.Command{
 		}
 
 		// 获取当前的分支名称
-		currentBranch, err := getCurrentBranch()
+		currentBranch, err := utils.GetCurrentBranch()
 		if err != nil {
 			fmt.Println("无法获取当前分支:", err)
 			return

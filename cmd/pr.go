@@ -3,11 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github-flow/utils"
-	"log"
-	"os/exec"
-	"strings"
-
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // prCmd represents the pr command
@@ -40,7 +37,7 @@ var prCmd = &cobra.Command{
 		}
 
 		// 获取当前的分支名称
-		currentBranch, err := getCurrentBranch()
+		currentBranch, err := utils.GetCurrentBranch()
 		if err != nil {
 			fmt.Println("无法获取当前分支:", err)
 			return
@@ -57,18 +54,6 @@ var prCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(prCmd)
-}
-
-// 获取当前的分支名称
-func getCurrentBranch() (string, error) {
-	// 执行 git 命令获取当前分支
-	output, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").Output()
-	if err != nil {
-		return "", err
-	}
-
-	// 去除换行符
-	return strings.TrimSpace(string(output)), nil
 }
 
 func init() {

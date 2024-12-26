@@ -37,3 +37,14 @@ func GetRepository() (string, error) {
 	// Extract owner and repository name from URL
 	return extractOwnerAndRepo(strings.TrimSpace(string(url)))
 }
+
+func GetCurrentBranch() (string, error) {
+	// 执行 git 命令获取当前分支
+	output, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").Output()
+	if err != nil {
+		return "", err
+	}
+
+	// 去除换行符
+	return strings.TrimSpace(string(output)), nil
+}
