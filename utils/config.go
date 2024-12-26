@@ -23,6 +23,11 @@ type YamlConfig struct {
 	PublishList      []PublishItem `yaml:"publishList"`
 }
 
+type PublishOption struct {
+	Label string
+	Value PublishItem
+}
+
 func ReadConfig() *YamlConfig {
 	data, err := os.ReadFile(".gflow.config.yml")
 	if err != nil {
@@ -42,10 +47,7 @@ func ReadConfig() *YamlConfig {
 func IptPublishList(config *YamlConfig) {
 	publishList := config.PublishList
 	isGitlab := config.GitlabHost != ""
-	type PublishOption struct {
-		Label string
-		Value PublishItem
-	}
+
 	var opts []ipt.Option[PublishOption]
 	for _, item := range publishList {
 		opts = append(opts, ipt.Option[PublishOption]{
