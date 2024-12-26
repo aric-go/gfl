@@ -4,8 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
+	"github-flow/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +13,8 @@ var plCmd = &cobra.Command{
 	Use:   "pl",
 	Short: "发布清单",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("pl called")
+		config := utils.ReadConfig()
+		utils.IptPublishList(config)
 	},
 }
 
