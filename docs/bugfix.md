@@ -10,7 +10,7 @@
 
 ```bash
 # 新建分支
-gfl start fix:v1030/mobile-login-failed
+gfl start bugfix:v1030/mobile-login-failed
 
 # 注意：以下步骤都在新分支上进行
 gfl publish
