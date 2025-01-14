@@ -13,6 +13,7 @@ var hotfixCmd = &cobra.Command{
 	Short: "开始一个hotfix分支",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
+		skipFetch, _ := cmd.Flags().GetBool("skip-fetch")
 		featureName := args[0] // 从参数中获取Hotfix名称
 		branchName := fmt.Sprintf("hotfix/%s/%s", config.Nickname, featureName)
 
@@ -37,6 +38,6 @@ var hotfixCmd = &cobra.Command{
 }
 
 func init() {
-	hotfixCmd.Flags().BoolVarP(&skipFetch, "skip-fetch", "s", false, "跳过 git fetch 步骤")
+	startCmd.Flags().BoolP("skip-fetch", "s", false, "跳过远程分支同步")
 	rootCmd.AddCommand(hotfixCmd)
 }
