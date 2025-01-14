@@ -7,10 +7,6 @@ import (
 	"strings"
 )
 
-var (
-	skipFetch bool
-)
-
 var startCmd = &cobra.Command{
 	Use:     "start [feature-name]",
 	Short:   "开始一个新功能(alias: s)",
@@ -18,6 +14,7 @@ var startCmd = &cobra.Command{
 	Args:    cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
+		skipFetch, _ := cmd.Flags().GetBool("skip-fetch")
 		if config == nil {
 			return
 		}
@@ -45,7 +42,7 @@ var startCmd = &cobra.Command{
 
 func init() {
 	// add --skip-fetch flag to start command
-	startCmd.Flags().BoolVarP(&skipFetch, "skip-fetch", "s", false, "跳过拉取远程分支步骤")
+	startCmd.Flags().BoolP("skip-fetch", "s", false, "跳过远程分支同步")
 	rootCmd.AddCommand(startCmd)
 }
 
