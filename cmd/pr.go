@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github-flow/utils"
+	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
 	"log"
 )
@@ -29,7 +30,7 @@ var prCmd = &cobra.Command{
 
 		if isOpen {
 			prsUrl := fmt.Sprintf("https://github.com/%s/pulls", repo)
-			err := utils.OpenBrowser(prsUrl)
+			err := browser.OpenURL(prsUrl)
 			if err != nil {
 				log.Fatal(err)
 			}

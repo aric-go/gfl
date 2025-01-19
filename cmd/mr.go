@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github-flow/utils"
+	"github.com/pkg/browser"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -29,7 +30,7 @@ var mrCmd = &cobra.Command{
 
 		if isOpen {
 			prsUrl := fmt.Sprintf("%s/%s/-/merge_requests", config.GitlabHost, repo)
-			err := utils.OpenBrowser(prsUrl)
+			err := browser.OpenURL(prsUrl)
 			if err != nil {
 				log.Fatal(err)
 			}

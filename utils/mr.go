@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/pkg/browser"
 )
 
 func CreateMr(base string, head string) {
@@ -14,7 +15,7 @@ func CreateMr(base string, head string) {
 	// @example: https://gitlab.com/myteam/awesome-project/-/merge_requests/new?merge_request[source_branch]=feature/login-page&merge_request[target_branch]=main
 	url := fmt.Sprintf("%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s", baseURL, head, base)
 
-	err := OpenBrowser(url)
+	err := browser.OpenURL(url)
 	if err != nil {
 		fmt.Println("无法打开浏览器:", err)
 	} else {
