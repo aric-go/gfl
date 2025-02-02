@@ -1,7 +1,7 @@
 debug: true
 devBaseBranch: dev
 productionBranch: main
-nickname: "xiaoming"
+nickname: xiaoming
 gitlabHost: https://git.saybot.net
 publishList:
   - name: publish-to-dev
