@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"embed"
 	"fmt"
 	"github-flow/utils"
 	"os"
@@ -8,6 +9,10 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
+
+//go:embed assets/.gfl.config.yml
+//go:embed assets/.gfl.local.config.yml
+var assets embed.FS
 
 var initCmd = &cobra.Command{
 	Use:   "init",
@@ -19,6 +24,18 @@ var initCmd = &cobra.Command{
 		force, _ := cmd.Flags().GetBool("force")
 		nickname, _ := cmd.Flags().GetString("nickname")
 
+		gflConfig, _ := assets.ReadFile("assets/.gfl.config.yml")
+		gflLocalConfig, _ := assets.ReadFile("assets/.gfl.local.config.yml")
+
+		// convert to YamlConfig
+		var gflConfigYaml utils.YamlConfig
+		var gflLocalConfigYaml utils.YamlConfig
+
+		_ = yaml.Unmarshal(gflConfig, &gflConfigYaml)
+		_ = yaml.Unmarshal(gflLocalConfig, &gflLocalConfigYaml)
+
+		fmt.Println("gflConfigYaml: ", gflConfigYaml)
+		fmt.Println("gflLocalConfigYaml: ", gflLocalConfigYaml)
 		fmt.Println("初始化 Github Flow 配置", local)
 
 		config := utils.YamlConfig{
