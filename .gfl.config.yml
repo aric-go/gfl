@@ -1,0 +1,11 @@
+debug: true
+devBaseBranch: main
+productionBranch: main
+nickname: saybot
+publishList:
+    - name: publish-to-dev
+      source: current
+      target: dev
+    - name: publish-to-prod
+      source: beta
+      target: main

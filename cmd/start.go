@@ -15,6 +15,8 @@ var startCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
 		skipFetch, _ := cmd.Flags().GetBool("skip-fetch")
+
+		fmt.Println("the latest config is: ", config)
 		if config == nil {
 			return
 		}
