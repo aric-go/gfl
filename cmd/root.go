@@ -34,4 +34,5 @@ func Execute() {
 func init() {
 	// add --version flag
 	rootCmd.Flags().BoolP("version", "v", false, "show version")
+	rootCmd.PersistentFlags().BoolP("skip-fetch", "s", false, "跳过远程分支同步")
 }

@@ -42,7 +42,6 @@ var startCmd = &cobra.Command{
 
 func init() {
 	// add --skip-fetch flag to start command
-	startCmd.Flags().BoolP("skip-fetch", "s", false, "跳过远程分支同步")
 	rootCmd.AddCommand(startCmd)
 }
 

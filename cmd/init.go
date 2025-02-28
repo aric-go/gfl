@@ -9,13 +9,18 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var nickname string
-var force bool
-
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "初始化 Github Flow 配置",
 	Run: func(cmd *cobra.Command, args []string) {
+
+		// get flag
+		local, _ := cmd.Flags().GetBool("local")
+		force, _ := cmd.Flags().GetBool("force")
+		nickname, _ := cmd.Flags().GetString("nickname")
+
+		fmt.Println("初始化 Github Flow 配置", local)
+
 		config := utils.YamlConfig{
 			Debug:            false,
 			DevBaseBranch:    "develop",
@@ -59,5 +64,9 @@ func init() {
 	rootCmd.AddCommand(initCmd)
 
 	// 添加 --force 标志
-	initCmd.Flags().BoolVarP(&force, "force", "f", false, "强制覆盖已存在的配置文件")
+	initCmd.Flags().BoolP("force", "f", false, "强制覆盖已存在的配置文件")
+	// 添加 --local 标志
+	initCmd.Flags().BoolP("local", "l", false, "初始化本地配置文件")
+	// 添加 --nickname 标志
+	initCmd.Flags().StringP("nickname", "n", "", "设置 Github Flow 昵称")
 }

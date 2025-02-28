@@ -38,6 +38,5 @@ var hotfixCmd = &cobra.Command{
 }
 
 func init() {
-	startCmd.Flags().BoolP("skip-fetch", "s", false, "跳过远程分支同步")
 	rootCmd.AddCommand(hotfixCmd)
 }
