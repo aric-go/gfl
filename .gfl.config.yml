@@ -1,5 +1,5 @@
 debug: true
-devBaseBranch: dev
+devBaseBranch: main
 productionBranch: main
 nickname: saybot
 gitlabHost: https://git.saybot.net
