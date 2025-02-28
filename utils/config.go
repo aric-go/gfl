@@ -15,11 +15,11 @@ type PublishItem struct {
 
 type YamlConfig struct {
 	Debug            bool          `yaml:"debug"`
-	DevBaseBranch    string        `yaml:"devBaseBranch"`
-	ProductionBranch string        `yaml:"productionBranch"`
-	Nickname         string        `yaml:"nickname"`
-	GitlabHost       string        `yaml:"gitlabHost"`
-	PublishList      []PublishItem `yaml:"publishList"`
+	DevBaseBranch    string        `yaml:"devBaseBranch,omitempty"`
+	ProductionBranch string        `yaml:"productionBranch,omitempty"`
+	Nickname         string        `yaml:"nickname,omitempty"`
+	GitlabHost       string        `yaml:"gitlabHost,omitempty"`
+	PublishList      []PublishItem `yaml:"publishList,omitempty"`
 }
 
 type PublishOption struct {
