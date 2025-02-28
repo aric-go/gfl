@@ -37,7 +37,7 @@ var startCmd = &cobra.Command{
 		if err := utils.RunCommandWithSpin(command2, " 正在创建分支...\n"); err != nil {
 			return
 		}
-		fmt.Printf("✅ 已创建%s分支: %s\n", startName.ActionName, branchName)
+		fmt.Printf("🌈 已创建%s分支: %s\n", startName.ActionName, branchName)
 	},
 }
 

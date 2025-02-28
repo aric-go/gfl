@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -39,6 +40,10 @@ var sweepCmd = &cobra.Command{
 			// 清理远程分支
 			cleanRemoteBranches(keyword, confirm)
 		}
+
+		if !confirm {
+			fmt.Println("🌱 如需跳过确认，请使用 -y 标志")
+		}
 	},
 }
 
@@ -64,11 +69,10 @@ func cleanLocalBranches(keyword string, confirm bool) {
 				if err := utils.RunCommandWithSpin(command, "🚗 正在删除本地分支\n"); err != nil {
 					fmt.Printf("💔 删除本地分支 %s 失败: %s\n", branch, err)
 				} else {
-					fmt.Printf("✅ 本地分支 %s 删除成功\n", branch)
+					fmt.Printf("🍏 本地分支 %s 删除成功\n", branch)
 				}
 			} else {
-				// list branches without confirm
-				fmt.Printf("💔 本地分支 %s 包含关键词 %s，请手动删除\n", branch, keyword)
+				logRemove(branch, keyword)
 			}
 		}
 	}
@@ -97,13 +101,20 @@ func cleanRemoteBranches(keyword string, confirm bool) {
 				if err := utils.RunCommandWithSpin(command, "🚗 正在删除远程分支\n"); err != nil {
 					fmt.Printf("💔 删除远程分支 %s 失败: %s\n", branch, err)
 				} else {
-					fmt.Printf("✅ 远程分支 %s 删除成功\n", branch)
+					fmt.Printf("🌈 远程分支 %s 删除成功\n", branch)
 				}
 			} else {
-				fmt.Printf("💔 远程分支 %s 包含关键词 %s，请手动删除\n", branch, keyword)
+				logRemove(branch, keyword)
 			}
 		}
 	}
+}
+
+func logRemove(branch string, keyword string) {
+	colorBranch := color.GreenString(branch)
+	colorKeyword := color.RedString(keyword)
+	// list branches without confirm
+	fmt.Printf("💔 本地/远程分支 %s 包含关键词 %s，请手动删除\n", colorBranch, colorKeyword)
 }
 
 func init() {
