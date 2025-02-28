@@ -17,3 +17,5 @@ __pycache__
 dist
 .gflow.local.yml
 dist/
+
+.gfl.local.config.yml

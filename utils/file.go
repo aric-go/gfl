@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -57,6 +58,14 @@ func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
 		return fmt.Errorf("无法写入配置文件: %w", err)
 	}
 
+	// 检测 .gitignore 中是否已经存在 Filename 配置
+	content, _ := os.ReadFile(opts.Filename)
+	contentString := string(content)
+	if strings.Contains(contentString, opts.Filename) {
+		fmt.Println("配置文件已存在于 .gitignore 中, 无需再次添加")
+		return nil
+	}
+
 	// 如果需要，添加到 .gitignore
 	if opts.AddGitIgnore {
 		if f, err := os.OpenFile(".gitignore", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600); err == nil {
@@ -66,4 +75,36 @@ func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
 	}
 
 	return nil
+}
+
+// RemoveEmptyFields 移除配置中的空值字段
+func RemoveEmptyFields(config *YamlConfig) *YamlConfig {
+	if config == nil {
+		return nil
+	}
+
+	// 创建新的配置对象
+	cleanConfig := &YamlConfig{}
+
+	// 只保留非空值
+	if config.Debug {
+		cleanConfig.Debug = config.Debug
+	}
+	if config.DevBaseBranch != "" {
+		cleanConfig.DevBaseBranch = config.DevBaseBranch
+	}
+	if config.ProductionBranch != "" {
+		cleanConfig.ProductionBranch = config.ProductionBranch
+	}
+	if config.Nickname != "" {
+		cleanConfig.Nickname = config.Nickname
+	}
+	if config.GitlabHost != "" {
+		cleanConfig.GitlabHost = config.GitlabHost
+	}
+	if len(config.PublishList) > 0 {
+		cleanConfig.PublishList = config.PublishList
+	}
+
+	return cleanConfig
 }
