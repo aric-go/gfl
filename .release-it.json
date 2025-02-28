@@ -8,7 +8,8 @@
     "tagName": "v${version}"
   },
   "hooks": {
-    "after:init": ["t2k"]
+    "after:init": ["t2k"],
+    "after:bump": ["syncv -p cmd/root.go"]
   },
   "github": {
     "release": false,

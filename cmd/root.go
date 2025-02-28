@@ -13,7 +13,7 @@ var rootCmd = &cobra.Command{
 
 		isVersion, _ := cmd.Flags().GetBool("version")
 		if isVersion {
-			cmd.Println("🌈 Github Flow Version:", "v1.0.5")
+			cmd.Println("🌈 Github Flow version: 1.0.5")
 			return
 		}
 		cmd.Print("🌈 Welcome to GitHub Flow CLI!\n\n")
