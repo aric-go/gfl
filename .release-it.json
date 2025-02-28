@@ -8,7 +8,6 @@
     "tagName": "v${version}"
   },
   "hooks": {
-    "before:init": ["git fetch --tags"],
     "after:init": ["t2k"]
   },
   "github": {
