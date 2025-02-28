@@ -109,6 +109,5 @@ func cleanRemoteBranches(keyword string, confirm bool) {
 func init() {
 	sweepCmd.Flags().BoolVarP(&localFlag, "local", "l", false, "清理本地分支")
 	sweepCmd.Flags().BoolVarP(&remoteFlag, "remote", "r", false, "清理远程分支")
-	sweepCmd.Flags().BoolP("confirm", "y", false, "确认清理")
 	rootCmd.AddCommand(sweepCmd)
 }
