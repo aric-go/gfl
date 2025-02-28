@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"embed"
+	"fmt"
 	"github-flow/utils"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
@@ -36,18 +37,26 @@ var initCmd = &cobra.Command{
 		utils.RemoveEmptyFields(&gflLocalConfigYaml)
 
 		// create .gfl.config.yml file
-		_ = utils.CreateGflConfig(gflConfigYaml, utils.CreateGflConfigOptions{
+		err := utils.CreateGflConfig(gflConfigYaml, utils.CreateGflConfigOptions{
 			Filename:     ".gfl.config.yml",
-			Force:        force,
+			Force:        false,
 			AddGitIgnore: false,
 		})
 
+		if err != nil {
+			fmt.Println(err)
+		}
+
 		// create .gfl.config.yml file
-		_ = utils.CreateGflConfig(gflLocalConfigYaml, utils.CreateGflConfigOptions{
+		err = utils.CreateGflConfig(gflLocalConfigYaml, utils.CreateGflConfigOptions{
 			Filename:     ".gfl.local.config.yml",
 			Force:        force,
 			AddGitIgnore: true,
 		})
+
+		if err != nil {
+			fmt.Println(err)
+		}
 	},
 }
 
