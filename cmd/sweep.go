@@ -21,6 +21,8 @@ var sweepCmd = &cobra.Command{
 	Args:    cobra.ExactArgs(1), // 需要一个关键词参数
 	Run: func(cmd *cobra.Command, args []string) {
 		keyword := args[0]
+		// get flag confirm
+		confirm, _ := cmd.Flags().GetBool("confirm")
 
 		// 如果没有设置本地或远程标志，打印错误并返回
 		if !localFlag && !remoteFlag {
@@ -30,16 +32,17 @@ var sweepCmd = &cobra.Command{
 
 		if localFlag {
 			// 清理本地分支
-			cleanLocalBranches(keyword)
+			cleanLocalBranches(keyword, confirm)
 		}
+
 		if remoteFlag {
 			// 清理远程分支
-			cleanRemoteBranches(keyword)
+			cleanRemoteBranches(keyword, confirm)
 		}
 	},
 }
 
-func cleanLocalBranches(keyword string) {
+func cleanLocalBranches(keyword string, confirm bool) {
 	// 获取本地分支列表
 	branches, err := exec.Command("git", "branch").Output()
 	if err != nil {
@@ -57,16 +60,21 @@ func cleanLocalBranches(keyword string) {
 		if strings.Contains(branch, keyword) {
 			// 执行命令: git branch -d branch-name
 			command := fmt.Sprintf("git branch -d %s", branch)
-			if err := utils.RunCommandWithSpin(command, "🚗 正在删除本地分支\n"); err != nil {
-				fmt.Printf("💔 删除本地分支 %s 失败: %s\n", branch, err)
+			if confirm {
+				if err := utils.RunCommandWithSpin(command, "🚗 正在删除本地分支\n"); err != nil {
+					fmt.Printf("💔 删除本地分支 %s 失败: %s\n", branch, err)
+				} else {
+					fmt.Printf("✅ 本地分支 %s 删除成功\n", branch)
+				}
 			} else {
-				fmt.Printf("✅ 本地分支 %s 删除成功\n", branch)
+				// list branches without confirm
+				fmt.Printf("💔 本地分支 %s 包含关键词 %s，请手动删除\n", branch, keyword)
 			}
 		}
 	}
 }
 
-func cleanRemoteBranches(keyword string) {
+func cleanRemoteBranches(keyword string, confirm bool) {
 	// 获取远程分支列表
 	branches, err := exec.Command("git", "branch", "-r").Output()
 	if err != nil {
@@ -85,10 +93,14 @@ func cleanRemoteBranches(keyword string) {
 			// 提取分支名称（去掉远程名）
 			remoteBranch := strings.TrimPrefix(branch, "origin/")
 			command := fmt.Sprintf("git push origin --delete %s", remoteBranch)
-			if err := utils.RunCommandWithSpin(command, "🚗 正在删除远程分支\n"); err != nil {
-				fmt.Printf("💔 删除远程分支 %s 失败: %s\n", branch, err)
+			if confirm {
+				if err := utils.RunCommandWithSpin(command, "🚗 正在删除远程分支\n"); err != nil {
+					fmt.Printf("💔 删除远程分支 %s 失败: %s\n", branch, err)
+				} else {
+					fmt.Printf("✅ 远程分支 %s 删除成功\n", branch)
+				}
 			} else {
-				fmt.Printf("✅ 远程分支 %s 删除成功\n", branch)
+				fmt.Printf("💔 远程分支 %s 包含关键词 %s，请手动删除\n", branch, keyword)
 			}
 		}
 	}
@@ -97,5 +109,6 @@ func cleanRemoteBranches(keyword string) {
 func init() {
 	sweepCmd.Flags().BoolVarP(&localFlag, "local", "l", false, "清理本地分支")
 	sweepCmd.Flags().BoolVarP(&remoteFlag, "remote", "r", false, "清理远程分支")
+	sweepCmd.Flags().BoolP("confirm", "y", false, "确认清理")
 	rootCmd.AddCommand(sweepCmd)
 }
