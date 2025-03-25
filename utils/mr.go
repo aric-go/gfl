@@ -6,6 +6,7 @@ import (
 )
 
 func CreateMr(base string, head string) {
+	fmt.Println("⚠️  Warning: The 'mr' command is deprecated. Please use 'gfl review' for a better experience.")
 	repo, _ := GetRepository()
 	config := ReadConfig()
 
