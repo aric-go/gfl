@@ -1,4 +1,4 @@
-module github-flow
+module gfl
 
 go 1.22.0
 

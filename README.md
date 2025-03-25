@@ -1,4 +1,4 @@
-# github-flow
+# gfl
 > Github/gitlab flow command line tool.
 
 ![Alt text](./__uml__/img.png)
@@ -30,8 +30,8 @@ $ gfl -h
 Github Flow CLI
 
 Usage:
-  github-flow [flags]
-  github-flow [command]
+  gfl [flags]
+  gfl [command]
 
 Available Commands:
   checkout    交互式的git分支切换(alias: co)
@@ -49,8 +49,8 @@ Available Commands:
   version     获取程序版本
 
 Flags:
-  -h, --help      help for github-flow
+  -h, --help      help for gfl
   -v, --version   show version
 
-Use "github-flow [command] --help" for more information about a command.
+Use "gfl [command] --help" for more information about a command.
 ```

@@ -3,7 +3,7 @@ package cmd
 import (
 	"embed"
 	"fmt"
-	"github-flow/utils"
+	"gfl/utils"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )

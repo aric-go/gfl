@@ -4,7 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github-flow/cmd"
+import "gfl/cmd"
 
 func main() {
 	cmd.Execute()

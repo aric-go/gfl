@@ -4,7 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github-flow/utils"
+	"gfl/utils"
 	"github.com/spf13/cobra"
 )
 

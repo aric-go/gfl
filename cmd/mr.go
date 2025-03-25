@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github-flow/utils"
+	"gfl/utils"
 	"github.com/pkg/browser"
 	"log"
 
