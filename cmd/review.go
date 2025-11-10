@@ -62,10 +62,9 @@ var reviewCmd = &cobra.Command{
 
 		// 确定目标分支
 		var baseBranch = config.DevBaseBranch
-		if args != nil && len(args) > 0 {
+		if len(args) > 0 {
 			baseBranch = args[0]
 		}
-
 		// 根据仓库类型创建相应的审查请求
 		if isGitlab {
 			utils.CreateMr(baseBranch, currentBranch)
