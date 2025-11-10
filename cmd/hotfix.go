@@ -9,8 +9,9 @@ import (
 
 // hotfixCmd represents the hotfix command
 var hotfixCmd = &cobra.Command{
-	Use:   "hotfix",
-	Short: "开始一个hotfix分支",
+	Use:     "hotfix",
+	Aliases: []string{"hf"},
+	Short:   "开始一个hotfix分支",
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
 		skipFetch, _ := cmd.Flags().GetBool("skip-fetch")
