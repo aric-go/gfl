@@ -79,6 +79,6 @@ func init() {
 	rootCmd.AddCommand(reviewCmd)
 
 	// 添加命令标志
-	reviewCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支")
+	// reviewCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支")
 	reviewCmd.Flags().BoolP("open", "o", false, "打开代码审查列表页面")
 }
