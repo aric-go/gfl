@@ -99,9 +99,6 @@ func RemoveEmptyFields(config *YamlConfig) *YamlConfig {
 	if config.Nickname != "" {
 		cleanConfig.Nickname = config.Nickname
 	}
-	if len(config.PublishList) > 0 {
-		cleanConfig.PublishList = config.PublishList
-	}
 
 	return cleanConfig
 }
