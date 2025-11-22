@@ -9,14 +9,15 @@ import (
 
 // hotfixCmd represents the hotfix command
 var hotfixCmd = &cobra.Command{
-	Use:     "hotfix",
+	Use:     "hotfix [hotfix-name]",
 	Aliases: []string{"hf"},
 	Short:   "开始一个hotfix分支",
+	Args:    cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
 		skipFetch, _ := cmd.Flags().GetBool("skip-fetch")
 		featureName := args[0] // 从参数中获取Hotfix名称
-		branchName := fmt.Sprintf("hotfix/%s/%s", config.Nickname, featureName)
+		branchName := utils.GenerateBranchName("hotfix", config.Nickname, featureName)
 
 		//baseRemoteBranch := fmt.Sprintf("origin/%s", utils.GetLatestReleaseBranch())
 

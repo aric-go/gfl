@@ -21,7 +21,7 @@ var startCmd = &cobra.Command{
 		}
 
 		startName := parseStartName(args[0])
-		branchName := fmt.Sprintf("%s/%s/%s", startName.ActionName, config.Nickname, startName.FeatureName)
+		branchName := utils.GenerateBranchName(startName.ActionName, config.Nickname, startName.FeatureName)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
 
 		// 执行命令: git fetch origin develop

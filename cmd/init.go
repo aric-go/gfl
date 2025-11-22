@@ -31,7 +31,9 @@ var initCmd = &cobra.Command{
 		_ = yaml.Unmarshal(gflConfig, &gflConfigYaml)
 		_ = yaml.Unmarshal(gflLocalConfig, &gflLocalConfigYaml)
 
-		gflLocalConfigYaml.Nickname = nickname
+		if nickname != "" {
+			gflLocalConfigYaml.Nickname = nickname
+		}
 
 		// remove empty fields for local config
 		utils.RemoveEmptyFields(&gflLocalConfigYaml)
@@ -66,8 +68,5 @@ func init() {
 	// 添加 --force 标志
 	initCmd.Flags().BoolP("force", "f", false, "强制覆盖已存在的配置文件")
 	// 添加 --nickname 标志
-	initCmd.Flags().StringP("nickname", "n", "", "设置 Github Flow 昵称")
-
-	// mark nickname as required
-	_ = initCmd.MarkFlagRequired("nickname")
+	initCmd.Flags().StringP("nickname", "n", "", "设置 Github Flow 昵称 (可选)")
 }
