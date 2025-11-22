@@ -14,7 +14,6 @@ var startCmd = &cobra.Command{
 	Args:    cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
-		skipFetch, _ := cmd.Flags().GetBool("skip-fetch")
 
 		if config == nil {
 			return
@@ -25,11 +24,9 @@ var startCmd = &cobra.Command{
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
 
 		// 执行命令: git fetch origin develop
-		if !skipFetch {
-			command1 := fmt.Sprintf("git fetch origin")
-			if err := utils.RunCommandWithSpin(command1, " 正在同步远程分支...\n"); err != nil {
-				return
-			}
+		command1 := fmt.Sprintf("git fetch origin")
+		if err := utils.RunCommandWithSpin(command1, " 正在同步远程分支...\n"); err != nil {
+			return
 		}
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
@@ -42,7 +39,6 @@ var startCmd = &cobra.Command{
 }
 
 func init() {
-	// add --skip-fetch flag to start command
 	rootCmd.AddCommand(startCmd)
 }
 

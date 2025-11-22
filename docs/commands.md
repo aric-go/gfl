@@ -57,10 +57,6 @@ gfl start feature-name
 
 # 使用别名
 gfl s feature-name
-
-# 跳过远程同步
-gfl start feature-name --skip-fetch
-gfl s feature-name -s
 ```
 
 **功能说明：**
@@ -194,10 +190,6 @@ gfl tag -t minor
 # 创建热修复分支
 gfl hotfix fix-critical-bug
 
-# 跳过远程同步
-gfl hotfix fix-critical-bug --skip-fetch
-gfl hotfix fix-critical-bug -s
-
 # 使用别名
 gfl hf fix-critical-bug
 ```
@@ -305,7 +297,6 @@ echo 'source <(gfl completion zsh)' >> ~/.zshrc
 
 ```bash
 --confirm, -y      # 自动确认操作
---skip-fetch, -s   # 跳过远程分支同步
 --help, -h         # 显示帮助信息
 --version, -v      # 显示版本信息
 ```
@@ -390,8 +381,12 @@ gfl sweep --remote --confirm
 
 2. **分支同步失败**
    ```bash
-   # 跳过同步快速操作
-   gfl start feature-name --skip-fetch
+   # 检查网络连接和仓库权限
+   git remote -v
+
+   # 手动同步后重试
+   git fetch origin
+   gfl start feature-name
    ```
 
 3. **PR 创建失败**
