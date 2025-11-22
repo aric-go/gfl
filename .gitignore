@@ -18,4 +18,4 @@ dist
 .gflow.local.yml
 dist/
 
-.gfl.config.local.yml
+/.gfl.config.local.yml
