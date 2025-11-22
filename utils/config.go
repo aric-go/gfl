@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"os"
 	"github.com/spf13/viper"
 )
 
@@ -17,20 +18,18 @@ type YamlConfig struct {
 
 
 func ReadConfig() *YamlConfig {
-	// 设置配置文件名（不带扩展名）
-	viper.SetConfigName(".gfl.config")
-	viper.SetConfigType("yml")
-	viper.AddConfigPath(".") // 配置文件路径
-
-	// 加载 gfl.config.yml
-	if err := viper.ReadInConfig(); err != nil {
-		fmt.Printf("Error reading .gfl.config.yml: %v\n", err)
+	// 从环境变量获取配置文件路径，如果未设置则使用默认值
+	configFile := os.Getenv("GFL_CONFIG_FILE")
+	if configFile == "" {
+		configFile = ".gfl.config.yml"
 	}
 
-	// 加载 gfl.config.local.yml（如果存在）
-	viper.SetConfigName(".gfl.config.local")
-	if err := viper.MergeInConfig(); err != nil {
-		fmt.Printf("No .gfl.config.local.yml found, using only .gfl.config.yml\n")
+	// 设置配置文件完整路径
+	viper.SetConfigFile(configFile)
+
+	// 加载配置文件
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Printf("Error reading config file %s: %v\n", configFile, err)
 	}
 
 	// 最终配置
