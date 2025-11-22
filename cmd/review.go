@@ -13,7 +13,7 @@ import (
 var reviewCmd = &cobra.Command{
 	Use:     "review",
 	Aliases: []string{"rv"},
-	Short:   "创建代码审查请求（PR/MR）",
+	Short:   "创建代码审查请求（PR）",
 	Run: func(cmd *cobra.Command, args []string) {
 		// 读取配置文件获取默认分支和仓库
 		config := utils.ReadConfig()
@@ -21,30 +21,19 @@ var reviewCmd = &cobra.Command{
 			return
 		}
 
-		// 判断是否为 GitLab 仓库
-		isGitlab := config.GitlabHost != ""
 		repo, _ := utils.GetRepository()
 
 		// 处理同步标志
 		isSync, _ := cmd.Flags().GetBool("sync")
 		if isSync {
-			if isGitlab {
-				utils.CreateMr(config.DevBaseBranch, config.ProductionBranch)
-			} else {
-				utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
-			}
+			utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
 			return
 		}
 
 		// 处理打开列表页面标志
 		isOpen, _ := cmd.Flags().GetBool("open")
 		if isOpen {
-			var listUrl string
-			if isGitlab {
-				listUrl = fmt.Sprintf("%s/%s/-/merge_requests", config.GitlabHost, repo)
-			} else {
-				listUrl = fmt.Sprintf("https://github.com/%s/pulls", repo)
-			}
+			listUrl := fmt.Sprintf("https://github.com/%s/pulls", repo)
 
 			err := browser.OpenURL(listUrl)
 			if err != nil {
@@ -65,12 +54,9 @@ var reviewCmd = &cobra.Command{
 		if len(args) > 0 {
 			baseBranch = args[0]
 		}
-		// 根据仓库类型创建相应的审查请求
-		if isGitlab {
-			utils.CreateMr(baseBranch, currentBranch)
-		} else {
-			utils.CreatePr(baseBranch, currentBranch)
-		}
+
+		// 创建 GitHub PR
+		utils.CreatePr(baseBranch, currentBranch)
 	},
 }
 

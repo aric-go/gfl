@@ -1,5 +1,5 @@
 # gfl
-> Github/gitlab flow command line tool.
+> GitHub flow command line tool.
 
 ![Alt text](./__uml__/img.png)
 

@@ -9,15 +9,15 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "gfl",
-	Short: "Github/gitlab Flow CLI",
+	Short: "GitHub Flow CLI",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		isVersion, _ := cmd.Flags().GetBool("version")
 		if isVersion {
-			cmd.Println("🌈 Github/gitlab Flow version: 1.0.6")
+			cmd.Println("🌈 GitHub Flow version: 1.0.6")
 			return
 		}
-		cmd.Print("🌈 Welcome to Github/gitlab Flow CLI!\n\n")
+		cmd.Print("🌈 Welcome to GitHub Flow CLI!\n\n")
 		_ = cmd.Help()
 	},
 }

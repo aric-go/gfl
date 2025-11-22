@@ -3,7 +3,7 @@
   "version": "1.0.6",
   "private": true,
   "type": "module",
-  "description": "Github/gitlab flow command line tool.",
+  "description": "GitHub flow command line tool.",
   "license": "MIT",
   "scripts": {
     "start": "go run main.go",

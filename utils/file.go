@@ -99,9 +99,6 @@ func RemoveEmptyFields(config *YamlConfig) *YamlConfig {
 	if config.Nickname != "" {
 		cleanConfig.Nickname = config.Nickname
 	}
-	if config.GitlabHost != "" {
-		cleanConfig.GitlabHost = config.GitlabHost
-	}
 	if len(config.PublishList) > 0 {
 		cleanConfig.PublishList = config.PublishList
 	}

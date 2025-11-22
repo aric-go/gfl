@@ -2,7 +2,6 @@ debug: true
 devBaseBranch: dev
 productionBranch: main
 nickname: saybot
-gitlabHost: https://git.saybot.net
 publishList:
   - name: publish-to-dev
     source: current

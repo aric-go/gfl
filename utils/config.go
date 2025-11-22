@@ -19,7 +19,6 @@ type YamlConfig struct {
 	DevBaseBranch    string        `yaml:"devBaseBranch,omitempty"`
 	ProductionBranch string        `yaml:"productionBranch,omitempty"`
 	Nickname         string        `yaml:"nickname,omitempty"`
-	GitlabHost       string        `yaml:"gitlabHost,omitempty"`
 	PublishList      []PublishItem `yaml:"publishList,omitempty"`
 }
 
@@ -72,7 +71,6 @@ func ReadConfig() *YamlConfig {
 
 func IptPublishList(config *YamlConfig) {
 	publishList := config.PublishList
-	isGitlab := config.GitlabHost != ""
 
 	var opts []ipt.Option[PublishOption]
 	for _, item := range publishList {
@@ -99,9 +97,5 @@ func IptPublishList(config *YamlConfig) {
 		currentBranch = selected.Value.Source
 	}
 
-	if isGitlab {
-		CreateMr(selected.Value.Target, currentBranch)
-	} else {
-		CreatePr(selected.Value.Target, currentBranch)
-	}
+	CreatePr(selected.Value.Target, currentBranch)
 }
