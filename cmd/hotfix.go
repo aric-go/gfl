@@ -17,7 +17,7 @@ var hotfixCmd = &cobra.Command{
 		config := utils.ReadConfig()
 		skipFetch, _ := cmd.Flags().GetBool("skip-fetch")
 		featureName := args[0] // 从参数中获取Hotfix名称
-		branchName := utils.GenerateBranchName("hotfix", config.Nickname, featureName)
+		branchName := utils.GenerateBranchName(config, "hotfix", featureName)
 
 		//baseRemoteBranch := fmt.Sprintf("origin/%s", utils.GetLatestReleaseBranch())
 

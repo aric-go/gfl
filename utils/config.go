@@ -10,6 +10,9 @@ type YamlConfig struct {
 	DevBaseBranch    string `yaml:"devBaseBranch,omitempty"`
 	ProductionBranch string `yaml:"productionBranch,omitempty"`
 	Nickname         string `yaml:"nickname,omitempty"`
+	FeaturePrefix    string `yaml:"featurePrefix,omitempty"`
+	FixPrefix        string `yaml:"fixPrefix,omitempty"`
+	HotfixPrefix     string `yaml:"hotfixPrefix,omitempty"`
 }
 
 

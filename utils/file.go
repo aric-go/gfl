@@ -99,6 +99,15 @@ func RemoveEmptyFields(config *YamlConfig) *YamlConfig {
 	if config.Nickname != "" {
 		cleanConfig.Nickname = config.Nickname
 	}
+	if config.FeaturePrefix != "" {
+		cleanConfig.FeaturePrefix = config.FeaturePrefix
+	}
+	if config.FixPrefix != "" {
+		cleanConfig.FixPrefix = config.FixPrefix
+	}
+	if config.HotfixPrefix != "" {
+		cleanConfig.HotfixPrefix = config.HotfixPrefix
+	}
 
 	return cleanConfig
 }

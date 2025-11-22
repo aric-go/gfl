@@ -2,3 +2,6 @@ debug: true
 devBaseBranch: dev
 productionBranch: main
 nickname: aric
+featurePrefix: feature
+fixPrefix: fix
+hotfixPrefix: hotfix
