@@ -9,7 +9,7 @@ import (
 )
 
 //go:embed assets/.gfl.config.yml
-//go:embed assets/.gfl.local.config.yml
+//go:embed assets/.gfl.config.local.yml
 var assets embed.FS
 
 var initCmd = &cobra.Command{
@@ -22,7 +22,7 @@ var initCmd = &cobra.Command{
 		nickname, _ := cmd.Flags().GetString("nickname")
 
 		gflConfig, _ := assets.ReadFile("assets/.gfl.config.yml")
-		gflLocalConfig, _ := assets.ReadFile("assets/.gfl.local.config.yml")
+		gflLocalConfig, _ := assets.ReadFile("assets/.gfl.config.local.yml")
 
 		// convert to YamlConfig
 		var gflConfigYaml utils.YamlConfig
@@ -47,9 +47,9 @@ var initCmd = &cobra.Command{
 			fmt.Println(err)
 		}
 
-		// create .gfl.config.yml file
+		// create .gfl.config.local.yml file
 		err = utils.CreateGflConfig(gflLocalConfigYaml, utils.CreateGflConfigOptions{
-			Filename:     ".gfl.local.config.yml",
+			Filename:     ".gfl.config.local.yml",
 			Force:        force,
 			AddGitIgnore: true,
 		})

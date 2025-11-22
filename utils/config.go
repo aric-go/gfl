@@ -24,10 +24,10 @@ func ReadConfig() *YamlConfig {
 		fmt.Printf("Error reading .gfl.config.yml: %v\n", err)
 	}
 
-	// 加载 gfl.local.config.yml（如果存在）
-	viper.SetConfigName(".gfl.local.config")
+	// 加载 gfl.config.local.yml（如果存在）
+	viper.SetConfigName(".gfl.config.local")
 	if err := viper.MergeInConfig(); err != nil {
-		fmt.Printf("No .gfl.local.config.yml found, using only .gfl.config.yml\n")
+		fmt.Printf("No .gfl.config.local.yml found, using only .gfl.config.yml\n")
 	}
 
 	// 最终配置
