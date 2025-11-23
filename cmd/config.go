@@ -21,7 +21,7 @@ var configCmd = &cobra.Command{
 		// 1. 显示最终配置 - 使用表格格式
 		t := table.NewWriter()
 		t.SetOutputMirror(os.Stdout)
-		t.SetTitle("GFL 最终配置")
+		t.SetTitle("⚙️ GFL 最终配置")
 		t.SetStyle(table.StyleRounded)
 		t.Style().Options.SeparateRows = true
 		t.Style().Options.DrawBorder = true
@@ -167,26 +167,37 @@ var configCmd = &cobra.Command{
 		t.Render()
 
 		// 2. 显示配置来源详情 - 简化列表格式
-		fmt.Printf("\n配置来源详情:\n\n")
+		fmt.Printf("\n📁 配置来源详情:\n\n")
 
 		for _, source := range configInfo.Sources {
 			if source.Exists {
-				fmt.Printf("  • %s: %s\n", source.Name, source.Path)
+				var emoji string
+				switch source.Name {
+				case "全局配置":
+					emoji = "🌍"
+				case "本地配置":
+					emoji = "🏠"
+				case "自定义配置":
+					emoji = "🎯"
+				default:
+					emoji = "📄"
+				}
+				fmt.Printf("  %s %s: %s\n", emoji, source.Name, source.Path)
 			}
 		}
 
 		// GFL_CONFIG_FILE 环境变量
 		configFile := os.Getenv("GFL_CONFIG_FILE")
 		if configFile != "" {
-			fmt.Printf("  • 自定义配置: %s (GFL_CONFIG_FILE)\n", configFile)
+			fmt.Printf("  🎯 自定义配置: %s (GFL_CONFIG_FILE)\n", configFile)
 		}
 
 		// 3. 显示配置优先级说明
-		fmt.Printf("\n配置优先级 (从高到低):\n")
-		fmt.Printf("  1. 自定义配置文件 (GFL_CONFIG_FILE)\n")
-		fmt.Printf("  2. 本地配置文件 (.gfl.config.local.yml)\n")
-		fmt.Printf("  3. 全局配置文件 (.gfl.config.yml)\n")
-		fmt.Printf("  4. 默认值\n")
+		fmt.Printf("\n🏆 配置优先级 (从高到低):\n")
+		fmt.Printf("  🥇 自定义配置文件 (GFL_CONFIG_FILE)\n")
+		fmt.Printf("  🥈 本地配置文件 (.gfl.config.local.yml)\n")
+		fmt.Printf("  🥉 全局配置文件 (.gfl.config.yml)\n")
+		fmt.Printf("  🏅 默认值\n")
 	},
 }
 
