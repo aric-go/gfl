@@ -23,15 +23,15 @@ var startCmd = &cobra.Command{
 		branchName := utils.GenerateBranchName(config, startName.ActionName, startName.FeatureName)
 		baseRemoteBranch := fmt.Sprintf("origin/%s", config.DevBaseBranch)
 
-		// 执行命令: git fetch origin develop
-		command1 := fmt.Sprintf("git fetch origin")
-		if err := utils.RunCommandWithSpin(command1, " 正在同步远程分支...\n"); err != nil {
+		// 执行命令: git fetch origin
+		fetchCmd := "git fetch origin"
+		if err := utils.RunCommandWithSpin(fetchCmd, " 正在同步远程分支...\n"); err != nil {
 			return
 		}
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
-		command2 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
-		if err := utils.RunCommandWithSpin(command2, " 正在创建分支...\n"); err != nil {
+		checkoutCmd := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
+		if err := utils.RunCommandWithSpin(checkoutCmd, " 正在创建分支...\n"); err != nil {
 			return
 		}
 		utils.Successf("已创建%s分支: %s", startName.ActionName, branchName)
