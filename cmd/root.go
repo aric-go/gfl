@@ -9,15 +9,10 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "gfl",
-	Short: "GitHub Flow CLI",
+	Use:     "gfl",
+	Short:   "GitHub Flow CLI",
+	Version: "1.0.7",
 	Run: func(cmd *cobra.Command, args []string) {
-
-		isVersion, _ := cmd.Flags().GetBool("version")
-		if isVersion {
-			utils.Info("🌈 GitHub Flow version: 1.0.6")
-			return
-		}
 		utils.Info("🌈 Welcome to GitHub Flow CLI!")
 		_ = cmd.Help()
 	},
@@ -33,7 +28,6 @@ func Execute() {
 }
 
 func init() {
-	// add --version flag
-	rootCmd.Flags().BoolP("version", "v", false, "show version")
+	// Cobra will automatically add --version/-v flag when Version field is set
 	rootCmd.PersistentFlags().BoolP("confirm", "y", false, "确认操作")
 }
