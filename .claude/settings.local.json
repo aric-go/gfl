@@ -1,23 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rm:*)",
-      "Bash(go build:*)",
-      "Bash(go mod tidy:*)",
-      "Bash(go run:*)",
-      "Bash(mkdir:*)",
-      "Bash(./gfl start:*)",
-      "Bash(./gfl:*)",
-      "Bash(mv:*)",
-      "Bash(go get:*)",
-      "Bash(GFL_CONFIG_FILE=.gfl.test.config.yml ./gfl config:*)",
-      "Bash(GFL_NICKNAME=testuser GFL_FEATURE_PREFIX=feature ./gfl config:*)",
-      "Bash(GFL_CONFIG_FILE=\"\" ./gfl config:*)",
-      "Bash(find:*)",
-      "Bash(GFL_LANG=en-US ./gfl:*)",
       "Bash(tree:*)",
-      "Bash(GFL_CONFIG_FILE=/Users/feizheng/.dotfiles/.pear/.gfl.config.yml ./gfl config:*)",
-      "Bash(GFL_CONFIG_FILE=/Users/feizheng/.dotfiles/.pear/.gfl.config.yml go run -c \"import \"\"./gfl/utils/strings\"\"; strings.LoadStrings(); println(strings.GetString(\"\"config\"\", \"\"custom_config_file\"\", \"\"/test/path\"\"))\")"
+      "Bash(fi:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
