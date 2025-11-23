@@ -24,10 +24,23 @@ func CreatePr(base string, head string) {
 }
 
 // SyncProductionToDev 同步生产分支到开发分支
-func SyncProductionToDev(productionBranch, devBranch string) {
+func SyncProductionToDev(productionBranch, devBranch string) bool {
 	Infof("正在同步生产分支 %s 到开发分支 %s...", productionBranch, devBranch)
 
-	// 执行 git 命令同步分支
+	// 1. 检查工作目录是否干净
+	if !isWorkingDirectoryClean() {
+		Errorf("工作目录不干净，请先提交或暂存当前的更改")
+		return false
+	}
+
+	// 2. 保存当前分支
+	currentBranch, err := GetCurrentBranch()
+	if err != nil {
+		Errorf("无法获取当前分支: %v", err)
+		return false
+	}
+
+	// 3. 执行同步操作
 	commands := [][]string{
 		{"git", "fetch", "origin"},
 		{"git", "checkout", devBranch},
@@ -36,18 +49,41 @@ func SyncProductionToDev(productionBranch, devBranch string) {
 		{"git", "push", "origin", devBranch},
 	}
 
-	for _, cmd := range commands {
+	for i, cmd := range commands {
 		Infof("执行: %s", strings.Join(cmd, " "))
 		output, err := exec.Command(cmd[0], cmd[1:]...).CombinedOutput()
 		if err != nil {
 			Errorf("命令执行失败: %v", err)
 			Errorf("错误输出: %s", string(output))
-			return
+
+			// 尝试回滚到原始分支
+			Warningf("正在回滚到原始分支 %s...", currentBranch)
+			if i > 0 { // 如果已经切换了分支
+				exec.Command("git", "checkout", currentBranch).CombinedOutput()
+			}
+			return false
 		}
 		if len(output) > 0 {
-			Infof("输出: %s", string(output))
+			// 只显示重要的输出信息
+			outputStr := string(output)
+			if strings.Contains(outputStr, "Already up to date") ||
+			   strings.Contains(outputStr, "Fast-forward") ||
+			   strings.Contains(outputStr, "Merge") ||
+			   strings.Contains(outputStr, "file changed") {
+				Infof("输出: %s", outputStr)
+			}
 		}
 	}
 
 	Successf("成功同步 %s 到 %s", productionBranch, devBranch)
+	return true
+}
+
+// isWorkingDirectoryClean 检查工作目录是否干净
+func isWorkingDirectoryClean() bool {
+	output, err := exec.Command("git", "status", "--porcelain").CombinedOutput()
+	if err != nil {
+		return false
+	}
+	return len(strings.TrimSpace(string(output))) == 0
 }

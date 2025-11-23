@@ -25,7 +25,9 @@ var prCmd = &cobra.Command{
 		// 处理同步标志
 		isSync, _ := cmd.Flags().GetBool("sync")
 		if isSync {
-			utils.SyncProductionToDev(config.ProductionBranch, config.DevBaseBranch)
+			if !utils.SyncProductionToDev(config.ProductionBranch, config.DevBaseBranch) {
+				utils.Errorf("同步失败，请检查错误信息并重试")
+			}
 			return
 		}
 
@@ -64,6 +66,6 @@ func init() {
 	rootCmd.AddCommand(prCmd)
 
 	// 添加命令标志
-	prCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支")
+	prCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支（检查工作目录后直接合并）")
 	prCmd.Flags().BoolP("open", "o", false, "打开代码审查列表页面")
 }
