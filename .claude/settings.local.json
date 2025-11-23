@@ -8,7 +8,8 @@
       "Bash(./gfl config:*)",
       "Bash(go install:*)",
       "Bash(gfl config:*)",
-      "Bash(gfl --help:*)"
+      "Bash(gfl --help:*)",
+      "Bash(go run:*)"
     ],
     "deny": [],
     "ask": []

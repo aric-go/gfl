@@ -127,11 +127,11 @@ zh-CN:
     example_feature_branch: "示例功能分支"
     config_sources_title: "\n📁 配置来源详情:\n\n"
     custom_config_file: "🎯 自定义配置: %s (GFL_CONFIG_FILE)\n"
-    priority_title: "🏆 配置优先级 (从高到低):"
-    priority_custom: "🥇 自定义配置文件 (GFL_CONFIG_FILE)"
-    priority_local: "🥈 本地配置文件 (.gfl.config.local.yml)"
-    priority_global: "🥉 全局配置文件 (.gfl.config.yml)"
-    priority_default: "🏅 默认值"
+    priority_title: "\n🏆 配置优先级 (从高到低):\n\n"
+    priority_custom: "🥇 自定义配置文件 (GFL_CONFIG_FILE)\n"
+    priority_local: "🥈 本地配置文件 (.gfl.config.local.yml)\n"
+    priority_global: "🥉 全局配置文件 (.gfl.config.yml)\n"
+    priority_default: "🏅 默认值\n"
 
   # Utils - Logger
   logger:
@@ -307,10 +307,10 @@ en-US:
     example_feature_branch: "Example Feature Branch"
     config_sources_title: "\n📁 Configuration Source Details:\n\n"
     custom_config_file: "🎯 Custom Config: %s (GFL_CONFIG_FILE)\n"
-    priority_title: "🏆 Configuration Priority (High to Low):"
-    priority_custom: "🥇 Custom Config File (GFL_CONFIG_FILE)"
-    priority_local: "🥈 Local Config File (.gfl.config.local.yml)"
-    priority_global: "🥉 Global Config File (.gfl.config.yml)"
+    priority_title: "\n🏆 Configuration Priority (High to Low):\n\n"
+    priority_custom: "🥇 Custom Config File (GFL_CONFIG_FILE)\n"
+    priority_local: "🥈 Local Config File (.gfl.config.local.yml)\n"
+    priority_global: "🥉 Global Config File (.gfl.config.yml)\n"
     priority_default: "🏅 Default Value"
 
   # Utils - Logger
