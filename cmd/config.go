@@ -11,9 +11,10 @@ import (
 )
 
 var configCmd = &cobra.Command{
-	Use:   "config",
-	Short: "查看当前配置",
-	Long:  `显示当前 GFL 的配置信息，包括所有配置来源和最终值`,
+	Use:     "config",
+	Aliases: []string{"c"},
+	Short:   "查看当前配置",
+	Long:    `显示当前 GFL 的配置信息，包括所有配置来源和最终值`,
 	Run: func(cmd *cobra.Command, args []string) {
 		configInfo := utils.ReadConfigWithSources()
 		finalConfig := configInfo.FinalConfig
@@ -200,7 +201,6 @@ var configCmd = &cobra.Command{
 		fmt.Printf("  🏅 默认值\n")
 	},
 }
-
 
 func init() {
 	rootCmd.AddCommand(configCmd)
