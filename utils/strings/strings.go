@@ -1,12 +1,15 @@
 package strings
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"gopkg.in/yaml.v3"
 )
+
+//go:embed strings.yml
+var stringsData string
 
 // Language represents the supported languages
 type Language string
@@ -235,46 +238,31 @@ type GitStrings struct {
 }
 
 var (
-	// Global strings data
-	stringsData map[Language]*StringData
+	// Global strings data map
+	stringsDataMap map[Language]*StringData
 
 	// Current language (can be set via environment variable or config)
 	currentLanguage Language = LanguageZHCN // Default to Chinese
 )
 
-// LoadStrings initializes the strings package by loading the strings.yml file
+// LoadStrings initializes the strings package by loading the embedded strings.yml data
 func LoadStrings() error {
 	// Get the current language from environment variable or default to zh-CN
 	if lang := os.Getenv("GFL_LANG"); lang != "" {
 		currentLanguage = Language(lang)
 	}
 
-	stringsData = make(map[Language]*StringData)
+	stringsDataMap = make(map[Language]*StringData)
 
-	// Get the project root directory
-	rootDir, err := getProjectRoot()
-	if err != nil {
-		return fmt.Errorf("failed to get project root: %w", err)
-	}
-
-	// Path to strings.yml file (now in utils directory)
-	stringsFile := filepath.Join(rootDir, "utils", "strings.yml")
-
-	// Read the strings.yml file
-	data, err := os.ReadFile(stringsFile)
-	if err != nil {
-		return fmt.Errorf("failed to read strings file: %w", err)
-	}
-
-	// Parse the YAML file
+	// Parse the embedded YAML data
 	var allStrings map[string]*StringData
-	if err := yaml.Unmarshal(data, &allStrings); err != nil {
-		return fmt.Errorf("failed to parse strings file: %w", err)
+	if err := yaml.Unmarshal([]byte(stringsData), &allStrings); err != nil {
+		return fmt.Errorf("failed to parse embedded strings data: %w", err)
 	}
 
 	// Store strings for each language
 	for langKey, strings := range allStrings {
-		stringsData[Language(langKey)] = strings
+		stringsDataMap[Language(langKey)] = strings
 	}
 
 	return nil
@@ -292,12 +280,12 @@ func GetLanguage() Language {
 
 // GetStrings returns the strings data for the current language
 func GetStrings() *StringData {
-	if strings, ok := stringsData[currentLanguage]; ok {
+	if strings, ok := stringsDataMap[currentLanguage]; ok {
 		return strings
 	}
 
 	// Fallback to zh-CN if current language is not available
-	if strings, ok := stringsData[LanguageZHCN]; ok {
+	if strings, ok := stringsDataMap[LanguageZHCN]; ok {
 		return strings
 	}
 
@@ -620,25 +608,3 @@ func GetString(category, key string, args ...interface{}) string {
 	return ""
 }
 
-// getProjectRoot finds the project root directory by looking for go.mod file
-func getProjectRoot() (string, error) {
-	dir, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	for {
-		goModPath := filepath.Join(dir, "go.mod")
-		if _, err := os.Stat(goModPath); err == nil {
-			return dir, nil
-		}
-
-		parent := filepath.Dir(dir)
-		if parent == dir {
-			break
-		}
-		dir = parent
-	}
-
-	return "", fmt.Errorf("project root not found")
-}

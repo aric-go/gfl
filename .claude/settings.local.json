@@ -3,7 +3,12 @@
     "allow": [
       "Bash(tree:*)",
       "Bash(fi:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(go build:*)",
+      "Bash(./gfl config:*)",
+      "Bash(go install:*)",
+      "Bash(gfl config:*)",
+      "Bash(gfl --help:*)"
     ],
     "deny": [],
     "ask": []
