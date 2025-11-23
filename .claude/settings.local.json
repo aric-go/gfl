@@ -14,7 +14,8 @@
       "Bash(GFL_NICKNAME=testuser GFL_FEATURE_PREFIX=feature ./gfl config:*)",
       "Bash(GFL_CONFIG_FILE=\"\" ./gfl config:*)",
       "Bash(find:*)",
-      "Bash(GFL_LANG=en-US ./gfl:*)"
+      "Bash(GFL_LANG=en-US ./gfl:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

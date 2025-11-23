@@ -13,7 +13,7 @@ The GFL CLI now supports multiple languages through a strings-based internationa
 
 ### 1. Strings Storage
 
-All user-facing strings are stored in `strings.yml` with separate sections for each language:
+All user-facing strings are stored in `utils/strings.yml` with separate sections for each language:
 
 ```yaml
 zh-CN:
@@ -54,7 +54,7 @@ GFL_LANG=en-US ./gfl --help
 
 ### 1. Add to YAML
 
-Add new strings to both language sections in `strings.yml`:
+Add new strings to both language sections in `utils/strings.yml`:
 
 ```yaml
 zh-CN:
@@ -120,7 +120,7 @@ func updateCommandDescriptions() {
 The system supports formatted strings with placeholders:
 
 ```yaml
-# In strings.yml
+# In utils/strings.yml
 success: "Created %s branch: %s"
 
 # In Go code
@@ -139,7 +139,7 @@ strings.GetString("start", "success", "feature", "feature/new-login")
 
 To add support for a new language:
 
-1. Add a new language section to `strings.yml` with all strings translated
+1. Add a new language section to `utils/strings.yml` with all strings translated
 2. Add the language constant to `utils/strings/strings.go`:
    ```go
    const (

@@ -257,8 +257,8 @@ func LoadStrings() error {
 		return fmt.Errorf("failed to get project root: %w", err)
 	}
 
-	// Path to strings.yml file
-	stringsFile := filepath.Join(rootDir, "strings.yml")
+	// Path to strings.yml file (now in utils directory)
+	stringsFile := filepath.Join(rootDir, "utils", "strings.yml")
 
 	// Read the strings.yml file
 	data, err := os.ReadFile(stringsFile)
