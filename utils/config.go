@@ -5,40 +5,93 @@ import (
 	"github.com/spf13/viper"
 )
 
+// YamlConfig represents the configuration structure for GFL (GitHub Flow CLI).
+// It defines all available configuration options with their YAML tags for serialization.
+//
+// Configuration priority (highest to lowest):
+//   1. Custom config file (GFL_CONFIG_FILE environment variable)
+//   2. Local config file (.gfl.config.local.yml)
+//   3. Global config file (.gfl.config.yml)
+//   4. Default values
 type YamlConfig struct {
-	Debug            bool   `yaml:"debug"`
-	DevBaseBranch    string `yaml:"devBaseBranch,omitempty"`
+	// Debug enables verbose logging and debugging output
+	Debug bool `yaml:"debug"`
+
+	// DevBaseBranch specifies the base branch for feature development (default: "develop")
+	DevBaseBranch string `yaml:"devBaseBranch,omitempty"`
+
+	// ProductionBranch specifies the main production branch (default: "main")
 	ProductionBranch string `yaml:"productionBranch,omitempty"`
-	Nickname         string `yaml:"nickname,omitempty"`
-	FeaturePrefix    string `yaml:"featurePrefix,omitempty"`
-	FixPrefix        string `yaml:"fixPrefix,omitempty"`
-	HotfixPrefix     string `yaml:"hotfixPrefix,omitempty"`
-	NicknameSet      bool   `yaml:"-"` // 标记是否显式设置了 nickname
+
+	// Nickname is the developer's identifier used in branch naming
+	Nickname string `yaml:"nickname,omitempty"`
+
+	// FeaturePrefix defines the prefix for feature branches (default: "feature")
+	FeaturePrefix string `yaml:"featurePrefix,omitempty"`
+
+	// FixPrefix defines the prefix for bug fix branches (default: "fix")
+	FixPrefix string `yaml:"fixPrefix,omitempty"`
+
+	// HotfixPrefix defines the prefix for hotfix branches (default: "hotfix")
+	HotfixPrefix string `yaml:"hotfixPrefix,omitempty"`
+
+	// NicknameSet indicates whether nickname was explicitly set in config
+	// This field is not serialized to YAML (yaml:"-")
+	NicknameSet bool `yaml:"-"`
 }
 
+// ConfigSource represents a single configuration source with metadata.
+// It tracks where each configuration setting originated from.
 type ConfigSource struct {
-	Name   string
-	Path   string
+	// Name is a human-readable name for the configuration source
+	Name string
+
+	// Path is the file system path to the configuration file
+	Path string
+
+	// Config contains the parsed configuration from this source
 	Config YamlConfig
+
+	// Exists indicates whether the configuration file actually exists on disk
 	Exists bool
 }
 
+// ConfigInfo contains comprehensive configuration information including
+// the final merged configuration and all individual sources.
 type ConfigInfo struct {
+	// FinalConfig is the merged configuration after applying all sources
 	FinalConfig YamlConfig
-	Sources     []ConfigSource
+
+	// Sources contains all configuration sources in order of priority
+	Sources []ConfigSource
 }
 
-// ReadConfig 读取配置（保持向后兼容）
+// ReadConfig reads and merges configuration from all sources.
+// This function maintains backward compatibility by returning only the final config.
+//
+// Returns:
+//   - *YamlConfig: The merged configuration or nil if no config found
 func ReadConfig() *YamlConfig {
 	info := ReadConfigWithSources()
 	return &info.FinalConfig
 }
 
-// ReadConfigWithSources 读取配置并返回所有来源信息
+// ReadConfigWithSources reads configuration from all sources and returns detailed information.
+// This function provides visibility into where each configuration value originated from,
+// which is useful for debugging and the 'gfl config' command.
+//
+// Configuration sources are loaded in priority order:
+//   1. Default values (lowest priority)
+//   2. Global config file (.gfl.config.yml)
+//   3. Local config file (.gfl.config.local.yml)
+//   4. Custom config file (GFL_CONFIG_FILE environment variable)
+//
+// Returns:
+//   - ConfigInfo: Complete configuration information including all sources
 func ReadConfigWithSources() ConfigInfo {
 	var info ConfigInfo
 
-	// 1. 默认配置（最低优先级）
+	// 1. Load default configuration (lowest priority)
 	defaultConfig := YamlConfig{
 		Debug:            false,
 		DevBaseBranch:    "dev",
@@ -48,52 +101,59 @@ func ReadConfigWithSources() ConfigInfo {
 		HotfixPrefix:     "hotfix",
 	}
 
-	// 2. 全局配置文件
+	// 2. Load global configuration file
 	globalConfigFile := ".gfl.config.yml"
 	globalConfig := loadConfigFile(globalConfigFile)
 	info.Sources = append(info.Sources, ConfigSource{
-		Name:   "全局配置",
+		Name:   "Global Config",
 		Path:   globalConfigFile,
 		Config: globalConfig,
 		Exists: fileExists(globalConfigFile),
 	})
 
-	// 3. 本地配置文件
+	// 3. Load local configuration file
 	localConfigFile := ".gfl.config.local.yml"
 	localConfig := loadConfigFile(localConfigFile)
 	info.Sources = append(info.Sources, ConfigSource{
-		Name:   "本地配置",
+		Name:   "Local Config",
 		Path:   localConfigFile,
 		Config: localConfig,
 		Exists: fileExists(localConfigFile),
 	})
 
-	// 4. 环境变量配置（仅 GFL_CONFIG_FILE，已在上面处理）
-	var envConfig YamlConfig
-
-	// 5. 自定义配置文件（通过 GFL_CONFIG_FILE 环境变量）
-	customConfigFile := os.Getenv("GFL_CONFIG_FILE")
+	// 4. Load custom configuration file from environment variable
 	var customConfig YamlConfig
-	if customConfigFile != "" && customConfigFile != globalConfigFile && customConfigFile != localConfigFile {
+	customConfigFile := os.Getenv("GFL_CONFIG_FILE")
+	if customConfigFile != "" &&
+	   customConfigFile != globalConfigFile &&
+	   customConfigFile != localConfigFile {
 		customConfig = loadConfigFile(customConfigFile)
 		info.Sources = append(info.Sources, ConfigSource{
-			Name:   "自定义配置",
+			Name:   "Custom Config",
 			Path:   customConfigFile,
 			Config: customConfig,
 			Exists: fileExists(customConfigFile),
 		})
 	}
 
-	// 合并配置：默认值 -> 全局配置 -> 本地配置 -> 自定义配置 -> 环境变量
+	// 5. Merge configurations in priority order:
+	// Default -> Global -> Local -> Custom
 	info.FinalConfig = defaultConfig
 	mergeConfig(&info.FinalConfig, globalConfig)
 	mergeConfig(&info.FinalConfig, localConfig)
 	mergeConfig(&info.FinalConfig, customConfig)
-	mergeConfig(&info.FinalConfig, envConfig)
 
 	return info
 }
 
+// loadConfigFile loads and parses a YAML configuration file.
+// It returns an empty config if the file doesn't exist or on parsing errors.
+//
+// Parameters:
+//   - filename: Path to the configuration file
+//
+// Returns:
+//   - YamlConfig: Parsed configuration or empty config on error
 func loadConfigFile(filename string) YamlConfig {
 	if !fileExists(filename) {
 		return YamlConfig{}
@@ -101,6 +161,7 @@ func loadConfigFile(filename string) YamlConfig {
 
 	v := viper.New()
 	v.SetConfigFile(filename)
+
 	if err := v.ReadInConfig(); err != nil {
 		Errorf("Error reading config file %s: %v", filename, err)
 		return YamlConfig{}
@@ -112,7 +173,8 @@ func loadConfigFile(filename string) YamlConfig {
 		return YamlConfig{}
 	}
 
-	// 检查 nickname 是否在配置文件中显式设置（包括空字符串）
+	// Check if nickname was explicitly set in the config file
+	// This includes cases where nickname is set to an empty string
 	if v.IsSet("nickname") {
 		config.NicknameSet = true
 	}
@@ -120,7 +182,13 @@ func loadConfigFile(filename string) YamlConfig {
 	return config
 }
 
-
+// mergeConfig merges override configuration into base configuration.
+// Only non-empty values from override are applied to base, preserving
+// existing values for fields that are not explicitly set.
+//
+// Parameters:
+//   - base: Pointer to the base configuration to be modified
+//   - override: Configuration containing values to override
 func mergeConfig(base *YamlConfig, override YamlConfig) {
 	if override.Debug {
 		base.Debug = override.Debug
@@ -131,7 +199,7 @@ func mergeConfig(base *YamlConfig, override YamlConfig) {
 	if override.ProductionBranch != "" {
 		base.ProductionBranch = override.ProductionBranch
 	}
-	// 如果显式设置了 nickname（包括空字符串），则覆盖
+	// Only override nickname if it was explicitly set (including empty string)
 	if override.NicknameSet {
 		base.Nickname = override.Nickname
 		base.NicknameSet = true
@@ -147,6 +215,13 @@ func mergeConfig(base *YamlConfig, override YamlConfig) {
 	}
 }
 
+// fileExists checks if a file exists at the specified path.
+//
+// Parameters:
+//   - filename: Path to the file to check
+//
+// Returns:
+//   - bool: true if the file exists, false otherwise
 func fileExists(filename string) bool {
 	_, err := os.Stat(filename)
 	return err == nil

@@ -9,19 +9,31 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// CreateGflConfigOptions contains options for creating GFL configuration files.
+// This struct provides fine-grained control over the configuration file creation process.
 type CreateGflConfigOptions struct {
-	Filename     string
-	Force        bool
+	// Filename is the name of the configuration file to create
+	Filename string
+
+	// Force indicates whether to overwrite an existing configuration file
+	Force bool
+
+	// AddGitIgnore determines whether to add the config file to .gitignore
 	AddGitIgnore bool
 }
 
+// AddGitIgnore adds GFL configuration files to the .gitignore.
+// This is a legacy function that adds the hardcoded .gflow.config.yml to .gitignore.
+// It silently fails if the .gitignore file doesn't exist or if there are errors.
+//
+// Note: This function is deprecated. Use CreateGflConfig with AddGitIgnore option instead.
 func AddGitIgnore() {
-	// test has .gitignore file
+	// Check if .gitignore file exists
 	if _, err := os.Stat(".gitignore"); os.IsNotExist(err) {
 		return
 	}
 
-	// add `.gflow.config.yml` to `.gitignore`
+	// Add `.gflow.config.yml` to `.gitignore`
 	f, err := os.OpenFile(".gitignore", os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
 		return
@@ -34,32 +46,53 @@ func AddGitIgnore() {
 	}
 }
 
-// CreateGflConfig 创建配置文件
+// CreateGflConfig creates a GFL configuration file with the specified options.
+// This function handles YAML serialization, file creation, and .gitignore management.
+//
+// Parameters:
+//   - config: The YamlConfig structure to serialize
+//   - opts: Options controlling file creation behavior
+//
+// Returns:
+//   - error: Error if file creation fails, nil on success
+//
+// Process:
+//   1. Check if file exists and validate Force option
+//   2. Create/open the configuration file
+//   3. Serialize configuration to YAML format
+//   4. Write YAML data to file
+//   5. Optionally add file to .gitignore if requested
+//
+// Safety Features:
+//   - Validates file existence before overwriting (unless Force is true)
+//   - Proper file handle management with defer
+//   - Checks .gitignore content before adding to avoid duplicates
+//   - Uses standardized error messages from internationalization strings
 func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
-	// 检查文件是否存在
+	// Step 1: Validate file existence and Force option
 	if _, err := os.Stat(opts.Filename); err == nil && !opts.Force {
 		return fmt.Errorf(strings.GetString("init", "config_exists_error"), opts.Filename)
 	}
 
-	// 创建或覆盖配置文件
+	// Step 2: Create or overwrite the configuration file
 	file, err := os.Create(opts.Filename)
 	if err != nil {
 		return fmt.Errorf(strings.GetString("init", "create_config_error"), err)
 	}
 	defer file.Close()
 
-	// 序列化配置
+	// Step 3: Serialize configuration to YAML format
 	data, err := yaml.Marshal(&config)
 	if err != nil {
 		return fmt.Errorf(strings.GetString("init", "generate_yaml_error"), err)
 	}
 
-	// 写入配置
+	// Step 4: Write YAML data to file
 	if _, err := file.Write(data); err != nil {
 		return fmt.Errorf(strings.GetString("init", "write_config_error"), err)
 	}
 
-	// 检测 .gitignore 中是否已经存在 Filename 配置
+	// Step 5: Check if file is already in .gitignore
 	content, _ := os.ReadFile(".gitignore")
 	contentString := string(content)
 	if str.Contains(contentString, opts.Filename) {
@@ -67,27 +100,47 @@ func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
 		return nil
 	}
 
-	// 如果需要，添加到 .gitignore
+	// Step 6: Add to .gitignore if requested
 	if opts.AddGitIgnore {
 		if f, err := os.OpenFile(".gitignore", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600); err == nil {
 			defer f.Close()
 			f.WriteString(fmt.Sprintf("\n%s\n", opts.Filename))
 		}
+		// Silently ignore .gitignore errors as they shouldn't prevent config creation
 	}
 
 	return nil
 }
 
-// RemoveEmptyFields 移除配置中的空值字段
+// RemoveEmptyFields creates a clean configuration object by removing empty fields.
+// This function filters out zero-value fields to create a minimal configuration
+// representation that contains only explicitly set values.
+//
+// Parameters:
+//   - config: The source configuration to clean
+//
+// Returns:
+//   - *YamlConfig: A new configuration object with only non-empty fields
+//   - nil: If the input config is nil
+//
+// Fields that are preserved:
+//   - Debug: Only if true
+//   - String fields: Only if non-empty
+//   - All other fields are filtered out if they are zero values
+//
+// Use Cases:
+//   - Creating minimal configuration files
+//   - Filtering out default values during configuration merging
+//   - Reducing configuration file size
 func RemoveEmptyFields(config *YamlConfig) *YamlConfig {
 	if config == nil {
 		return nil
 	}
 
-	// 创建新的配置对象
+	// Create a new clean configuration object
 	cleanConfig := &YamlConfig{}
 
-	// 只保留非空值
+	// Only preserve non-zero values
 	if config.Debug {
 		cleanConfig.Debug = config.Debug
 	}
