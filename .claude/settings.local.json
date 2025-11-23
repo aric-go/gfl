@@ -10,7 +10,9 @@
       "Bash(./gfl:*)",
       "Bash(mv:*)",
       "Bash(go get:*)",
-      "Bash(GFL_CONFIG_FILE=.gfl.test.config.yml ./gfl config:*)"
+      "Bash(GFL_CONFIG_FILE=.gfl.test.config.yml ./gfl config:*)",
+      "Bash(GFL_NICKNAME=testuser GFL_FEATURE_PREFIX=feature ./gfl config:*)",
+      "Bash(GFL_CONFIG_FILE=\"\" ./gfl config:*)"
     ],
     "deny": [],
     "ask": []
