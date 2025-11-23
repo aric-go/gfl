@@ -13,6 +13,7 @@ type YamlConfig struct {
 	FeaturePrefix    string `yaml:"featurePrefix,omitempty"`
 	FixPrefix        string `yaml:"fixPrefix,omitempty"`
 	HotfixPrefix     string `yaml:"hotfixPrefix,omitempty"`
+	NicknameSet      bool   `yaml:"-"` // 标记是否显式设置了 nickname
 }
 
 type ConfigSource struct {
@@ -111,6 +112,11 @@ func loadConfigFile(filename string) YamlConfig {
 		return YamlConfig{}
 	}
 
+	// 检查 nickname 是否在配置文件中显式设置（包括空字符串）
+	if v.IsSet("nickname") {
+		config.NicknameSet = true
+	}
+
 	return config
 }
 
@@ -125,8 +131,10 @@ func mergeConfig(base *YamlConfig, override YamlConfig) {
 	if override.ProductionBranch != "" {
 		base.ProductionBranch = override.ProductionBranch
 	}
-	if override.Nickname != "" {
+	// 如果显式设置了 nickname（包括空字符串），则覆盖
+	if override.NicknameSet {
 		base.Nickname = override.Nickname
+		base.NicknameSet = true
 	}
 	if override.FeaturePrefix != "" {
 		base.FeaturePrefix = override.FeaturePrefix

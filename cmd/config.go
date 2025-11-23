@@ -55,7 +55,8 @@ var configCmd = &cobra.Command{
 						return source.Name
 					}
 				case "nickname":
-					if source.Config.Nickname != "" {
+					// 如果显式设置了 nickname（包括空字符串），则作为来源
+					if source.Config.NicknameSet {
 						return source.Name
 					}
 				case "featurePrefix":
