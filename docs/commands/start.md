@@ -87,6 +87,232 @@ git checkout -b feature/aric/new-feature origin/develop
 - **加载动画**: 显示 "正在创建分支..."
 - **成功消息**: 显示功能类型和分支名称
 
+### 4. 完整 Shell 命令展示原理
+
+以下是 `gfl start` 命令的完整执行过程和对应的 shell 命令：
+
+#### 步骤 0: 初始化检查
+```bash
+# GFL 内部执行的检查命令
+# 检查是否在 Git 仓库中
+git rev-parse --is-inside-work-tree
+
+# 检查配置文件是否存在
+ls -la .gfl.config*.yml
+
+# 检查当前分支状态
+git status --porcelain
+```
+
+#### 步骤 1: 读取和解析配置
+假设配置内容为：
+```yaml
+# .gfl.config.yml
+devBaseBranch: "develop"
+productionBranch: "main"
+nickname: "aric"
+featurePrefix: "feature"
+```
+
+```bash
+# GFL 读取配置，等效的 shell 命令：
+# 读取配置文件
+DEV_BASE_BRANCH=$(grep "devBaseBranch" .gfl.config.yml | cut -d: -f2 | tr -d ' ')
+NICKNAME=$(grep "nickname" .gfl.config.yml | cut -d: -f2 | tr -d ' ')
+FEATURE_PREFIX=$(grep "featurePrefix" .gfl.config.yml | cut -d: -f2 | tr -d ' ')
+
+echo "DEV_BASE_BRANCH: $DEV_BASE_BRANCH"    # 输出: develop
+echo "NICKNAME: $NICKNAME"                  # 输出: aric
+echo "FEATURE_PREFIX: $FEATURE_PREFIX"      # 输出: feature
+```
+
+#### 步骤 2: 解析功能名称
+假设用户执行：`gfl start user-authentication`
+
+```bash
+# GFL 解析功能名称，等效的 shell 命令：
+FEATURE_NAME="user-authentication"
+
+# 检查是否包含冒号格式
+if [[ "$FEATURE_NAME" == *:* ]]; then
+    ACTION_NAME=$(echo "$FEATURE_NAME" | cut -d: -f1)
+    FEATURE_NAME=$(echo "$FEATURE_NAME" | cut -d: -f2)
+else
+    ACTION_NAME="feature"
+fi
+
+echo "ACTION_NAME: $ACTION_NAME"      # 输出: feature
+echo "FEATURE_NAME: $FEATURE_NAME"    # 输出: user-authentication
+```
+
+#### 步骤 3: 生成分支名称
+```bash
+# GFL 生成分支名称，等效的 shell 命令：
+BRANCH_NAME="${ACTION_NAME}/${NICKNAME}/${FEATURE_NAME}"
+BASE_REMOTE_BRANCH="origin/${DEV_BASE_BRANCH}"
+
+echo "BRANCH_NAME: $BRANCH_NAME"          # 输出: feature/aric/user-authentication
+echo "BASE_REMOTE_BRANCH: $BASE_REMOTE_BRANCH"  # 输出: origin/develop
+```
+
+#### 步骤 4: 执行 Git 操作
+```bash
+# 1. 同步远程仓库
+git fetch origin
+
+# 2. 创建并切换到新分支
+git checkout -b "$BRANCH_NAME" "$BASE_REMOTE_BRANCH"
+
+# 3. 验证创建结果
+git branch --show-current
+git log --oneline -1
+```
+
+#### 步骤 5: 完整执行示例
+```bash
+# 用户执行
+$ gfl start user-authentication
+
+# GFL 内部执行序列:
+# 1. 检查 Git 仓库
+$ git rev-parse --is-inside-work-tree
+true
+
+# 2. 检查配置文件
+$ ls -la .gfl.config*.yml
+-rw-r--r-- 1 user user 234 Dec 20 10:30 .gfl.config.yml
+
+# 3. 读取配置
+$ DEV_BASE_BRANCH=$(grep "devBaseBranch" .gfl.config.yml | cut -d: -f2 | tr -d ' ')
+$ NICKNAME=$(grep "nickname" .gfl.config.local.yml | cut -d: -f2 | tr -d ' ')
+$ echo "DEV_BASE_BRANCH: $DEV_BASE_BRANCH"
+develop
+$ echo "NICKNAME: $NICKNAME"
+aric
+
+# 4. 解析功能名称
+$ FEATURE_NAME="user-authentication"
+$ ACTION_NAME="feature"
+$ BRANCH_NAME="feature/aric/user-authentication"
+
+# 5. 同步远程仓库
+$ git fetch origin
+From github.com:user/repo
+ * [new branch]      develop -> origin/develop
+
+# 6. 创建并切换到新分支
+$ git checkout -b feature/aric/user-authentication origin/develop
+Branch 'feature/aric/user-authentication' set up to track remote branch 'develop' from 'origin'.
+Switched to a new branch 'feature/aric/user-authentication'
+
+# 7. 验证结果
+$ git branch --show-current
+feature/aric/user-authentication
+
+# GFL 输出成功信息
+# ✓ Started feature: feature/aric/user-authentication
+```
+
+#### 冒号格式示例
+```bash
+# 用户执行冒号格式
+$ gfl start feat:login-page
+
+# GFL 内部解析:
+$ FEATURE_NAME="feat:login-page"
+$ ACTION_NAME=$(echo "$FEATURE_NAME" | cut -d: -f1)  # feat
+$ FEATURE_NAME=$(echo "$FEATURE_NAME" | cut -d: -f2) # login-page
+$ BRANCH_NAME="feat/aric/login-page"
+
+# 创建分支
+$ git checkout -b feat/aric/login-page origin/develop
+Branch 'feat/aric/login-page' set up to track remote branch 'develop' from 'origin'.
+Switched to a new branch 'feat/aric/login-page'
+
+# GFL 输出
+# ✓ Started feat: feat/aric/login-page
+```
+
+#### 错误处理场景
+
+##### 场景 1: 配置文件不存在
+```bash
+# 用户执行
+$ gfl start new-feature
+
+# GFL 检查配置文件
+$ ls -la .gfl.config*.yml
+ls: cannot access '.gfl.config*.yml': No such file or directory
+
+# GFL 显示错误
+# Error: No configuration file found. Please run 'gfl init' first.
+```
+
+##### 场景 2: 远程分支不存在
+```bash
+# 用户执行
+$ gfl start new-feature
+
+# GFL 同步远程仓库
+$ git fetch origin
+# fetch 成功，但 develop 分支不存在
+
+# 尝试创建分支
+$ git checkout -b feature/aric/new-feature origin/develop
+fatal: 'origin/develop' is not a commit and a branch 'feature/aric/new-feature' cannot be created from it
+
+# GFL 显示错误
+# Error: Base branch 'origin/develop' does not exist. Please check your configuration.
+```
+
+##### 场景 3: 分支已存在
+```bash
+# 用户执行
+$ gfl start existing-feature
+
+# GFL 检测到分支已存在
+$ git branch --list "feature/aric/existing-feature"
+feature/aric/existing-feature
+
+# 尝试创建分支
+$ git checkout -b feature/aric/existing-feature origin/develop
+fatal: A branch named 'feature/aric/existing-feature' already exists.
+
+# GFL 显示错误
+# Error: Branch 'feature/aric/existing-feature' already exists.
+```
+
+##### 场景 4: 工作目录不干净
+```bash
+# GFL 检查工作目录状态
+$ git status --porcelain
+ M src/app.js
+?? new-file.js
+
+# 虽然 git checkout -b 在有未提交更改时仍然工作，
+# GFL 会显示警告
+# Warning: Working directory is not clean. You may want to commit or stash changes.
+```
+
+#### 特殊配置场景
+```bash
+# 假设配置文件中有不同的前缀
+# .gfl.config.yml
+featurePrefix: "feat"
+nickname: "bob"
+devBaseBranch: "dev"
+
+# 用户执行
+$ gfl start payment-system
+
+# GFL 生成分支名称
+$ BRANCH_NAME="feat/bob/payment-system"
+$ BASE_REMOTE_BRANCH="origin/dev"
+
+# 创建分支
+$ git checkout -b feat/bob/payment-system origin/dev
+```
+
 ## 常用参数含义
 
 ### 位置参数: [feature-name]

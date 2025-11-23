@@ -74,6 +74,222 @@ git remote update origin --prune
 **加载动画**: 显示 "正在更新远程引用..."
 **成功消息**: 显示 "远程引用同步成功"
 
+### 4. 完整 Shell 命令展示原理
+
+以下是 `gfl sync` 命令的完整执行过程和对应的 shell 命令：
+
+#### 步骤 0: 初始化检查
+```bash
+# GFL 内部执行的检查命令
+# 检查是否在 Git 仓库中
+git rev-parse --is-inside-work-tree
+
+# 检查远程仓库配置
+git remote -v
+
+# 检查网络连接（ping 测试）
+ping -c 1 github.com > /dev/null 2>&1 && echo "Network OK" || echo "Network Error"
+```
+
+#### 步骤 1: 获取远程更新
+```bash
+# GFL 执行第一个命令
+git fetch origin
+
+# 等效的详细命令
+git fetch --all --prune --tags origin
+
+# 检查 fetch 结果
+echo "Fetch exit code: $?"
+
+# 查看获取的更新
+git log --oneline origin/HEAD..origin/main
+git log --oneline origin/HEAD..origin/develop
+```
+
+#### 步骤 2: 清理过时引用
+```bash
+# GFL 执行第二个命令
+git remote update origin --prune
+
+# 等效的分解步骤
+# 2.1 更新远程引用
+git remote update origin
+
+# 2.2 清理过时分支
+git remote prune origin
+
+# 2.3 验证清理结果
+git branch -r
+```
+
+#### 步骤 3: 完整执行示例
+```bash
+# 用户执行
+$ gfl sync
+
+# GFL 内部执行序列:
+# 1. 检查 Git 仓库
+$ git rev-parse --is-inside-work-tree
+true
+
+# 2. 检查远程仓库
+$ git remote -v
+origin  git@github.com:user/repo.git (fetch)
+origin  git@github.com:user/repo.git (push)
+
+# 3. 执行 fetch
+$ git fetch origin
+remote: Enumerating objects: 15, done.
+remote: Counting objects: 100% (15/15), done.
+remote: Compressing objects: 100% (9/9), done.
+remote: Total 15 (delta 8), reused 12 (delta 6), pack-reused 0
+Unpacking objects: 100% (15/15), 1.2 MiB | 1.2 MiB/s, done.
+From github.com:user/repo
+   a1b2c3d..b4c5d6e  develop       -> origin/develop
+   e7f8g9h..h0i1j2k  feature/alice/ui -> origin/feature/alice/ui
+ * [new tag]         v1.1.1        -> v1.1.1
+
+# GFL 输出
+# ✓ Remote updates fetched successfully!
+
+# 4. 执行 remote update
+$ git remote update origin --prune
+Fetching origin
+Packfile-urllib: aborting due to unconfigured .gitattributes, set core.bigFileThreshold to 0
+From github.com:user/repo
+ - [deleted]         (none)     -> origin/feature/bob/old-feature
+ x [deleted]         (none)     -> origin/hotfix/alice/deprecated-fix
+
+# GFL 输出
+# ✓ Remote references synchronized successfully!
+
+# 5. 验证结果
+$ git branch -r
+origin/HEAD -> origin/main
+origin/main
+origin/develop
+origin/feature/alice/ui
+origin/feature/aric/user-auth
+```
+
+#### 高级同步场景
+```bash
+# 使用更多选项的等效命令
+git fetch --all --prune --tags --force --quiet
+
+# 检查获取的对象数量
+git count-objects -v
+
+# 查看远程分支变化
+git branch -r --merged
+git branch -r --no-merged
+
+# 检查是否需要强制更新
+git ls-remote --heads origin | grep -E "(main|develop)"
+```
+
+#### 错误处理场景
+
+##### 场景 1: 网络连接问题
+```bash
+# GFL 检测网络问题
+$ git fetch origin
+ssh: connect to host github.com port 22: Connection timed out
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+# GFL 显示错误
+# Error: Network connection failed. Unable to fetch from remote.
+# Please check your network connection and remote URL.
+```
+
+##### 场景 2: 权限问题
+```bash
+# GFL 检测权限问题
+$ git fetch origin
+ERROR: Permission to user/repo.git denied to currentuser.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+# GFL 显示错误
+# Error: Permission denied. Please check your SSH keys or access rights.
+```
+
+##### 场景 3: 远程仓库不存在
+```bash
+# GFL 检测仓库不存在
+$ git fetch origin
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+# GFL 显示错误
+# Error: Remote repository 'origin' not found or inaccessible.
+```
+
+##### 场景 4: 本地仓库损坏
+```bash
+# GFL 检测本地问题
+$ git fetch origin
+fatal: bad object HEAD
+
+# GFL 显示错误
+# Error: Local repository appears to be corrupted.
+# Consider running 'git fsck' to diagnose issues.
+```
+
+#### 性能优化场景
+```bash
+# 大型仓库的优化同步
+git fetch --depth=1 origin  # 浅克隆模式
+git fetch --filter=blob:none origin  # 过滤大文件
+git fetch --compress --depth=1 origin  # 压缩传输
+
+# 检查磁盘使用情况
+du -sh .git/objects/
+```
+
+#### 监控和诊断
+```bash
+# GFL 可执行的诊断命令
+# 检查远程状态
+git remote show origin
+
+# 查看获取统计
+git fetch --dry-run --verbose origin
+
+# 检查未同步的提交
+git log --oneline origin/develop..develop
+git log --oneline develop..origin/develop
+
+# 查看最近的同步活动
+git reflog show --all | grep fetch
+```
+
+#### 多远程仓库支持
+```bash
+# 如果配置了多个远程仓库
+git remote -v
+# origin  git@github.com:user/repo.git (fetch)
+# origin  git@github.com:user/repo.git (push)
+# fork    git@github.com:fork/repo.git (fetch)
+# fork    git@github.com:fork/repo.git (push)
+
+# GFL 通常只同步 origin，但可扩展为：
+for remote in $(git remote); do
+    echo "Syncing remote: $remote"
+    git fetch "$remote"
+    git remote update "$remote" --prune
+done
+```
+
 ## 常用参数含义
 
 此命令不接受任何参数，执行标准的同步操作。

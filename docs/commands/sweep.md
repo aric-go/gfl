@@ -95,6 +95,310 @@ git push origin --delete feature/aric/user-auth
   - `--delete`: 删除指定分支
   - `feature/aric/user-auth`: 要删除的远程分支名
 
+### 4. 完整 Shell 命令展示原理
+
+以下是 `gfl sweep` 命令的完整执行过程和对应的 shell 命令：
+
+#### 步骤 0: 初始化检查
+```bash
+# GFL 内部执行的检查命令
+# 检查是否在 Git 仓库中
+git rev-parse --is-inside-work-tree
+
+# 检查当前分支
+CURRENT_BRANCH=$(git branch --show-current)
+
+# 检查工作目录状态
+git status --porcelain
+```
+
+#### 步骤 1: 参数解析和验证
+假设用户执行：`gfl sweep feature --local --remote --confirm`
+
+```bash
+# GFL 解析参数，等效的 shell 命令：
+KEYWORD="feature"
+LOCAL_FLAG=true
+REMOTE_FLAG=true
+CONFIRM_FLAG=true
+
+# 参数验证
+if [[ "$LOCAL_FLAG" == false && "$REMOTE_FLAG" == false ]]; then
+    echo "Error: Must specify --local or --remote"
+    exit 1
+fi
+
+echo "Keyword: $KEYWORD"
+echo "Local cleanup: $LOCAL_FLAG"
+echo "Remote cleanup: $REMOTE_FLAG"
+echo "Confirm deletion: $CONFIRM_FLAG"
+```
+
+#### 步骤 2: 本地分支清理（如果指定了 --local）
+```bash
+# GFL 获取本地分支列表
+LOCAL_BRANCHES=$(git branch --format='%(refname:short)')
+
+echo "Found local branches:"
+echo "$LOCAL_BRANCHES"
+
+# 匹配包含关键词的分支
+MATCHED_LOCAL_BRANCHES=$(echo "$LOCAL_BRANCHES" | grep "$KEYWORD" || true)
+
+if [[ -n "$MATCHED_LOCAL_BRANCHES" ]]; then
+    echo "Matched local branches:"
+    echo "$MATCHED_LOCAL_BRANCHES"
+
+    # 排除当前分支
+    FILTERED_BRANCHES=$(echo "$MATCHED_LOCAL_BRANCHES" | grep -v "^$CURRENT_BRANCH$" || true)
+
+    if [[ "$CONFIRM_FLAG" == true && -n "$FILTERED_BRANCHES" ]]; then
+        echo "Deleting local branches..."
+        echo "$FILTERED_BRANCHES" | while read -r branch; do
+            if [[ -n "$branch" && "$branch" != "$CURRENT_BRANCH" ]]; then
+                echo "Deleting local branch: $branch"
+                git branch -d "$branch" || echo "Failed to delete $branch (may not be merged)"
+            fi
+        done
+    else
+        echo "Preview mode - would delete these local branches:"
+        echo "$FILTERED_BRANCHES"
+    fi
+else
+    echo "No local branches matching '$KEYWORD' found"
+fi
+```
+
+#### 步骤 3: 远程分支清理（如果指定了 --remote）
+```bash
+# GFL 获取远程分支列表
+REMOTE_BRANCHES=$(git branch -r --format='%(refname:short)')
+
+echo "Found remote branches:"
+echo "$REMOTE_BRANCHES"
+
+# 匹配包含关键词的远程分支
+MATCHED_REMOTE_BRANCHES=$(echo "$REMOTE_BRANCHES" | grep "$KEYWORD" | grep "origin/" || true)
+
+if [[ -n "$MATCHED_REMOTE_BRANCHES" ]]; then
+    echo "Matched remote branches:"
+    echo "$MATCHED_REMOTE_BRANCHES"
+
+    # 提取分支名称（去掉 origin/ 前缀）
+    FILTERED_REMOTE_BRANCHES=$(echo "$MATCHED_REMOTE_BRANCHES" | sed 's|^origin/||' || true)
+
+    if [[ "$CONFIRM_FLAG" == true && -n "$FILTERED_REMOTE_BRANCHES" ]]; then
+        echo "Deleting remote branches..."
+        echo "$FILTERED_REMOTE_BRANCHES" | while read -r branch; do
+            if [[ -n "$branch" ]]; then
+                echo "Deleting remote branch: $branch"
+                git push origin --delete "$branch" || echo "Failed to delete remote branch $branch"
+            fi
+        done
+    else
+        echo "Preview mode - would delete these remote branches:"
+        echo "$FILTERED_REMOTE_BRANCHES"
+    fi
+else
+    echo "No remote branches matching '$KEYWORD' found"
+fi
+```
+
+#### 步骤 4: 完整执行示例
+```bash
+# 用户执行
+$ gfl sweep aric --local --remote --confirm
+
+# GFL 内部执行序列:
+# 1. 检查 Git 仓库
+$ git rev-parse --is-inside-work-tree
+true
+
+# 2. 获取当前分支
+$ CURRENT_BRANCH=$(git branch --show-current)
+$ echo "Current branch: $CURRENT_BRANCH"
+main
+
+# 3. 获取本地分支
+$ LOCAL_BRANCHES=$(git branch --format='%(refname:short)')
+$ echo "Local branches:"
+$ echo "$LOCAL_BRANCHES"
+main
+develop
+feature/aric/user-auth
+feature/aric/payment-system
+feature/bob/dashboard
+fix/aric/login-bug
+
+# 4. 匹配本地分支
+$ MATCHED_LOCAL=$(echo "$LOCAL_BRANCHES" | grep "aric")
+$ echo "Matched local branches:"
+$ echo "$MATCHED_LOCAL"
+feature/aric/user-auth
+feature/aric/payment-system
+fix/aric/login-bug
+
+# 5. 删除本地分支
+$ git branch -d feature/aric/user-auth
+Deleted branch feature/aric/user-auth (was a1b2c3d).
+
+$ git branch -d feature/aric/payment-system
+Deleted branch feature/aric/payment-system (was d4e5f6g).
+
+$ git branch -d fix/aric/login-bug
+Deleted branch fix/aric/login-bug (was e7f8g9h).
+
+# 6. 获取远程分支
+$ REMOTE_BRANCHES=$(git branch -r --format='%(refname:short)')
+$ echo "Remote branches:"
+$ echo "$REMOTE_BRANCHES"
+origin/HEAD -> origin/main
+origin/main
+origin/develop
+origin/feature/aric/user-auth
+origin/feature/aric/payment-system
+origin/feature/bob/dashboard
+origin/fix/aric/login-bug
+
+# 7. 匹配远程分支
+$ MATCHED_REMOTE=$(echo "$REMOTE_BRANCHES" | grep "aric" | grep "origin/")
+$ echo "Matched remote branches:"
+$ echo "$MATCHED_REMOTE"
+origin/feature/aric/user-auth
+origin/feature/aric/payment-system
+origin/fix/aric/login-bug
+
+# 8. 删除远程分支
+$ git push origin --delete feature/aric/user-auth
+To github.com:user/repo.git
+ - [deleted]         feature/aric/user-auth
+
+$ git push origin --delete feature/aric/payment-system
+To github.com:user/repo.git
+ - [deleted]         feature/aric/payment-system
+
+$ git push origin --delete fix/aric/login-bug
+To github.com:user/repo.git
+ - [deleted]         fix/aric/login-bug
+
+# GFL 输出结果
+# ✓ Local branches deleted: feature/aric/user-auth, feature/aric/payment-system, fix/aric/login-bug
+# ✓ Remote branches deleted: feature/aric/user-auth, feature/aric/payment-system, fix/aric/login-bug
+```
+
+#### 预览模式示例
+```bash
+# 用户执行预览模式
+$ gfl sweep feature --local
+
+# GFL 显示将要删除的分支，但不执行删除
+# Preview mode - would delete these local branches:
+# feature/aric/user-auth
+# feature/bob/payment-system
+# feature/alice/ui
+
+# 提示: Use --confirm to actually delete these branches.
+```
+
+#### 错误处理场景
+
+##### 场景 1: 未指定操作类型
+```bash
+# 用户执行
+$ gfl sweep feature
+
+# GFL 验证参数失败
+# Error: Must specify --local or --remote (or both)
+# Usage: gfl sweep <keyword> [--local] [--remote] [--confirm]
+```
+
+##### 场景 2: 尝试删除当前分支
+```bash
+# 当前分支是 feature/aric/current-work
+$ git branch --show-current
+feature/aric/current-work
+
+# 尝试清理 aric 分支
+$ gfl sweep aric --local --confirm
+
+# GFL 过滤掉当前分支
+# Preview mode - would delete these local branches:
+# feature/aric/old-feature
+# fix/aric/bug-fix
+# (Skipped: feature/aric/current-work - current branch)
+```
+
+##### 场景 3: 本地分支未合并
+```bash
+# 尝试删除未合并的分支
+$ git branch -d feature/aric/unmerged-feature
+error: The branch 'feature/aric/unmerged-feature' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D feature/aric/unmerged-feature'.
+
+# GFL 显示警告
+# Warning: Branch feature/aric/unmerged-feature is not merged and was not deleted.
+# Use 'git branch -D' to force delete unmerged branches.
+```
+
+##### 场景 4: 远程分支删除权限不足
+```bash
+# 尝试删除远程分支但权限不足
+$ git push origin --delete feature/aric/protected-branch
+ERROR: Permission to user/repo.git denied to user.
+fatal: Could not read from remote repository.
+
+# GFL 显示错误
+# Error: Permission denied. Cannot delete remote branch 'feature/aric/protected-branch'.
+# Please check your repository permissions.
+```
+
+##### 场景 5: 没有匹配的分支
+```bash
+# 搜索不存在的关键词
+$ gfl sweep nonexistent --local --remote
+
+# GFL 输出结果
+# No local branches matching 'nonexistent' found
+# No remote branches matching 'nonexistent' found
+# Nothing to delete.
+```
+
+#### 高级使用场景
+
+##### 场景 1: 批量清理已合并分支
+```bash
+# 清理所有已合并到 develop 的功能分支
+$ gfl sweep "feature/" --local --confirm
+
+# 只清理特定开发者的分支
+$ gfl sweep "feature/aric/" --local --remote --confirm
+```
+
+##### 场景 2: 清理旧的测试分支
+```bash
+# 清理所有测试分支
+$ gfl sweep "test-" --local --remote --confirm
+
+# 清理所有带有 "temp" 关键词的分支
+$ gfl sweep temp --local --confirm
+```
+
+##### 场景 3: 定期清理脚本
+```bash
+#!/bin/bash
+# 定期清理脚本
+
+# 清理一个月前的功能分支
+echo "Cleaning old feature branches..."
+gfl sweep "feature/" --local --confirm
+
+# 清理已合并的修复分支
+echo "Cleaning merged fix branches..."
+gfl sweep "fix/" --local --confirm
+
+echo "Cleanup completed!"
+```
+
 ## 常用参数含义
 
 ### 位置参数: [keyword]

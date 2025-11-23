@@ -58,6 +58,8 @@ git branch --format='%(refname:short)'
   develop
   feature/aric/user-auth
   fix/aric/login-bug
+  feature/bob/payment-system
+  hotfix/aric/security-fix
   ```
 
 #### 命令 2: 切换分支（用户选择后）
@@ -67,6 +69,149 @@ git checkout <selected-branch>
 - **目的**: 切换到用户选择的分支
 - **触发条件**: 用户在交互界面中选择分支后
 - **参数**: `<selected-branch>` 为用户选择的分支名称
+- **示例执行**:
+  ```bash
+  # 用户选择了 "feature/aric/user-auth"
+  git checkout feature/aric/user-auth
+
+  # 输出示例:
+  # Switched to branch 'feature/aric/user-auth'
+  # Your branch is up to date with 'origin/feature/aric/user-auth'.
+  ```
+
+### 4. 完整 Shell 命令展示原理
+
+以下是 `gfl checkout` 命令的完整执行过程和对应的 shell 命令：
+
+#### 步骤 0: 初始化检查
+```bash
+# GFL 内部执行的检查命令
+# 检查是否在 Git 仓库中
+git rev-parse --is-inside-work-tree
+
+# 检查仓库状态
+git status --porcelain
+```
+
+#### 步骤 1: 获取本地分支列表
+```bash
+# GFL 执行的实际命令
+git branch --format='%(refname:short)'
+
+# 等效的简化命令
+git branch
+
+# 输出示例:
+#   main
+# * develop
+#   feature/aric/user-auth
+#   fix/aric/login-bug
+#   feature/bob/payment-system
+```
+
+#### 步骤 2: 构建交互式界面
+```
+# GFL 构建的交互界面（伪代码）
+┌─────────────────────────────────────┐
+│     选择要切换的分支                   │
+├─────────────────────────────────────┤
+│  [1] main                            │
+│  [2] develop*                        │
+│  [3] feature/aric/user-auth          │
+│  [4] fix/aric/login-bug              │
+│  [5] feature/bob/payment-system      │
+└─────────────────────────────────────┘
+请选择 (1-5):
+```
+
+#### 步骤 3: 用户选择后执行切换
+假设用户选择选项 3：
+
+```bash
+# GFL 执行的切换命令
+git checkout feature/aric/user-auth
+
+# 实际执行过程:
+# 1. 检查工作目录状态
+git status --porcelain
+
+# 2. 执行切换
+git checkout feature/aric/user-auth
+
+# 3. 验证切换结果
+git branch --show-current
+
+# 成功输出:
+# Switched to branch 'feature/aric/user-auth'
+# Your branch is up to date with 'origin/feature/aric/user-auth'.
+```
+
+#### 步骤 4: 完整执行示例
+```bash
+# 用户执行
+$ gfl co
+
+# GFL 内部执行序列:
+# 1. 检查 Git 仓库
+$ git rev-parse --is-inside-work-tree
+true
+
+# 2. 获取分支列表
+$ git branch --format='%(refname:short)'
+main
+develop
+feature/aric/user-auth
+fix/aric/login-bug
+
+# 3. 显示交互界面（用户选择 feature/aric/user-auth）
+
+# 4. 执行分支切换
+$ git checkout feature/aric/user-auth
+Switched to branch 'feature/aric/user-auth'
+Your branch is up to date with 'origin/feature/aric/user-auth'.
+
+# 5. 验证切换结果
+$ git branch --show-current
+feature/aric/user-auth
+```
+
+#### 错误处理场景的 Shell 命令
+
+##### 场景 1: 工作目录不干净
+```bash
+# GFL 检测到未提交的更改
+$ git status --porcelain
+ M src/app.js
+?? src/temp.js
+
+# Git checkout 会失败
+$ git checkout feature/aric/user-auth
+error: Your local changes to the following files would be overwritten by checkout:
+    src/app.js
+Please commit your changes or stash them before you switch branches.
+Aborting
+
+# GFL 显示错误提示给用户
+```
+
+##### 场景 2: 分支不存在
+```bash
+# 用户尝试切换不存在的分支
+$ git checkout non-existent-branch
+error: pathspec 'non-existent-branch' did not match any file(s) known to git
+
+# GFL 捕获错误并显示友好提示
+```
+
+##### 场景 3: 当前分支
+```bash
+# 用户选择当前分支
+$ git checkout develop
+Already on 'develop'
+Your branch is up to date with 'origin/develop'.
+
+# GFL 显示简单提示
+```
 
 ## 交互式界面特性
 

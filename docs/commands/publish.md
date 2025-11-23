@@ -46,6 +46,212 @@ git push -u origin HEAD
 **加载动画**: 显示 "正在推送..."
 **成功消息**: 显示 "分支发布成功"
 
+### 4. 完整 Shell 命令展示原理
+
+以下是 `gfl publish` 命令的完整执行过程和对应的 shell 命令：
+
+#### 步骤 0: 初始化检查
+```bash
+# GFL 内部执行的检查命令
+# 检查是否在 Git 仓库中
+git rev-parse --is-inside-work-tree
+
+# 获取当前分支名称
+CURRENT_BRANCH=$(git branch --show-current)
+
+# 检查工作目录状态
+git status --porcelain
+
+# 检查是否在 detached HEAD 状态
+git symbolic-ref -q HEAD || echo "Detached HEAD state"
+```
+
+#### 步骤 1: 获取当前分支信息
+```bash
+# GFL 获取当前分支信息，等效的 shell 命令：
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+echo "Current branch: $CURRENT_BRANCH"
+
+# 检查是否有未提交的更改
+if [[ -n $(git status --porcelain) ]]; then
+    echo "Warning: Working directory is not clean"
+fi
+
+# 检查远程状态
+git ls-remote --heads origin "$CURRENT_BRANCH"
+```
+
+#### 步骤 2: 执行发布操作
+```bash
+# GFL 执行发布分支，等效的 shell 命令：
+# 方法 1: 使用 HEAD（GFL 实际使用的方式）
+git push -u origin HEAD
+
+# 方法 2: 使用分支名称（等效方式）
+git push -u origin "$CURRENT_BRANCH"
+
+# 方法 3: 分解步骤
+# 2.1 推送分支并设置上游
+git push --set-upstream origin "$CURRENT_BRANCH"
+
+# 2.2 验证推送结果
+git branch -vv | grep "$CURRENT_BRANCH"
+```
+
+#### 步骤 3: 完整执行示例
+```bash
+# 用户执行
+$ gfl publish
+
+# GFL 内部执行序列:
+# 1. 检查 Git 仓库
+$ git rev-parse --is-inside-work-tree
+true
+
+# 2. 获取当前分支
+$ CURRENT_BRANCH=$(git branch --show-current)
+$ echo "Current branch: $CURRENT_BRANCH"
+feature/aric/user-authentication
+
+# 3. 检查分支状态
+$ git status --porcelain
+# （可能有未提交的更改，但不影响推送）
+
+# 4. 执行发布
+$ git push -u origin HEAD
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (7/7), 1.2 KiB | 1.2 MiB/s, done.
+Total 7 (delta 3), reused 0 (delta 0)
+remote:
+remote: Create a pull request for 'feature/aric/user-authentication' on GitHub by visiting:
+remote:      https://github.com/user/repo/pull/new/feature/aric/user-authentication
+remote:
+To github.com:user/repo.git
+ * [new branch]      HEAD -> feature/aric/user-authentication
+Branch 'feature/aric/user-authentication' set up to track remote branch 'feature/aric/user-authentication' from 'origin'.
+
+# 5. 验证结果
+$ git branch -vv
+* feature/aric/user-authentication a1b2c3d [origin/feature/aric/user-authentication] Add user authentication feature
+  main                       d4e5f6g [origin/main] Initial commit
+  develop                    e7f8g9h [origin/develop] Setup development
+
+# GFL 输出成功信息
+# ✓ Branch published successfully!
+```
+
+#### 已发布分支的重新发布场景
+```bash
+# 用户执行
+$ gfl publish
+
+# GFL 检查分支状态
+$ git branch -vv
+* feature/aric/user-authentication a1b2c3d [origin/feature/aric/user-authentication] Add user authentication feature
+
+# 执行推送（分支已存在）
+$ git push -u origin HEAD
+Everything up-to-date
+
+# 或者有新提交时
+$ git push -u origin HEAD
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 512 bytes | 512.00 KiB/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+To github.com:user/repo.git
+   a1b2c3d..b4c5d6e  feature/aric/user-authentication -> feature/aric/user-authentication
+```
+
+#### 错误处理场景
+
+##### 场景 1: 不是 Git 仓库
+```bash
+# GFL 检查仓库状态
+$ git rev-parse --is-inside-work-tree
+fatal: not a git repository (or any of the parent directories): .git
+
+# GFL 显示错误
+# Error: Not a Git repository. Please run 'git init' first.
+```
+
+##### 场景 2: Detached HEAD 状态
+```bash
+# GFL 检测到 detached HEAD
+$ git symbolic-ref -q HEAD
+# （没有输出，表示处于 detached HEAD）
+
+$ git branch --show-current
+# （没有输出）
+
+# GFL 显示错误
+# Error: Cannot publish from detached HEAD state. Please checkout a branch first.
+```
+
+##### 场景 3: 权限不足
+```bash
+# GFL 尝试推送但权限不足
+$ git push -u origin HEAD
+ERROR: Permission to user/repo.git denied to user.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+# GFL 显示错误
+# Error: Permission denied. Please check your repository access rights.
+```
+
+##### 场景 4: 网络连接问题
+```bash
+# GFL 尝试推送但网络失败
+$ git push -u origin HEAD
+ssh: connect to host github.com port 22: Connection timed out
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+# GFL 显示错误
+# Error: Network connection failed. Please check your network and try again.
+```
+
+##### 场景 5: 远程仓库不存在
+```bash
+# GFL 尝试推送但远程仓库不存在
+$ git push -u origin HEAD
+ERROR: Repository not found.
+
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+# GFL 显示错误
+# Error: Remote repository not found. Please check your remote configuration.
+```
+
+#### 特殊场景：推送冲突
+```bash
+# GFL 检测到远程分支有不同的提交
+$ git push -u origin HEAD
+! [rejected]        HEAD -> feature/aric/user-authentication (non-fast-forward)
+error: failed to push some refs to 'github.com:user/repo.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+# GFL 显示错误和解决建议
+# Error: Push rejected. Remote branch has diverged.
+# Suggestion: Run 'git pull' to integrate remote changes before pushing.
+```
+
 ## 常用参数含义
 
 此命令不接受任何参数，自动操作当前分支。
