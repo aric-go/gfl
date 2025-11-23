@@ -5,6 +5,7 @@ import (
 	"gfl/utils"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
@@ -25,7 +26,11 @@ var configCmd = &cobra.Command{
 		t.Style().Options.SeparateRows = true
 		t.Style().Options.DrawBorder = true
 
-		t.AppendHeader(table.Row{"配置项", "最终值", "来源"})
+		t.AppendHeader(table.Row{
+			color.New(color.FgCyan, color.Bold).Sprint("配置项"),
+			color.New(color.FgGreen, color.Bold).Sprint("最终值"),
+			color.New(color.FgMagenta, color.Bold).Sprint("来源"),
+		})
 
 		// 确定每个配置项的来源
 		getSource := func(field string) string {
@@ -71,16 +76,92 @@ var configCmd = &cobra.Command{
 			return "默认值"
 		}
 
-		t.AppendRow(table.Row{"调试模式", fmt.Sprintf("%v", finalConfig.Debug), getSource("debug")})
-		t.AppendRow(table.Row{"开发基础分支", finalConfig.DevBaseBranch, getSource("devBaseBranch")})
-		t.AppendRow(table.Row{"生产分支", finalConfig.ProductionBranch, getSource("productionBranch")})
-		t.AppendRow(table.Row{"昵称", finalConfig.Nickname, getSource("nickname")})
-		t.AppendRow(table.Row{"功能分支前缀", finalConfig.FeaturePrefix, getSource("featurePrefix")})
-		t.AppendRow(table.Row{"修复分支前缀", finalConfig.FixPrefix, getSource("fixPrefix")})
-		t.AppendRow(table.Row{"热修复分支前缀", finalConfig.HotfixPrefix, getSource("hotfixPrefix")})
+		// 辅助函数：为来源添加颜色
+		colorizeSource := func(source string) string {
+			switch source {
+			case "自定义配置":
+				return color.New(color.FgRed, color.Bold).Sprint(source)
+			case "本地配置":
+				return color.New(color.FgYellow, color.Bold).Sprint(source)
+			case "全局配置":
+				return color.New(color.FgBlue, color.Bold).Sprint(source)
+			case "默认值":
+				return color.New(color.FgCyan).Sprint(source)
+			default:
+				return source
+			}
+		}
+
+		// 辅助函数：为值添加颜色
+		colorizeValue := func(value string, source string) string {
+			switch source {
+			case "自定义配置":
+				return color.New(color.FgRed).Sprint(value)
+			case "本地配置":
+				return color.New(color.FgYellow).Sprint(value)
+			case "全局配置":
+				return color.New(color.FgBlue).Sprint(value)
+			default:
+				return value
+			}
+		}
+
+		debugSource := getSource("debug")
+		t.AppendRow(table.Row{
+			"调试模式",
+			fmt.Sprintf("%v", finalConfig.Debug),
+			colorizeSource(debugSource),
+		})
+
+		devBaseSource := getSource("devBaseBranch")
+		t.AppendRow(table.Row{
+			"开发基础分支",
+			colorizeValue(finalConfig.DevBaseBranch, devBaseSource),
+			colorizeSource(devBaseSource),
+		})
+
+		prodSource := getSource("productionBranch")
+		t.AppendRow(table.Row{
+			"生产分支",
+			colorizeValue(finalConfig.ProductionBranch, prodSource),
+			colorizeSource(prodSource),
+		})
+
+		nicknameSource := getSource("nickname")
+		t.AppendRow(table.Row{
+			"昵称",
+			colorizeValue(finalConfig.Nickname, nicknameSource),
+			colorizeSource(nicknameSource),
+		})
+
+		featureSource := getSource("featurePrefix")
+		t.AppendRow(table.Row{
+			"功能分支前缀",
+			colorizeValue(finalConfig.FeaturePrefix, featureSource),
+			colorizeSource(featureSource),
+		})
+
+		fixSource := getSource("fixPrefix")
+		t.AppendRow(table.Row{
+			"修复分支前缀",
+			colorizeValue(finalConfig.FixPrefix, fixSource),
+			colorizeSource(fixSource),
+		})
+
+		hotfixSource := getSource("hotfixPrefix")
+		t.AppendRow(table.Row{
+			"热修复分支前缀",
+			colorizeValue(finalConfig.HotfixPrefix, hotfixSource),
+			colorizeSource(hotfixSource),
+		})
 
 		t.AppendSeparator()
-		t.AppendRow(table.Row{"示例功能分支", utils.GenerateBranchName(&finalConfig, "feature", "new-feature"), ""})
+		exampleBranch := utils.GenerateBranchName(&finalConfig, "feature", "new-feature")
+		t.AppendRow(table.Row{
+			"示例功能分支",
+			color.New(color.FgGreen, color.Bold).Sprint(exampleBranch),
+			"",
+		})
 
 		t.Render()
 
