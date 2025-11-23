@@ -1,6 +1,6 @@
 {
   "name": "gfl",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "type": "module",
   "description": "GitHub flow command line tool.",
@@ -22,6 +22,7 @@
     "git",
     "gitflow",
     "github",
-    "cli"
+    "cli",
+    "gitlab"
   ]
 }
