@@ -8,7 +8,6 @@ import (
 )
 
 func CreatePr(base string, head string) {
-	Warning("The 'pr' command is deprecated. Please use 'gfl review' for a better experience.")
 	repo, _ := GetRepository()
 
 	// 生成 GitHub PR URL

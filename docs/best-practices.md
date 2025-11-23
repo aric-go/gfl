@@ -80,7 +80,7 @@ gfl s feature-name
 gfl p
 
 # 4. 功能完成，创建 PR
-gfl review --open
+gfl pr --open
 
 # 5. 代码审查通过后合并
 # 6. 清理本地分支
@@ -98,7 +98,7 @@ gfl hf critical-security-fix
 gfl p
 
 # 4. 创建紧急 PR
-gfl review main --open
+gfl pr main --open
 
 # 5. 合并后创建补丁版本
 gfl release --hotfix
@@ -301,7 +301,7 @@ gfl history --command start
    # 发布当前分支
    gfl publish
    # 然后再创建 PR
-   gfl review
+   gfl pr
    ```
 
 3. **配置问题**

@@ -68,7 +68,7 @@ gfl p
 
 ```bash
 # 创建 PR 并在浏览器中打开
-gfl review --open
+gfl pr --open
 
 # 或者使用别名
 gfl rv -o
@@ -80,7 +80,7 @@ gfl rv -o
 |------|------|------|
 | `gfl start` | 创建功能分支 | `gfl s login` |
 | `gfl publish` | 发布当前分支 | `gfl p` |
-| `gfl review` | 创建 Pull Request | `gfl rv --open` |
+| `gfl pr` | 创建 Pull Request | `gfl rv --open` |
 | `gfl checkout` | 交互式切换分支 | `gfl co` |
 | `gfl hotfix` | 创建热修复分支 | `gfl hf bug-fix` |
 | `gfl release` | 创建发布版本 | `gfl release -t minor` |

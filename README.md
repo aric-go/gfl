@@ -61,7 +61,7 @@ gfl s user-authentication
 gfl p
 
 # Create a Pull Request
-gfl review --open
+gfl pr --open
 
 # Clean up merged branches
 gfl sweep feature --confirm
@@ -85,7 +85,7 @@ Available Commands:
   init        初始化 Github Flow 配置
   publish     发布当前分支 (alias: p)
   release     创建发布版本
-  review      创建 Pull Request (alias: rv)
+  pr          创建 Pull Request (alias: rv)
   start       开始一个新功能 (alias: s)
   sweep       清理包含特定关键词的分支 (alias: clean, rm)
   sync        同步远程仓库
@@ -121,7 +121,7 @@ gfl/
 │   ├── root.go               # Root command
 │   ├── start.go              # Start feature command
 │   ├── publish.go            # Publish branch command
-│   ├── review.go             # PR creation command
+│   ├── pr.go                 # PR creation command
 │   ├── release.go            # Release management
 │   └── ...                   # Other commands
 ├── utils/                     # Utility functions
@@ -145,7 +145,7 @@ gfl/
 2. Create your feature branch (`gfl s amazing-feature`)
 3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
 4. Push to the branch (`gfl p`)
-5. Open a Pull Request (`gfl review --open`)
+5. Open a Pull Request (`gfl pr --open`)
 
 ## 📄 License
 

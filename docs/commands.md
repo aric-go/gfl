@@ -105,26 +105,26 @@ gfl p
 - 设置上游分支跟踪关系
 - 自动处理分支名映射
 
-### 4. review - 创建 Pull Request
+### 4. pr - 创建 Pull Request
 
 创建 GitHub Pull Request。
 
 ```bash
 # 基本用法 - 推送当前分支
-gfl review
+gfl pr
 
 # 指定目标分支
-gfl review main
+gfl pr main
 
 # 使用别名
 gfl rv main
 
 # 创建 PR 并在浏览器中打开
-gfl review --open
-gfl review -o
+gfl pr --open
+gfl pr -o
 
 # 同步生产分支到开发分支
-gfl review --sync
+gfl pr --sync
 ```
 
 **功能说明：**
@@ -333,7 +333,7 @@ gfl s user-profile
 gfl p
 
 # 3. 创建 PR
-gfl review --open
+gfl pr --open
 ```
 
 ### 紧急修复流程
@@ -346,7 +346,7 @@ gfl hf security-patch
 gfl p
 
 # 3. 创建紧急 PR
-gfl review main --open
+gfl pr main --open
 ```
 
 ### 版本发布流程
@@ -393,7 +393,7 @@ gfl sweep --remote --confirm
    ```bash
    # 确保分支已发布
    gfl publish
-   gfl review
+   gfl pr
    ```
 
 ### 调试模式

@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// reviewCmd represents the review command
-var reviewCmd = &cobra.Command{
-	Use:     "review",
+// prCmd represents the pr command
+var prCmd = &cobra.Command{
+	Use:     "pr",
 	Aliases: []string{"rv"},
 	Short:   "创建代码审查请求（PR）",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -61,9 +61,9 @@ var reviewCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(reviewCmd)
+	rootCmd.AddCommand(prCmd)
 
 	// 添加命令标志
-	reviewCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支")
-	reviewCmd.Flags().BoolP("open", "o", false, "打开代码审查列表页面")
+	prCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支")
+	prCmd.Flags().BoolP("open", "o", false, "打开代码审查列表页面")
 }
