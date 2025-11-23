@@ -1,0 +1,362 @@
+# GFL CLI Strings File
+# Internationalization support for GitHub Flow CLI
+
+# Chinese (Simplified)
+zh-CN:
+  # Root command
+  root:
+    short: "GitHub Flow CLI"
+    welcome: "🌈 Welcome to GitHub Flow CLI!"
+    confirm_flag: "确认操作"
+
+  # Init command
+  init:
+    short: "初始化 Github Flow 配置"
+    force_flag: "强制覆盖已存在的配置文件"
+    nickname_flag: "设置 Github Flow 昵称 (可选)"
+    config_exists_error: "配置文件 %s 已存在，如需覆盖请使用 force 选项"
+    create_config_error: "无法创建配置文件: %v"
+    generate_yaml_error: "无法生成 YAML: %v"
+    write_config_error: "无法写入配置文件: %v"
+    gitignore_skip: "配置文件已存在于 .gitignore 中, skip"
+
+  # Start command
+  start:
+    short: "开始一个新功能(alias: s)"
+    syncing: " 正在同步远程分支...\n"
+    creating: " 正在创建分支...\n"
+    success: "已创建%s分支: %s"
+
+  # Publish command
+  publish:
+    short: "发布当前分支(alias: p)"
+    pushing: " 正在推送当前分支到远程仓库 \n"
+    success: "已推送当前分支到远程仓库，并设置上游分支"
+
+  # Hotfix command
+  hotfix:
+    short: "开始一个hotfix分支"
+    syncing: " 正在同步远程分支...\n"
+    creating: " 正在创建Hotfix分支...\n"
+    success: "已创建Hotfix分支: %s"
+
+  # Tag command
+  tag:
+    short: "以最近 tag(eg:v1.0.0) 为基准，为 release 分支生成新的 tag 版本，以上一个 tag 为基准，生成新的 tag 版本"
+    previous_version: "🌈 上一版本: %s"
+    new_version: "🎉 新的版本: %s"
+    step1: "1. 正在切换到 Release 分支...\n"
+    step2: "2. 正在同步远程tag...\n"
+    step3: "3.正在创建 Release Tag...\n"
+    step4: "4.正在推送 Release Tag...\n"
+    step5: "5.正在创建 Release...\n"
+    release_success: "Release %s 创建成功！"
+    gh_not_installed: "gh cli 未安装，请手动创建 Release..."
+    type_flag: "版本类型: major, minor, patch"
+
+  # PR command
+  pr:
+    short: "创建代码审查请求（PR）"
+    sync_failed: "同步失败，请检查错误信息并重试"
+    browser_error: "无法打开浏览器: %v"
+    current_branch_error: "无法获取当前分支: %v"
+    sync_flag: "同步 production 分支到 develop 分支（检查工作目录后直接合并）"
+    open_flag: "打开代码审查列表页面"
+
+  # Checkout command
+  checkout:
+    short: "交互式的git分支切换(alias: co)"
+    choose_branch: "Choose a branch:"
+
+  # Sweep command
+  sweep:
+    short: "清理包含特定关键词的分支(alias: clean, rm)"
+    local_remote_required: "请至少指定一个 --local 或 --remote 标志"
+    skip_confirm: "🌱 如需跳过确认，请使用 -y 标志"
+    local_branches_error: "获取本地分支列表失败: %v"
+    deleting_local: "🚗 正在删除本地分支\n"
+    delete_local_error: "删除本地分支 %s 失败: %v"
+    delete_local_success: "本地分支 %s 删除成功"
+    remote_branches_error: "获取远程分支列表失败: %v"
+    deleting_remote: "🚗 正在删除远程分支\n"
+    delete_remote_error: "删除远程分支 %s 失败: %v"
+    delete_remote_success: "远程分支 %s 删除成功"
+    manual_delete: "本地/远程分支 %s 包含关键词 %s，请手动删除"
+    local_flag: "清理本地分支"
+    remote_flag: "清理远程分支"
+
+  # Sync command
+  sync:
+    short: "同步远程仓库到本地仓库/更新所有远程仓库的引用"
+    fetching: " 获取远程仓库中...\n"
+    fetch_success: "获取远程仓库成功。"
+    updating: " 获取远程仓库中...\n"
+    sync_success: "成功同步远程仓库到本地。"
+
+  # Release command
+  release:
+    short: "以最近 tag(eg:v1.0.0) 为基准，生成新的 release 版本"
+    previous_version: "🌈 上一版本: %s"
+    new_version: "🎉 新的版本: %s"
+    step1: "1. 正在同步远程分支...\n"
+    step2: "2.正在创建 Release...\n"
+    step3: "3.正在推送 Release...\n"
+    release_success: "Release %s 创建成功！"
+    type_flag: "版本类型: major, minor, patch"
+    hotfix_flag: "是否为紧急修复版本"
+
+  # Config command
+  config:
+    short: "查看当前配置"
+    long: "显示当前 GFL 的配置信息，包括所有配置来源和最终值"
+    title: "⚙️ GFL 最终配置"
+    config_key: "配置项"
+    final_value: "最终值"
+    source: "来源"
+    default_value: "默认值"
+    custom_config: "自定义配置"
+    local_config: "本地配置"
+    global_config: "全局配置"
+    debug_mode: "调试模式"
+    develop_base_branch: "开发基础分支"
+    production_branch: "生产分支"
+    nickname: "昵称"
+    feature_prefix: "功能分支前缀"
+    fix_prefix: "修复分支前缀"
+    hotfix_prefix: "热修复分支前缀"
+    example_feature_branch: "示例功能分支"
+    config_sources_title: "\n📁 配置来源详情:\n\n"
+    custom_config_file: "🎯 自定义配置: %s (GFL_CONFIG_FILE)\n"
+    priority_title: "🏆 配置优先级 (从高到低):"
+    priority_custom: "🥇 自定义配置文件 (GFL_CONFIG_FILE)"
+    priority_local: "🥈 本地配置文件 (.gfl.config.local.yml)"
+    priority_global: "🥉 全局配置文件 (.gfl.config.yml)"
+    priority_default: "🏅 默认值"
+
+  # Utils - Logger
+  logger:
+    error: "ERROR"
+    warning: "WARNING"
+    success: "✅"
+
+  # Utils - Shell
+  shell:
+    config_read_error: "读取配置文件失败"
+    executing_command: "🌈 正在执行命令: %s"
+    command_failed: "执行命令失败: %v, 命令: %s"
+    execute_failed: "执行命令失败: %v"
+
+  # Utils - Config (additional config strings)
+  utils_config:
+    global_name: "全局配置"
+    local_name: "本地配置"
+    custom_name: "自定义配置"
+
+  # Utils - PR (additional PR strings)
+  pr_utils:
+    browser_error: "无法打开浏览器: %v"
+    pr_page_opened: "已打开 PR 页面: %s"
+    syncing_branches: "正在同步生产分支 %s 到开发分支 %s..."
+    dirty_working_dir: "工作目录不干净，请先提交或暂存当前的更改"
+    current_branch_error: "无法获取当前分支: %v"
+    executing: "执行: %s"
+    command_failed: "命令执行失败: %v"
+    error_output: "错误输出: %s"
+    rolling_back: "正在回滚到原始分支 %s..."
+    output: "输出: %s"
+    sync_success: "成功同步 %s 到 %s"
+
+  # Utils - Semver
+  semver:
+    invalid_version: "无效的版本号: %s"
+    version_format_error: "版本号格式错误: %s"
+    major_convert_error: "转换 MAJOR 部分出错: %v"
+    minor_convert_error: "转换 MINOR 部分出错: %v"
+    patch_convert_error: "转换 PATCH 部分出错: %v"
+    invalid_version_part: "无效的版本部分: %s"
+    command_failed: "执行命令失败: %v"
+
+  # Utils - Git
+  git:
+    invalid_url_format: "invalid git URL format: %s"
+    unsupported_url_format: "unsupported git URL format: %s"
+
+# English
+en-US:
+  # Root command
+  root:
+    short: "GitHub Flow CLI"
+    welcome: "🌈 Welcome to GitHub Flow CLI!"
+    confirm_flag: "Confirm operation"
+
+  # Init command
+  init:
+    short: "Initialize Github Flow configuration"
+    force_flag: "Force overwrite existing configuration file"
+    nickname_flag: "Set Github Flow nickname (optional)"
+    config_exists_error: "Configuration file %s already exists, use force option to overwrite"
+    create_config_error: "Failed to create configuration file: %v"
+    generate_yaml_error: "Failed to generate YAML: %v"
+    write_config_error: "Failed to write configuration file: %v"
+    gitignore_skip: "Configuration file already exists in .gitignore, skip"
+
+  # Start command
+  start:
+    short: "Start a new feature (alias: s)"
+    syncing: " Syncing remote branches...\n"
+    creating: " Creating branch...\n"
+    success: "Created %s branch: %s"
+
+  # Publish command
+  publish:
+    short: "Publish current branch (alias: p)"
+    pushing: " Pushing current branch to remote repository \n"
+    success: "Pushed current branch to remote repository and set upstream branch"
+
+  # Hotfix command
+  hotfix:
+    short: "Start a hotfix branch"
+    syncing: " Syncing remote branches...\n"
+    creating: " Creating Hotfix branch...\n"
+    success: "Created Hotfix branch: %s"
+
+  # Tag command
+  tag:
+    short: "Generate new tag version for release branch based on latest tag (eg:v1.0.0), or generate new tag version based on previous tag"
+    previous_version: "🌈 Previous version: %s"
+    new_version: "🎉 New version: %s"
+    step1: "1. Switching to Release branch...\n"
+    step2: "2. Syncing remote tags...\n"
+    step3: "3.Creating Release Tag...\n"
+    step4: "4.Pushing Release Tag...\n"
+    step5: "5.Creating Release...\n"
+    release_success: "Release %s created successfully!"
+    gh_not_installed: "gh cli not installed, please create Release manually..."
+    type_flag: "Version type: major, minor, patch"
+
+  # PR command
+  pr:
+    short: "Create pull request (PR)"
+    sync_failed: "Sync failed, please check error messages and retry"
+    browser_error: "Failed to open browser: %v"
+    current_branch_error: "Failed to get current branch: %v"
+    sync_flag: "Sync production branch to develop branch (merge directly after checking working directory)"
+    open_flag: "Open pull request list page"
+
+  # Checkout command
+  checkout:
+    short: "Interactive git branch switching (alias: co)"
+    choose_branch: "Choose a branch:"
+
+  # Sweep command
+  sweep:
+    short: "Clean branches containing specific keywords (alias: clean, rm)"
+    local_remote_required: "Please specify at least one --local or --remote flag"
+    skip_confirm: "🌱 Use -y flag to skip confirmation"
+    local_branches_error: "Failed to get local branch list: %v"
+    deleting_local: "🚗 Deleting local branch\n"
+    delete_local_error: "Failed to delete local branch %s: %v"
+    delete_local_success: "Local branch %s deleted successfully"
+    remote_branches_error: "Failed to get remote branch list: %v"
+    deleting_remote: "🚗 Deleting remote branch\n"
+    delete_remote_error: "Failed to delete remote branch %s: %v"
+    delete_remote_success: "Remote branch %s deleted successfully"
+    manual_delete: "Local/Remote branch %s contains keyword %s, please delete manually"
+    local_flag: "Clean local branches"
+    remote_flag: "Clean remote branches"
+
+  # Sync command
+  sync:
+    short: "Sync remote repository to local repository/update all remote repository references"
+    fetching: " Fetching from remote repository...\n"
+    fetch_success: "Successfully fetched from remote repository."
+    updating: " Fetching from remote repository...\n"
+    sync_success: "Successfully synced remote repository to local."
+
+  # Release command
+  release:
+    short: "Generate new release version based on latest tag (eg:v1.0.0)"
+    previous_version: "🌈 Previous version: %s"
+    new_version: "🎉 New version: %s"
+    step1: "1. Syncing remote branches...\n"
+    step2: "2.Creating Release...\n"
+    step3: "3.Pushing Release...\n"
+    release_success: "Release %s created successfully!"
+    type_flag: "Version type: major, minor, patch"
+    hotfix_flag: "Whether this is an emergency fix version"
+
+  # Config command
+  config:
+    short: "View current configuration"
+    long: "Display current GFL configuration information, including all configuration sources and final values"
+    title: "⚙️ GFL Final Configuration"
+    config_key: "Configuration Key"
+    final_value: "Final Value"
+    source: "Source"
+    default_value: "Default Value"
+    custom_config: "Custom Config"
+    local_config: "Local Config"
+    global_config: "Global Config"
+    debug_mode: "Debug Mode"
+    develop_base_branch: "Develop Base Branch"
+    production_branch: "Production Branch"
+    nickname: "Nickname"
+    feature_prefix: "Feature Branch Prefix"
+    fix_prefix: "Fix Branch Prefix"
+    hotfix_prefix: "Hotfix Branch Prefix"
+    example_feature_branch: "Example Feature Branch"
+    config_sources_title: "\n📁 Configuration Source Details:\n\n"
+    custom_config_file: "🎯 Custom Config: %s (GFL_CONFIG_FILE)\n"
+    priority_title: "🏆 Configuration Priority (High to Low):"
+    priority_custom: "🥇 Custom Config File (GFL_CONFIG_FILE)"
+    priority_local: "🥈 Local Config File (.gfl.config.local.yml)"
+    priority_global: "🥉 Global Config File (.gfl.config.yml)"
+    priority_default: "🏅 Default Value"
+
+  # Utils - Logger
+  logger:
+    error: "ERROR"
+    warning: "WARNING"
+    success: "✅"
+
+  # Utils - Shell
+  shell:
+    config_read_error: "Failed to read configuration file"
+    executing_command: "🌈 Executing command: %s"
+    command_failed: "Command execution failed: %v, command: %s"
+    execute_failed: "Command execution failed: %v"
+
+  # Utils - Config (additional config strings)
+  utils_config:
+    global_name: "Global Config"
+    local_name: "Local Config"
+    custom_name: "Custom Config"
+
+  # Utils - PR (additional PR strings)
+  pr_utils:
+    browser_error: "Failed to open browser: %v"
+    pr_page_opened: "Opened PR page: %s"
+    syncing_branches: "Syncing production branch %s to develop branch %s..."
+    dirty_working_dir: "Working directory is dirty, please commit or stash current changes"
+    current_branch_error: "Failed to get current branch: %v"
+    executing: "Executing: %s"
+    command_failed: "Command execution failed: %v"
+    error_output: "Error output: %s"
+    rolling_back: "Rolling back to original branch %s..."
+    output: "Output: %s"
+    sync_success: "Successfully synced %s to %s"
+
+  # Utils - Semver
+  semver:
+    invalid_version: "Invalid version number: %s"
+    version_format_error: "Version number format error: %s"
+    major_convert_error: "Error converting MAJOR part: %v"
+    minor_convert_error: "Error converting MINOR part: %v"
+    patch_convert_error: "Error converting PATCH part: %v"
+    invalid_version_part: "Invalid version part: %s"
+    command_failed: "Command execution failed: %v"
+
+  # Utils - Git
+  git:
+    invalid_url_format: "invalid git URL format: %s"
+    unsupported_url_format: "unsupported git URL format: %s"
