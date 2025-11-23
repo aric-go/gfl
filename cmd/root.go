@@ -54,4 +54,64 @@ func updateCommandDescriptions() {
 	if startCmd != nil {
 		startCmd.Short = strings.GetString("start", "short")
 	}
+
+	// Update init command
+	if initCmd != nil {
+		initCmd.Short = strings.GetString("init", "short")
+		initCmd.Flags().Lookup("force").Usage = strings.GetString("init", "force_flag")
+		initCmd.Flags().Lookup("nickname").Usage = strings.GetString("init", "nickname_flag")
+	}
+
+	// Update publish command
+	if publishCmd != nil {
+		publishCmd.Short = strings.GetString("publish", "short")
+	}
+
+	// Update hotfix command
+	if hotfixCmd != nil {
+		hotfixCmd.Short = strings.GetString("hotfix", "short")
+	}
+
+	// Update checkout command
+	if checkoutCmd != nil {
+		checkoutCmd.Short = strings.GetString("checkout", "short")
+	}
+
+	// Update sync command
+	if syncCmd != nil {
+		syncCmd.Short = strings.GetString("sync", "short")
+	}
+
+	// Update tag command
+	if tagCmd != nil {
+		tagCmd.Short = strings.GetString("tag", "short")
+		tagCmd.Flags().Lookup("type").Usage = strings.GetString("tag", "type_flag")
+	}
+
+	// Update pr command
+	if prCmd != nil {
+		prCmd.Short = strings.GetString("pr", "short")
+		prCmd.Flags().Lookup("sync").Usage = strings.GetString("pr", "sync_flag")
+		prCmd.Flags().Lookup("open").Usage = strings.GetString("pr", "open_flag")
+	}
+
+	// Update sweep command
+	if sweepCmd != nil {
+		sweepCmd.Short = strings.GetString("sweep", "short")
+		sweepCmd.Flags().Lookup("local").Usage = strings.GetString("sweep", "local_flag")
+		sweepCmd.Flags().Lookup("remote").Usage = strings.GetString("sweep", "remote_flag")
+	}
+
+	// Update release command
+	if releaseCmd != nil {
+		releaseCmd.Short = strings.GetString("release", "short")
+		releaseCmd.Flags().Lookup("type").Usage = strings.GetString("release", "type_flag")
+		releaseCmd.Flags().Lookup("hotfix").Usage = strings.GetString("release", "hotfix_flag")
+	}
+
+	// Update config command
+	if configCmd != nil {
+		configCmd.Short = strings.GetString("config", "short")
+		configCmd.Long = strings.GetString("config", "long")
+	}
 }

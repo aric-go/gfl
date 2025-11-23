@@ -2,20 +2,21 @@ package cmd
 
 import (
 	"gfl/utils"
+	"gfl/utils/strings"
 	"github.com/spf13/cobra"
 )
 
 // syncCmd represents the fetch command
 var syncCmd = &cobra.Command{
 	Use:   "sync",
-	Short: "同步远程仓库到本地仓库/更新所有远程仓库的引用",
+	Short: "Sync remote repository to local repository/update all remote repository references", // Will be updated after strings load
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := utils.RunCommandWithSpin("git fetch origin", " 获取远程仓库中...\n"); err == nil {
-			utils.Success("获取远程仓库成功。")
+		if err := utils.RunCommandWithSpin("git fetch origin", strings.GetString("sync", "fetching")); err == nil {
+			utils.Success(strings.GetString("sync", "fetch_success"))
 		}
 
-		if err := utils.RunCommandWithSpin("git remote update origin --prune", " 获取远程仓库中...\n"); err == nil {
-			utils.Success("成功同步远程仓库到本地。")
+		if err := utils.RunCommandWithSpin("git remote update origin --prune", strings.GetString("sync", "updating")); err == nil {
+			utils.Success(strings.GetString("sync", "sync_success"))
 		}
 	},
 }

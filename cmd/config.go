@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"gfl/utils"
+	"gfl/utils/strings"
 	"os"
 
 	"github.com/fatih/color"
@@ -13,8 +14,8 @@ import (
 var configCmd = &cobra.Command{
 	Use:     "config",
 	Aliases: []string{"c"},
-	Short:   "查看当前配置",
-	Long:    `显示当前 GFL 的配置信息，包括所有配置来源和最终值`,
+	Short:   "View current configuration",
+	Long:    strings.GetString("config", "long"),
 	Run: func(cmd *cobra.Command, args []string) {
 		configInfo := utils.ReadConfigWithSources()
 		finalConfig := configInfo.FinalConfig
@@ -22,15 +23,15 @@ var configCmd = &cobra.Command{
 		// 1. 显示最终配置 - 使用表格格式
 		t := table.NewWriter()
 		t.SetOutputMirror(os.Stdout)
-		t.SetTitle("⚙️ GFL 最终配置")
+		t.SetTitle(strings.GetString("config", "title"))
 		t.SetStyle(table.StyleRounded)
 		t.Style().Options.SeparateRows = true
 		t.Style().Options.DrawBorder = true
 
 		t.AppendHeader(table.Row{
-			color.New(color.FgCyan, color.Bold).Sprint("配置项"),
-			color.New(color.FgGreen, color.Bold).Sprint("最终值"),
-			color.New(color.FgMagenta, color.Bold).Sprint("来源"),
+			color.New(color.FgCyan, color.Bold).Sprint(strings.GetString("config", "config_key")),
+			color.New(color.FgGreen, color.Bold).Sprint(strings.GetString("config", "final_value")),
+			color.New(color.FgMagenta, color.Bold).Sprint(strings.GetString("config", "source")),
 		})
 
 		// 确定每个配置项的来源
@@ -75,19 +76,19 @@ var configCmd = &cobra.Command{
 				}
 			}
 
-			return "默认值"
+			return strings.GetString("config", "default_value")
 		}
 
 		// 辅助函数：为来源添加颜色
 		colorizeSource := func(source string) string {
 			switch source {
-			case "自定义配置":
+			case strings.GetString("config", "custom_config"):
 				return color.New(color.FgRed, color.Bold).Sprint(source)
-			case "本地配置":
+			case strings.GetString("config", "local_config"):
 				return color.New(color.FgYellow, color.Bold).Sprint(source)
-			case "全局配置":
+			case strings.GetString("config", "global_config"):
 				return color.New(color.FgBlue, color.Bold).Sprint(source)
-			case "默认值":
+			case strings.GetString("config", "default_value"):
 				return color.New(color.FgCyan).Sprint(source)
 			default:
 				return source
@@ -97,11 +98,11 @@ var configCmd = &cobra.Command{
 		// 辅助函数：为值添加颜色
 		colorizeValue := func(value string, source string) string {
 			switch source {
-			case "自定义配置":
+			case strings.GetString("config", "custom_config"):
 				return color.New(color.FgRed).Sprint(value)
-			case "本地配置":
+			case strings.GetString("config", "local_config"):
 				return color.New(color.FgYellow).Sprint(value)
-			case "全局配置":
+			case strings.GetString("config", "global_config"):
 				return color.New(color.FgBlue).Sprint(value)
 			default:
 				return value
@@ -110,49 +111,49 @@ var configCmd = &cobra.Command{
 
 		debugSource := getSource("debug")
 		t.AppendRow(table.Row{
-			"调试模式",
+			strings.GetString("config", "debug_mode"),
 			fmt.Sprintf("%v", finalConfig.Debug),
 			colorizeSource(debugSource),
 		})
 
 		devBaseSource := getSource("devBaseBranch")
 		t.AppendRow(table.Row{
-			"开发基础分支",
+			strings.GetString("config", "develop_base_branch"),
 			colorizeValue(finalConfig.DevBaseBranch, devBaseSource),
 			colorizeSource(devBaseSource),
 		})
 
 		prodSource := getSource("productionBranch")
 		t.AppendRow(table.Row{
-			"生产分支",
+			strings.GetString("config", "production_branch"),
 			colorizeValue(finalConfig.ProductionBranch, prodSource),
 			colorizeSource(prodSource),
 		})
 
 		nicknameSource := getSource("nickname")
 		t.AppendRow(table.Row{
-			"昵称",
+			strings.GetString("config", "nickname"),
 			colorizeValue(finalConfig.Nickname, nicknameSource),
 			colorizeSource(nicknameSource),
 		})
 
 		featureSource := getSource("featurePrefix")
 		t.AppendRow(table.Row{
-			"功能分支前缀",
+			strings.GetString("config", "feature_prefix"),
 			colorizeValue(finalConfig.FeaturePrefix, featureSource),
 			colorizeSource(featureSource),
 		})
 
 		fixSource := getSource("fixPrefix")
 		t.AppendRow(table.Row{
-			"修复分支前缀",
+			strings.GetString("config", "fix_prefix"),
 			colorizeValue(finalConfig.FixPrefix, fixSource),
 			colorizeSource(fixSource),
 		})
 
 		hotfixSource := getSource("hotfixPrefix")
 		t.AppendRow(table.Row{
-			"热修复分支前缀",
+			strings.GetString("config", "hotfix_prefix"),
 			colorizeValue(finalConfig.HotfixPrefix, hotfixSource),
 			colorizeSource(hotfixSource),
 		})
@@ -160,7 +161,7 @@ var configCmd = &cobra.Command{
 		t.AppendSeparator()
 		exampleBranch := utils.GenerateBranchName(&finalConfig, "feature", "new-feature")
 		t.AppendRow(table.Row{
-			"示例功能分支",
+			strings.GetString("config", "example_feature_branch"),
 			color.New(color.FgGreen, color.Bold).Sprint(exampleBranch),
 			"",
 		})
@@ -168,17 +169,17 @@ var configCmd = &cobra.Command{
 		t.Render()
 
 		// 2. 显示配置来源详情 - 简化列表格式
-		fmt.Printf("\n📁 配置来源详情:\n\n")
+		fmt.Printf(strings.GetString("config", "config_sources_title"))
 
 		for _, source := range configInfo.Sources {
 			if source.Exists {
 				var emoji string
 				switch source.Name {
-				case "全局配置":
+				case strings.GetString("config", "global_config"):
 					emoji = "🌍"
-				case "本地配置":
+				case strings.GetString("config", "local_config"):
 					emoji = "🏠"
-				case "自定义配置":
+				case strings.GetString("config", "custom_config"):
 					emoji = "🎯"
 				default:
 					emoji = "📄"
@@ -190,15 +191,15 @@ var configCmd = &cobra.Command{
 		// GFL_CONFIG_FILE 环境变量
 		configFile := os.Getenv("GFL_CONFIG_FILE")
 		if configFile != "" {
-			fmt.Printf("  🎯 自定义配置: %s (GFL_CONFIG_FILE)\n", configFile)
+			fmt.Printf(strings.GetString("config", "custom_config_file"), configFile)
 		}
 
 		// 3. 显示配置优先级说明
-		fmt.Printf("\n🏆 配置优先级 (从高到低):\n")
-		fmt.Printf("  🥇 自定义配置文件 (GFL_CONFIG_FILE)\n")
-		fmt.Printf("  🥈 本地配置文件 (.gfl.config.local.yml)\n")
-		fmt.Printf("  🥉 全局配置文件 (.gfl.config.yml)\n")
-		fmt.Printf("  🏅 默认值\n")
+		fmt.Printf(strings.GetString("config", "priority_title"))
+		fmt.Printf(strings.GetString("config", "priority_custom"))
+		fmt.Printf(strings.GetString("config", "priority_local"))
+		fmt.Printf(strings.GetString("config", "priority_global"))
+		fmt.Printf(strings.GetString("config", "priority_default"))
 	},
 }
 

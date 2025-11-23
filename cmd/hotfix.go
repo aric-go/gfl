@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"gfl/utils"
+	"gfl/utils/strings"
 
 	"github.com/spf13/cobra"
 )
@@ -11,7 +12,7 @@ import (
 var hotfixCmd = &cobra.Command{
 	Use:     "hotfix [hotfix-name]",
 	Aliases: []string{"hf"},
-	Short:   "开始一个hotfix分支",
+	Short:   "Start a hotfix branch", // Will be updated after strings load
 	Args:    cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
@@ -22,17 +23,17 @@ var hotfixCmd = &cobra.Command{
 
 		// 执行命令: git fetch origin
 		command1 := "git fetch origin"
-		if err := utils.RunCommandWithSpin(command1, " 正在同步远程分支...\n"); err != nil {
+		if err := utils.RunCommandWithSpin(command1, strings.GetString("hotfix", "syncing")); err != nil {
 			return
 		}
 
 		// 执行命令: git checkout -b hotfix/aric/new-feature origin/develop
 		command2 := fmt.Sprintf("git checkout -b %s origin/%s", branchName, config.ProductionBranch)
-		utils.Infof("执行命令: %s", command2)
-		if err := utils.RunCommandWithSpin(command2, " 正在创建Hotfix分支...\n"); err != nil {
+		utils.Infof(strings.GetString("shell", "executing_command"), command2)
+		if err := utils.RunCommandWithSpin(command2, strings.GetString("hotfix", "creating")); err != nil {
 			return
 		}
-		utils.Successf("已创建Hotfix分支: %s", branchName)
+		utils.Successf(strings.GetString("hotfix", "success"), branchName)
 	},
 }
 

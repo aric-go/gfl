@@ -9,7 +9,7 @@ import (
 var checkoutCmd = &cobra.Command{
 	Use:     "checkout",
 	Aliases: []string{"co"},
-	Short:   "交互式的git分支切换(alias: co)",
+	Short:   "Interactive git branch switching (alias: co)", // Will be updated after strings load
 	Run: func(cmd *cobra.Command, args []string) {
 		branches := utils.GetLocalBranches()
 		utils.BuildCommandList(branches)

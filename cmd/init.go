@@ -13,7 +13,7 @@ var assets embed.FS
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "初始化 Github Flow 配置",
+	Short: "Initialize Github Flow configuration", // Will be updated after strings load
 	Run: func(cmd *cobra.Command, args []string) {
 
 		// get flag
@@ -65,7 +65,7 @@ func init() {
 	rootCmd.AddCommand(initCmd)
 
 	// 添加 --force 标志
-	initCmd.Flags().BoolP("force", "f", false, "强制覆盖已存在的配置文件")
+	initCmd.Flags().BoolP("force", "f", false, "Force overwrite existing configuration file") // Will be updated after strings load
 	// 添加 --nickname 标志
-	initCmd.Flags().StringP("nickname", "n", "", "设置 Github Flow 昵称 (可选)")
+	initCmd.Flags().StringP("nickname", "n", "", "Set Github Flow nickname (optional)") // Will be updated after strings load
 }

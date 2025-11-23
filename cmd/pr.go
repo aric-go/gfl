@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"gfl/utils"
+	"gfl/utils/strings"
 
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
@@ -12,7 +13,7 @@ import (
 var prCmd = &cobra.Command{
 	Use:     "pr",
 	Aliases: []string{"rv"},
-	Short:   "创建代码审查请求（PR）",
+	Short:   "Create pull request (PR)",
 	Run: func(cmd *cobra.Command, args []string) {
 		// 读取配置文件获取默认分支和仓库
 		config := utils.ReadConfig()
@@ -26,7 +27,7 @@ var prCmd = &cobra.Command{
 		isSync, _ := cmd.Flags().GetBool("sync")
 		if isSync {
 			if !utils.SyncProductionToDev(config.ProductionBranch, config.DevBaseBranch) {
-				utils.Errorf("同步失败，请检查错误信息并重试")
+				utils.Errorf(strings.GetString("pr", "sync_failed"))
 			}
 			return
 		}
@@ -38,7 +39,7 @@ var prCmd = &cobra.Command{
 
 			err := browser.OpenURL(listUrl)
 			if err != nil {
-				utils.Errorf("无法打开浏览器: %v", err)
+				utils.Errorf(strings.GetString("pr", "browser_error"), err)
 				return
 			}
 			return
@@ -47,7 +48,7 @@ var prCmd = &cobra.Command{
 		// 获取当前分支名称
 		currentBranch, err := utils.GetCurrentBranch()
 		if err != nil {
-			utils.Errorf("无法获取当前分支: %v", err)
+			utils.Errorf(strings.GetString("pr", "current_branch_error"), err)
 			return
 		}
 
@@ -66,6 +67,6 @@ func init() {
 	rootCmd.AddCommand(prCmd)
 
 	// 添加命令标志
-	prCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支（检查工作目录后直接合并）")
-	prCmd.Flags().BoolP("open", "o", false, "打开代码审查列表页面")
+	prCmd.Flags().BoolP("sync", "s", false, strings.GetString("pr", "sync_flag"))
+	prCmd.Flags().BoolP("open", "o", false, strings.GetString("pr", "open_flag"))
 }

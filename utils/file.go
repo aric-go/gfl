@@ -3,8 +3,9 @@ package utils
 import (
 	"fmt"
 	"os"
-	"strings"
+	str "strings"
 
+	"gfl/utils/strings"
 	"gopkg.in/yaml.v3"
 )
 
@@ -37,32 +38,32 @@ func AddGitIgnore() {
 func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
 	// 检查文件是否存在
 	if _, err := os.Stat(opts.Filename); err == nil && !opts.Force {
-		return fmt.Errorf("配置文件 %s 已存在，如需覆盖请使用 force 选项", opts.Filename)
+		return fmt.Errorf(strings.GetString("init", "config_exists_error"), opts.Filename)
 	}
 
 	// 创建或覆盖配置文件
 	file, err := os.Create(opts.Filename)
 	if err != nil {
-		return fmt.Errorf("无法创建配置文件: %w", err)
+		return fmt.Errorf(strings.GetString("init", "create_config_error"), err)
 	}
 	defer file.Close()
 
 	// 序列化配置
 	data, err := yaml.Marshal(&config)
 	if err != nil {
-		return fmt.Errorf("无法生成 YAML: %w", err)
+		return fmt.Errorf(strings.GetString("init", "generate_yaml_error"), err)
 	}
 
 	// 写入配置
 	if _, err := file.Write(data); err != nil {
-		return fmt.Errorf("无法写入配置文件: %w", err)
+		return fmt.Errorf(strings.GetString("init", "write_config_error"), err)
 	}
 
 	// 检测 .gitignore 中是否已经存在 Filename 配置
 	content, _ := os.ReadFile(".gitignore")
 	contentString := string(content)
-	if strings.Contains(contentString, opts.Filename) {
-		Info("配置文件已存在于 .gitignore 中, skip")
+	if str.Contains(contentString, opts.Filename) {
+		Info(strings.GetString("init", "gitignore_skip"))
 		return nil
 	}
 
