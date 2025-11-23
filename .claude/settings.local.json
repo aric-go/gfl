@@ -15,7 +15,9 @@
       "Bash(GFL_CONFIG_FILE=\"\" ./gfl config:*)",
       "Bash(find:*)",
       "Bash(GFL_LANG=en-US ./gfl:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(GFL_CONFIG_FILE=/Users/feizheng/.dotfiles/.pear/.gfl.config.yml ./gfl config:*)",
+      "Bash(GFL_CONFIG_FILE=/Users/feizheng/.dotfiles/.pear/.gfl.config.yml go run -c \"import \"\"./gfl/utils/strings\"\"; strings.LoadStrings(); println(strings.GetString(\"\"config\"\", \"\"custom_config_file\"\", \"\"/test/path\"\"))\")"
     ],
     "deny": [],
     "ask": []

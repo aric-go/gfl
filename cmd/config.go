@@ -191,7 +191,7 @@ var configCmd = &cobra.Command{
 		// GFL_CONFIG_FILE 环境变量
 		configFile := os.Getenv("GFL_CONFIG_FILE")
 		if configFile != "" {
-			fmt.Printf(strings.GetString("config", "custom_config_file"), configFile)
+			fmt.Print(strings.GetString("config", "custom_config_file", configFile))
 		}
 
 		// 3. 显示配置优先级说明
