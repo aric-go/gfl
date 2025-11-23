@@ -28,11 +28,11 @@ var hotfixCmd = &cobra.Command{
 
 		// 执行命令: git checkout -b hotfix/aric/new-feature origin/develop
 		command2 := fmt.Sprintf("git checkout -b %s origin/%s", branchName, config.ProductionBranch)
-		fmt.Println("command2:", command2)
+		utils.Infof("执行命令: %s", command2)
 		if err := utils.RunCommandWithSpin(command2, " 正在创建Hotfix分支...\n"); err != nil {
 			return
 		}
-		fmt.Printf("✅ 已创建Hotfix分支: %s\n", branchName)
+		utils.Successf("已创建Hotfix分支: %s", branchName)
 	},
 }
 

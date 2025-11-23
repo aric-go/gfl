@@ -29,7 +29,7 @@ func RunCommandWithSpin(command string, message string) error {
 	}
 
 	if config.Debug {
-		fmt.Println("🌈 正在执行命令: ", command)
+		Infof("🌈 正在执行命令: %s", command)
 	}
 
 	// 解析命令和参数
@@ -48,7 +48,7 @@ func RunCommandWithSpin(command string, message string) error {
 func GetLocalBranches() []string {
 	output, err := RunShell("git branch")
 	if err != nil {
-		fmt.Println("执行命令失败:", err)
+		Errorf("执行命令失败: %v", err)
 		return nil
 	}
 

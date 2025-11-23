@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"embed"
-	"fmt"
 	"gfl/utils"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
@@ -46,7 +45,7 @@ var initCmd = &cobra.Command{
 		})
 
 		if err != nil {
-			fmt.Println(err)
+			utils.Error(err.Error())
 		}
 
 		// create .gfl.config.local.yml file
@@ -57,7 +56,7 @@ var initCmd = &cobra.Command{
 		})
 
 		if err != nil {
-			fmt.Println(err)
+			utils.Error(err.Error())
 		}
 	},
 }

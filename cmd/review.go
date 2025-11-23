@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"gfl/utils"
-	"log"
 
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
@@ -26,7 +25,7 @@ var reviewCmd = &cobra.Command{
 		// 处理同步标志
 		isSync, _ := cmd.Flags().GetBool("sync")
 		if isSync {
-			utils.CreatePr(config.DevBaseBranch, config.ProductionBranch)
+			utils.SyncProductionToDev(config.ProductionBranch, config.DevBaseBranch)
 			return
 		}
 
@@ -37,7 +36,8 @@ var reviewCmd = &cobra.Command{
 
 			err := browser.OpenURL(listUrl)
 			if err != nil {
-				log.Fatal(err)
+				utils.Errorf("无法打开浏览器: %v", err)
+				return
 			}
 			return
 		}
@@ -45,7 +45,7 @@ var reviewCmd = &cobra.Command{
 		// 获取当前分支名称
 		currentBranch, err := utils.GetCurrentBranch()
 		if err != nil {
-			fmt.Println("无法获取当前分支:", err)
+			utils.Errorf("无法获取当前分支: %v", err)
 			return
 		}
 
@@ -64,6 +64,6 @@ func init() {
 	rootCmd.AddCommand(reviewCmd)
 
 	// 添加命令标志
-	// reviewCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支")
+	reviewCmd.Flags().BoolP("sync", "s", false, "同步 production 分支到 develop 分支")
 	reviewCmd.Flags().BoolP("open", "o", false, "打开代码审查列表页面")
 }

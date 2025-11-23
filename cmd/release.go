@@ -19,12 +19,12 @@ var releaseCmd = &cobra.Command{
 		hotfix, _ := cmd.Flags().GetBool("hotfix")
 		newVersion, err := utils.IncrementVersion(version, versionType)
 		if err != nil {
-			fmt.Println(err)
+			utils.Error(err.Error())
 		}
 
 		// print new version
-		fmt.Printf("🌈 上一版本: %s\n", version)
-		fmt.Printf("🎉 新的版本: %s\n", newVersion)
+		utils.Infof("🌈 上一版本: %s", version)
+		utils.Successf("🎉 新的版本: %s", newVersion)
 
 		config := utils.ReadConfig()
 		if config == nil {
@@ -41,7 +41,7 @@ var releaseCmd = &cobra.Command{
 		// 1. fetch remote branch
 		command1 := "git fetch origin"
 		if err := utils.RunCommandWithSpin(command1, "1. 正在同步远程分支...\n"); err != nil {
-			fmt.Println("step 1 failed: ", err)
+			utils.Errorf("step 1 failed: %v", err)
 			return
 		}
 
@@ -53,7 +53,7 @@ var releaseCmd = &cobra.Command{
 		// 3. push release branch
 		command3 := fmt.Sprintf("git push -u origin %s", branchName)
 		if err := utils.RunCommandWithSpin(command3, "3.正在推送 Release...\n"); err != nil {
-			fmt.Println("step 2 failed: ", err)
+			utils.Errorf("step 2 failed: %v", err)
 			return
 		}
 	},

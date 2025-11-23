@@ -62,7 +62,7 @@ func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
 	content, _ := os.ReadFile(".gitignore")
 	contentString := string(content)
 	if strings.Contains(contentString, opts.Filename) {
-		fmt.Println("配置文件已存在于 .gitignore 中, skip")
+		Info("配置文件已存在于 .gitignore 中, skip")
 		return nil
 	}
 

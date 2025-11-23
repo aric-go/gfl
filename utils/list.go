@@ -25,13 +25,13 @@ func BuildCommandList(branches []string) {
 	// perform the questions
 	err := survey.Ask(qs, &answers)
 	if err != nil {
-		fmt.Println(err.Error())
+		Error(err.Error())
 		return
 	}
 
 	// git checkout the branch
 	command := fmt.Sprintf("git checkout %s", answers.Module)
 	if _, err := RunShell(command); err != nil {
-		fmt.Println(err.Error())
+		Error(err.Error())
 	}
 }

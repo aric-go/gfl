@@ -16,12 +16,12 @@ var tagCmd = &cobra.Command{
 		versionType, _ := cmd.Flags().GetString("type")
 		newVersion, err := utils.IncrementVersion(version, versionType)
 		if err != nil {
-			fmt.Println(err)
+			utils.Error(err.Error())
 		}
 
 		// print new version
-		fmt.Printf("🌈 上一版本: %s\n", version)
-		fmt.Printf("🎉 新的版本: %s\n", newVersion)
+		utils.Infof("🌈 上一版本: %s", version)
+		utils.Successf("🎉 新的版本: %s", newVersion)
 
 		config := utils.ReadConfig()
 		if config == nil {
@@ -36,7 +36,7 @@ var tagCmd = &cobra.Command{
 		// 2. fetch remote branch
 		command2 := "git fetch --tags"
 		if err := utils.RunCommandWithSpin(command2, "2. 正在同步远程tag...\n"); err != nil {
-			fmt.Println("step 1 failed: ", err)
+			utils.Errorf("step 1 failed: %v", err)
 			return
 		}
 
@@ -50,7 +50,7 @@ var tagCmd = &cobra.Command{
 		if err := utils.RunCommandWithSpin(command4, "4.正在推送 Release Tag...\n"); err != nil {
 			return
 		}
-		fmt.Printf("Release %s 创建成功！\n", newVersion)
+		utils.Successf("Release %s 创建成功！", newVersion)
 
 		// 5. create release use gh cli
 		// ❯ gh release create v1.1.2 --generate-notes
@@ -59,9 +59,9 @@ var tagCmd = &cobra.Command{
 			if err := utils.RunCommandWithSpin(command5, "5.正在创建 Release...\n"); err != nil {
 				return
 			}
-			fmt.Printf("Release %s 创建成功！\n", newVersion)
+			utils.Successf("Release %s 创建成功！", newVersion)
 		} else {
-			fmt.Println("gh cli 未安装，请手动创建 Release...")
+			utils.Warning("gh cli 未安装，请手动创建 Release...")
 		}
 	},
 }

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"gfl/utils"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -14,10 +15,10 @@ var rootCmd = &cobra.Command{
 
 		isVersion, _ := cmd.Flags().GetBool("version")
 		if isVersion {
-			cmd.Println("🌈 GitHub Flow version: 1.0.6")
+			utils.Info("🌈 GitHub Flow version: 1.0.6")
 			return
 		}
-		cmd.Print("🌈 Welcome to GitHub Flow CLI!\n\n")
+		utils.Info("🌈 Welcome to GitHub Flow CLI!")
 		_ = cmd.Help()
 	},
 }

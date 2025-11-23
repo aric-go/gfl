@@ -27,7 +27,7 @@ var sweepCmd = &cobra.Command{
 
 		// 如果没有设置本地或远程标志，打印错误并返回
 		if !localFlag && !remoteFlag {
-			fmt.Println("请至少指定一个 --local 或 --remote 标志")
+			utils.Error("请至少指定一个 --local 或 --remote 标志")
 			return
 		}
 
@@ -42,7 +42,7 @@ var sweepCmd = &cobra.Command{
 		}
 
 		if !confirm {
-			fmt.Println("🌱 如需跳过确认，请使用 -y 标志")
+			utils.Info("🌱 如需跳过确认，请使用 -y 标志")
 		}
 	},
 }
@@ -51,7 +51,7 @@ func cleanLocalBranches(keyword string, confirm bool) {
 	// 获取本地分支列表
 	branches, err := exec.Command("git", "branch").Output()
 	if err != nil {
-		fmt.Println("获取本地分支列表失败:", err)
+		utils.Errorf("获取本地分支列表失败: %v", err)
 		return
 	}
 
@@ -67,9 +67,9 @@ func cleanLocalBranches(keyword string, confirm bool) {
 			command := fmt.Sprintf("git branch -d %s", branch)
 			if confirm {
 				if err := utils.RunCommandWithSpin(command, "🚗 正在删除本地分支\n"); err != nil {
-					fmt.Printf("💔 删除本地分支 %s 失败: %s\n", branch, err)
+					utils.Errorf("删除本地分支 %s 失败: %v", branch, err)
 				} else {
-					fmt.Printf("🍏 本地分支 %s 删除成功\n", branch)
+					utils.Successf("本地分支 %s 删除成功", branch)
 				}
 			} else {
 				logRemove(branch, keyword)
@@ -82,7 +82,7 @@ func cleanRemoteBranches(keyword string, confirm bool) {
 	// 获取远程分支列表
 	branches, err := exec.Command("git", "branch", "-r").Output()
 	if err != nil {
-		fmt.Println("💔 获取远程分支列表失败:", err)
+		utils.Errorf("获取远程分支列表失败: %v", err)
 		return
 	}
 
@@ -99,9 +99,9 @@ func cleanRemoteBranches(keyword string, confirm bool) {
 			command := fmt.Sprintf("git push origin --delete %s", remoteBranch)
 			if confirm {
 				if err := utils.RunCommandWithSpin(command, "🚗 正在删除远程分支\n"); err != nil {
-					fmt.Printf("💔 删除远程分支 %s 失败: %s\n", branch, err)
+					utils.Errorf("删除远程分支 %s 失败: %v", branch, err)
 				} else {
-					fmt.Printf("🌈 远程分支 %s 删除成功\n", branch)
+					utils.Successf("远程分支 %s 删除成功", branch)
 				}
 			} else {
 				logRemove(branch, keyword)
@@ -114,7 +114,7 @@ func logRemove(branch string, keyword string) {
 	colorBranch := color.GreenString(branch)
 	colorKeyword := color.RedString(keyword)
 	// list branches without confirm
-	fmt.Printf("💔 本地/远程分支 %s 包含关键词 %s，请手动删除\n", colorBranch, colorKeyword)
+	utils.Infof("本地/远程分支 %s 包含关键词 %s，请手动删除", colorBranch, colorKeyword)
 }
 
 func init() {

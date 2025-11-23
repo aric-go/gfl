@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 	"github.com/spf13/viper"
 )
@@ -29,13 +28,13 @@ func ReadConfig() *YamlConfig {
 
 	// 加载配置文件
 	if err := viper.ReadInConfig(); err != nil {
-		fmt.Printf("Error reading config file %s: %v\n", configFile, err)
+		Errorf("Error reading config file %s: %v", configFile, err)
 	}
 
 	// 最终配置
 	var config YamlConfig
 	if err := viper.Unmarshal(&config); err != nil {
-		fmt.Println("解析配置文件失败:", err)
+		Errorf("解析配置文件失败: %v", err)
 		return nil
 	}
 	return &config

@@ -63,13 +63,13 @@ func GetLatestVersion() string {
 	command := "git fetch --tags"
 	_, err := RunShell(command)
 	if err != nil {
-		fmt.Println(err)
+		Error(err.Error())
 	}
 
 	if result, err := GetLatestLocalVersion(); err == nil {
 		return result
 	} else {
-		fmt.Println(err)
+		Error(err.Error())
 	}
 
 	return ""
