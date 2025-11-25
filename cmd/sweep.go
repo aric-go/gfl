@@ -52,7 +52,7 @@ func cleanLocalBranches(keyword string, confirm bool) {
   // 获取本地分支列表
   branches, err := exec.Command("git", "branch").Output()
   if err != nil {
-    utils.Errorf(strings.GetString("sweep", "local_branches_error"), err)
+    utils.Errorf(strings.GetString("sweep", "local_branches_error", err))
     return
   }
 
@@ -83,7 +83,7 @@ func cleanRemoteBranches(keyword string, confirm bool) {
   // 获取远程分支列表
   branches, err := exec.Command("git", "branch", "-r").Output()
   if err != nil {
-    utils.Errorf(strings.GetString("sweep", "remote_branches_error"), err)
+    utils.Errorf(strings.GetString("sweep", "remote_branches_error", err))
     return
   }
 
@@ -100,9 +100,9 @@ func cleanRemoteBranches(keyword string, confirm bool) {
       command := fmt.Sprintf("git push origin --delete %s", remoteBranch)
       if confirm {
         if err := utils.RunCommandWithSpin(command, strings.GetString("sweep", "deleting_remote")); err != nil {
-          utils.Errorf(strings.GetString("sweep", "delete_remote_error"), branch, err)
+          utils.Errorf(strings.GetString("sweep", "delete_remote_error", branch, err))
         } else {
-          utils.Successf(strings.GetString("sweep", "delete_remote_success"), branch)
+          utils.Successf(strings.GetString("sweep", "delete_remote_success", branch))
         }
       } else {
         logRemove(branch, keyword)

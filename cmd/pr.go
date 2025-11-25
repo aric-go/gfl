@@ -39,7 +39,7 @@ var prCmd = &cobra.Command{
 
 			err := browser.OpenURL(listUrl)
 			if err != nil {
-				utils.Errorf(strings.GetString("pr", "browser_error"), err)
+				utils.Errorf(strings.GetString("pr", "browser_error", err))
 				return
 			}
 			return
@@ -48,7 +48,7 @@ var prCmd = &cobra.Command{
 		// 获取当前分支名称
 		currentBranch, err := utils.GetCurrentBranch()
 		if err != nil {
-			utils.Errorf(strings.GetString("pr", "current_branch_error"), err)
+			utils.Errorf(strings.GetString("pr", "current_branch_error", err))
 			return
 		}
 
