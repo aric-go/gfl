@@ -76,16 +76,16 @@ gfl rv -o
 
 ## 常用命令速查
 
-| 命令           | 功能              | 示例                   |
-|----------------|-------------------|------------------------|
-| `gfl start`    | 创建功能分支      | `gfl s login`          |
-| `gfl publish`  | 发布当前分支      | `gfl p`                |
-| `gfl pr`       | 创建 Pull Request | `gfl pr --open`        |
-| `gfl checkout` | 交互式切换分支    | `gfl co`               |
-| `gfl hotfix`   | 创建热修复分支    | `gfl hf bug-fix`       |
-| `gfl release`  | 创建发布版本      | `gfl release -t minor` |
-| `gfl tag`      | 创建版本标签      | `gfl tag -t patch`     |
-| `gfl sweep`    | 清理分支          | `gfl sweep feature -y` |
+| 命令           | 功能              | 示例                |
+|----------------|-------------------|---------------------|
+| `gfl start`    | 创建功能分支      | `gfl s login`       |
+| `gfl publish`  | 发布当前分支      | `gfl p`             |
+| `gfl pr`       | 创建 Pull Request | `gfl pr --open`     |
+| `gfl checkout` | 交互式切换分支    | `gfl co`            |
+| `gfl hotfix`   | 创建热修复分支    | `gfl hf bug-fix`    |
+| `gfl release`  | 创建发布版本      | `gfl rls -t minor`  |
+| `gfl tag`      | 创建版本标签      | `gfl t -t patch`    |
+| `gfl sweep`    | 清理分支          | `gfl rm feature -y` |
 
 ## 下一步
 
