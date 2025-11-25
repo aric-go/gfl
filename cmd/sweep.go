@@ -68,9 +68,9 @@ func cleanLocalBranches(keyword string, confirm bool) {
       command := fmt.Sprintf("git branch -d %s", branch)
       if confirm {
         if err := utils.RunCommandWithSpin(command, strings.GetString("sweep", "deleting_local")); err != nil {
-          utils.Errorf(strings.GetString("sweep", "delete_local_error"), branch, err)
+          utils.Errorf(strings.GetString("sweep", "delete_local_error", branch, err))
         } else {
-          utils.Successf(strings.GetString("sweep", "delete_local_success"), branch)
+          utils.Successf(strings.GetString("sweep", "delete_local_success", branch))
         }
       } else {
         logRemove(branch, keyword)
