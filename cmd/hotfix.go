@@ -11,9 +11,9 @@ import (
 // hotfixCmd represents the hotfix command
 var hotfixCmd = &cobra.Command{
 	Use:     "hotfix [hotfix-name]",
-	Aliases: []string{"hf"},
+	Aliases: []string{"hf", "hot"},
 	Short:   "Start a hotfix branch", // Will be updated after strings load
-	Args:    cobra.ExactArgs(1), // 要求提供一个参数
+	Args:    cobra.ExactArgs(1),      // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()
 		featureName := args[0] // 从参数中获取Hotfix名称
