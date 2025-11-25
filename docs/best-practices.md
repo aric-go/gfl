@@ -274,16 +274,6 @@ gfl sweep release --confirm
 debug: true
 ```
 
-### 操作日志
-
-```bash
-# 查看最近的操作历史
-gfl history
-
-# 查看特定命令的执行详情
-gfl history --command start
-```
-
 ## 故障排除
 
 ### 常见问题解决方案
