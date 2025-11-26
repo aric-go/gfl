@@ -72,7 +72,7 @@ var rebaseCmd = &cobra.Command{
 			return
 		}
 
-		utils.Infof(strings.GetString("rebase", "success"), devBranch)
+		utils.Infof(strings.GetString("rebase", "success", devBranch))
 	},
 }
 
