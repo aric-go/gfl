@@ -35,7 +35,7 @@ zh-CN:
 
   # Hotfix command
   hotfix:
-    short: "开始一个hotfix分支"
+    short: "开始一个hotfix分支(alias: hf, hot)"
     syncing: " 正在同步远程分支...\n"
     creating: " 正在创建Hotfix分支...\n"
     success: "已创建Hotfix分支: %s"
@@ -87,7 +87,7 @@ zh-CN:
 
   # Sync command
   sync:
-    short: "同步远程仓库到本地仓库/更新所有远程仓库的引用"
+    short: "同步远程仓库到本地仓库/更新所有远程仓库的引用(alias: up)"
     fetching: " 获取远程仓库中...\n"
     fetch_success: "获取远程仓库成功。"
     updating: " 获取远程仓库中...\n"
@@ -95,7 +95,7 @@ zh-CN:
 
   # Rebase command
   rebase:
-    short: "将当前分支rebase到配置的开发主分支"
+    short: "将当前分支rebase到配置的开发主分支(alias: rb)"
     fetching: " 正在获取远程分支信息...\n"
     rebasing: " 正在rebase当前分支到 %s...\n"
     success: "成功将当前分支rebase到 %s"
@@ -105,7 +105,7 @@ zh-CN:
 
   # Release command
   release:
-    short: "以最近 tag(eg:v1.0.0) 为基准，生成新的 release 版本"
+    short: "以最近 tag(eg:v1.0.0) 为基准，生成新的 release 版本(alias: rel)"
     previous_version: "🌈 上一版本: %s"
     new_version: "🎉 新的版本: %s"
     step1: "1. 正在同步远程分支...\n"
@@ -117,7 +117,7 @@ zh-CN:
 
   # Config command
   config:
-    short: "查看当前配置"
+    short: "查看当前配置(alias: c)"
     long: "显示当前 GFL 的配置信息，包括所有配置来源和最终值"
     title: "⚙️ GFL 最终配置"
     config_key: "配置项"
@@ -225,7 +225,7 @@ en-US:
 
   # Hotfix command
   hotfix:
-    short: "Start a hotfix branch"
+    short: "Start a hotfix branch(alias: hf, hot)"
     syncing: " Syncing remote branches...\n"
     creating: " Creating Hotfix branch...\n"
     success: "Created Hotfix branch: %s"
@@ -277,7 +277,7 @@ en-US:
 
   # Sync command
   sync:
-    short: "Sync remote repository to local repository/update all remote repository references"
+    short: "Sync remote repository to local repository/update all remote repository references(alias: up)"
     fetching: " Fetching from remote repository...\n"
     fetch_success: "Successfully fetched from remote repository."
     updating: " Fetching from remote repository...\n"
@@ -285,7 +285,7 @@ en-US:
 
   # Rebase command
   rebase:
-    short: "Rebase current branch to configured development main branch"
+    short: "Rebase current branch to configured development main branch(alias: rb)"
     fetching: " Fetching remote branch information...\n"
     rebasing: " Rebasing current branch to %s...\n"
     success: "Successfully rebased current branch to %s"
@@ -295,7 +295,7 @@ en-US:
 
   # Release command
   release:
-    short: "Generate new release version based on latest tag (eg:v1.0.0)"
+    short: "Generate new release version based on latest tag (eg:v1.0.0)(alias: rel)"
     previous_version: "🌈 Previous version: %s"
     new_version: "🎉 New version: %s"
     step1: "1. Syncing remote branches...\n"
@@ -307,7 +307,7 @@ en-US:
 
   # Config command
   config:
-    short: "View current configuration"
+    short: "View current configuration(alias: c)"
     long: "Display current GFL configuration information, including all configuration sources and final values"
     title: "⚙️ GFL Final Configuration"
     config_key: "Configuration Key"

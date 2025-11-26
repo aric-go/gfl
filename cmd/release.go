@@ -12,7 +12,7 @@ import (
 // releaseCmd represents the release command
 var releaseCmd = &cobra.Command{
 	Use:     "release",
-	Aliases: []string{"rls"},
+	Aliases: []string{"rel"},
 	Short:   "Generate new release version based on latest tag (eg:v1.0.0)",
 	Run: func(cmd *cobra.Command, args []string) {
 		version := utils.GetLatestVersion()
