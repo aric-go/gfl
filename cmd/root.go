@@ -114,4 +114,8 @@ func updateCommandDescriptions() {
 		configCmd.Short = strings.GetString("config", "short")
 		configCmd.Long = strings.GetString("config", "long")
 	}
+
+	if rebaseCmd != nil {
+		rebaseCmd.Short = strings.GetString("rebase", "short")
+	}
 }

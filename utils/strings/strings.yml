@@ -93,6 +93,16 @@ zh-CN:
     updating: " 获取远程仓库中...\n"
     sync_success: "成功同步远程仓库到本地。"
 
+  # Rebase command
+  rebase:
+    short: "将当前分支rebase到配置的开发主分支"
+    fetching: " 正在获取远程分支信息...\n"
+    rebasing: " 正在rebase当前分支到 %s...\n"
+    success: "成功将当前分支rebase到 %s"
+    no_config: "未配置开发主分支，使用默认分支 'dev'"
+    current_branch_error: "无法获取当前分支: %v"
+    rebase_failed: "Rebase失败: %v"
+
   # Release command
   release:
     short: "以最近 tag(eg:v1.0.0) 为基准，生成新的 release 版本"
@@ -272,6 +282,16 @@ en-US:
     fetch_success: "Successfully fetched from remote repository."
     updating: " Fetching from remote repository...\n"
     sync_success: "Successfully synced remote repository to local."
+
+  # Rebase command
+  rebase:
+    short: "Rebase current branch to configured development main branch"
+    fetching: " Fetching remote branch information...\n"
+    rebasing: " Rebasing current branch to %s...\n"
+    success: "Successfully rebased current branch to %s"
+    no_config: "Development main branch not configured, using default branch 'dev'"
+    current_branch_error: "Failed to get current branch: %v"
+    rebase_failed: "Rebase failed: %v"
 
   # Release command
   release:

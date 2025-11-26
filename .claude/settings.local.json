@@ -9,7 +9,12 @@
       "Bash(go install:*)",
       "Bash(gfl config:*)",
       "Bash(gfl --help:*)",
-      "Bash(go run:*)"
+      "Bash(go run:*)",
+      "Bash(./gfl rebase:*)",
+      "Bash(./gfl:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rebase:*)",
+      "Bash(git branch:*)"
     ],
     "deny": [],
     "ask": []

@@ -31,6 +31,7 @@ type StringData struct {
 	Checkout     CheckoutStrings     `yaml:"checkout"`
 	Sweep        SweepStrings        `yaml:"sweep"`
 	Sync         SyncStrings         `yaml:"sync"`
+	Rebase       RebaseStrings       `yaml:"rebase"`
 	Release      ReleaseStrings      `yaml:"release"`
 	Config       ConfigStrings       `yaml:"config"`
 	Logger       LoggerStrings       `yaml:"logger"`
@@ -139,6 +140,17 @@ type SyncStrings struct {
 	FetchSuccess string `yaml:"fetch_success"`
 	Updating     string `yaml:"updating"`
 	SyncSuccess  string `yaml:"sync_success"`
+}
+
+// Rebase strings
+type RebaseStrings struct {
+	Short             string `yaml:"short"`
+	Fetching          string `yaml:"fetching"`
+	Rebasing          string `yaml:"rebasing"`
+	Success           string `yaml:"success"`
+	NoConfig          string `yaml:"no_config"`
+	CurrentBranchError string `yaml:"current_branch_error"`
+	RebaseFailed      string `yaml:"rebase_failed"`
 }
 
 // Release strings
@@ -449,6 +461,23 @@ func GetString(category, key string, args ...interface{}) string {
 			return strings.Sync.Updating
 		case "sync_success":
 			return strings.Sync.SyncSuccess
+		}
+	case "rebase":
+		switch key {
+		case "short":
+			return strings.Rebase.Short
+		case "fetching":
+			return strings.Rebase.Fetching
+		case "rebasing":
+			return fmt.Sprintf(strings.Rebase.Rebasing, args...)
+		case "success":
+			return fmt.Sprintf(strings.Rebase.Success, args...)
+		case "no_config":
+			return strings.Rebase.NoConfig
+		case "current_branch_error":
+			return fmt.Sprintf(strings.Rebase.CurrentBranchError, args...)
+		case "rebase_failed":
+			return fmt.Sprintf(strings.Rebase.RebaseFailed, args...)
 		}
 	case "release":
 		switch key {
