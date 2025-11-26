@@ -5,6 +5,7 @@ import (
 	"gfl/utils"
 	"gfl/utils/strings"
 	str "strings"
+
 	"github.com/spf13/cobra"
 )
 
@@ -35,7 +36,7 @@ var startCmd = &cobra.Command{
 		if err := utils.RunCommandWithSpin(checkoutCmd, strings.GetString("start", "creating")); err != nil {
 			return
 		}
-		utils.Successf(strings.GetString("start", "success"), startName.ActionName, branchName)
+		utils.Successf(strings.GetString("start", "success", startName.ActionName, branchName))
 	},
 }
 
