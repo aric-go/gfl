@@ -83,7 +83,8 @@ gfl rv -o
 | `gfl pr`       | 创建 Pull Request | `gfl pr --open`     |
 | `gfl checkout` | 交互式切换分支    | `gfl co`            |
 | `gfl hotfix`   | 创建热修复分支    | `gfl hf bug-fix`    |
-| `gfl release`  | 创建发布版本      | `gfl rls -t minor`  |
+| `gfl rebase`   | 更新当前分支      | `gfl rb`            |
+| `gfl release`  | 创建发布版本      | `gfl rel -t minor`  |
 | `gfl tag`      | 创建版本标签      | `gfl t -t patch`    |
 | `gfl sweep`    | 清理分支          | `gfl rm feature -y` |
 
