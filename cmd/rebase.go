@@ -41,30 +41,7 @@ var rebaseCmd = &cobra.Command{
 			return
 		}
 
-		// Fetch remote branch information with fallback
-		fetchCmd := fmt.Sprintf("git fetch origin %s", devBranch)
-		if err := utils.RunCommandWithSpin(fetchCmd, strings.GetString("rebase", "fetching")); err != nil {
-			// Try to fall back to main branch if configured branch doesn't exist
-			if devBranch != "main" {
-				utils.Warningf("Failed to fetch '%s' branch, trying 'main' instead: %v", devBranch, err)
-				devBranch = "main"
-				fetchCmd = fmt.Sprintf("git fetch origin %s", devBranch)
-				if err := utils.RunCommandWithSpin(fetchCmd, strings.GetString("rebase", "fetching")); err != nil {
-					utils.Errorf("Failed to fetch remote branch 'main': %v", err)
-					return
-				}
-			} else {
-				utils.Errorf("Failed to fetch remote branch: %v", err)
-				return
-			}
-		}
-
-		// Check again if we're already on the target branch (after fallback)
-		if currentBranch == devBranch {
-			utils.Warningf("Already on branch '%s', no need to rebase", devBranch)
-			return
-		}
-
+		
 		// Perform rebase
 		rebaseCmd := fmt.Sprintf("git rebase origin/%s", devBranch)
 		if err := utils.RunCommandWithSpin(rebaseCmd, fmt.Sprintf(strings.GetString("rebase", "rebasing"), devBranch)); err != nil {
