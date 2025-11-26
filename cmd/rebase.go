@@ -41,10 +41,9 @@ var rebaseCmd = &cobra.Command{
 			return
 		}
 
-		
 		// Perform rebase
 		rebaseCmd := fmt.Sprintf("git rebase origin/%s", devBranch)
-		if err := utils.RunCommandWithSpin(rebaseCmd, fmt.Sprintf(strings.GetString("rebase", "rebasing"), devBranch)); err != nil {
+		if err := utils.RunCommandWithSpin(rebaseCmd, fmt.Sprintf(strings.GetString("rebase", "rebasing", devBranch))); err != nil {
 			utils.Errorf(strings.GetString("rebase", "rebase_failed", err))
 			return
 		}
