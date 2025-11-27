@@ -105,7 +105,7 @@ zh-CN:
 
   # Release command
   release:
-    short: "以最近 tag(eg:v1.0.0) 为基准，生成新的 release 版本(alias: rel)"
+    short: "以最近 tag(eg:v1.0.0) 为基准，生成新的 release 版本(alias: rl)"
     previous_version: "🌈 上一版本: %s"
     new_version: "🎉 新的版本: %s"
     step1: "1. 正在同步远程分支...\n"
@@ -295,7 +295,7 @@ en-US:
 
   # Release command
   release:
-    short: "Generate new release version based on latest tag (eg:v1.0.0)(alias: rel)"
+    short: "Generate new release version based on latest tag (eg:v1.0.0)(alias: rl)"
     previous_version: "🌈 Previous version: %s"
     new_version: "🎉 New version: %s"
     step1: "1. Syncing remote branches...\n"
