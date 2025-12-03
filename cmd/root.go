@@ -12,7 +12,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "gfl",
 	Short:   "GitHub Flow CLI", // Will be updated after strings load
-	Version: "1.0.7",
+	Version: "1.0.8",
 	Run: func(cmd *cobra.Command, args []string) {
 		utils.Info(strings.GetString("root", "welcome"))
 		_ = cmd.Help()
