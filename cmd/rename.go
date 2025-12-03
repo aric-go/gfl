@@ -8,14 +8,14 @@ import (
 )
 
 var (
-	renameLocalFlag   bool
-	renameRemoteFlag  bool
-	renameDeleteFlag  bool
+	renameLocalFlag  bool
+	renameRemoteFlag bool
+	renameDeleteFlag bool
 )
 
 var renameCmd = &cobra.Command{
 	Use:     "rename [old-branch] [new-branch]",
-	Aliases: []string{"mv", "rename"},
+	Aliases: []string{"mv"},
 	Short:   "Rename a branch (local and/or remote)",
 	Args:    cobra.ExactArgs(2), // 需要两个参数：旧分支名和新分支名
 	Run: func(cmd *cobra.Command, args []string) {
