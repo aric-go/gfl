@@ -3,6 +3,7 @@ package cmd
 import (
 	"gfl/utils"
 	"gfl/utils/strings"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -16,7 +17,7 @@ var (
 var renameCmd = &cobra.Command{
 	Use:     "rename [old-branch] [new-branch]",
 	Aliases: []string{"mv"},
-	Short:   "Rename a branch (local and/or remote)",
+	Short:   "重命名分支 (支持本地和远程)",
 	Args:    cobra.ExactArgs(2), // 需要两个参数：旧分支名和新分支名
 	Run: func(cmd *cobra.Command, args []string) {
 		oldBranch := args[0]
@@ -52,8 +53,18 @@ var renameCmd = &cobra.Command{
 }
 
 func init() {
-	renameCmd.Flags().BoolVarP(&renameLocalFlag, "local", "l", false, strings.GetString("rename", "local_flag"))
-	renameCmd.Flags().BoolVarP(&renameRemoteFlag, "remote", "r", false, strings.GetString("rename", "remote_flag"))
-	renameCmd.Flags().BoolVarP(&renameDeleteFlag, "delete", "d", false, strings.GetString("rename", "delete_flag"))
+	// Simple internationalization based on environment
+	lang := os.Getenv("GFL_LANG")
+	if lang == "" || lang == "zh-CN" {
+		renameCmd.Short = "重命名分支 (支持本地和远程)"
+		renameCmd.Flags().BoolVarP(&renameLocalFlag, "local", "l", false, "重命名本地分支")
+		renameCmd.Flags().BoolVarP(&renameRemoteFlag, "remote", "r", false, "重命名远程分支")
+		renameCmd.Flags().BoolVarP(&renameDeleteFlag, "delete", "d", false, "删除远程旧分支")
+	} else {
+		renameCmd.Short = "Rename a branch (supports local and remote)"
+		renameCmd.Flags().BoolVarP(&renameLocalFlag, "local", "l", false, "Rename local branch")
+		renameCmd.Flags().BoolVarP(&renameRemoteFlag, "remote", "r", false, "Rename remote branch")
+		renameCmd.Flags().BoolVarP(&renameDeleteFlag, "delete", "d", false, "Delete old remote branch")
+	}
 	rootCmd.AddCommand(renameCmd)
 }
