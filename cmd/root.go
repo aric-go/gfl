@@ -119,5 +119,14 @@ func updateCommandDescriptions() {
 		rebaseCmd.Short = strings.GetString("rebase", "short")
 	}
 
-	// Skip update for rename and restore commands - descriptions set directly
+	// Update rename command
+	if renameCmd != nil {
+		renameCmd.Short = strings.GetString("rename", "short")
+	}
+
+	// Update restore command
+	if restoreCmd != nil {
+		restoreCmd.Short = strings.GetString("restore", "short")
+		restoreCmd.Long = strings.GetString("restore", "long")
+	}
 }

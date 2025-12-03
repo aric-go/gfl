@@ -34,6 +34,8 @@ type StringData struct {
 	Rebase       RebaseStrings       `yaml:"rebase"`
 	Release      ReleaseStrings      `yaml:"release"`
 	Config       ConfigStrings       `yaml:"config"`
+	Rename       RenameStrings       `yaml:"rename"`
+	Restore      RestoreStrings      `yaml:"restore"`
 	Logger       LoggerStrings       `yaml:"logger"`
 	Shell        ShellStrings        `yaml:"shell"`
 	UtilsConfig  ConfigUtilsStrings  `yaml:"utils_config"`
@@ -193,6 +195,45 @@ type ConfigStrings struct {
 	PriorityLocal           string `yaml:"priority_local"`
 	PriorityGlobal          string `yaml:"priority_global"`
 	PriorityDefault         string `yaml:"priority_default"`
+}
+
+// Rename strings
+type RenameStrings struct {
+	Short                 string `yaml:"short"`
+	LocalFlag             string `yaml:"local_flag"`
+	RemoteFlag            string `yaml:"remote_flag"`
+	DeleteFlag            string `yaml:"delete_flag"`
+	SkipConfirm           string `yaml:"skip_confirm"`
+	GetCurrentBranchError string `yaml:"get_current_branch_error"`
+	SwitchingFromCurrent  string `yaml:"switching_from_current"`
+	SwitchBranchError     string `yaml:"switch_branch_error"`
+	SwitchedToBranch      string `yaml:"switched_to_branch"`
+	RenamingLocal         string `yaml:"renaming_local"`
+	RenameLocalError      string `yaml:"rename_local_error"`
+	RenameLocalSuccess    string `yaml:"rename_local_success"`
+	DeletingRemote        string `yaml:"deleting_remote"`
+	DeleteRemoteError     string `yaml:"delete_remote_error"`
+	DeleteRemoteSuccess   string `yaml:"delete_remote_success"`
+	PushingRemote         string `yaml:"pushing_remote"`
+	PushRemoteError       string `yaml:"push_remote_error"`
+	PushRemoteSuccess     string `yaml:"push_remote_success"`
+	ManualRename          string `yaml:"manual_rename"`
+	ManualAction          string `yaml:"manual_action"`
+}
+
+// Restore strings
+type RestoreStrings struct {
+	Short             string `yaml:"short"`
+	Long              string `yaml:"long"`
+	SkipConfirm       string `yaml:"skip_confirm"`
+	PathNotExist      string `yaml:"path_not_exist"`
+	NotGitRepo        string `yaml:"not_git_repo"`
+	Restoring         string `yaml:"restoring"`
+	RestoreError      string `yaml:"restore_error"`
+	RestoreSuccess    string `yaml:"restore_success"`
+	CheckChangesError string `yaml:"check_changes_error"`
+	NoChanges         string `yaml:"no_changes"`
+	WouldRestore      string `yaml:"would_restore"`
 }
 
 // Logger strings
@@ -552,6 +593,74 @@ func GetString(category, key string, args ...interface{}) string {
 			return strings.Config.PriorityGlobal
 		case "priority_default":
 			return strings.Config.PriorityDefault
+		}
+	case "rename":
+		switch key {
+		case "short":
+			return strings.Rename.Short
+		case "local_flag":
+			return strings.Rename.LocalFlag
+		case "remote_flag":
+			return strings.Rename.RemoteFlag
+		case "delete_flag":
+			return strings.Rename.DeleteFlag
+		case "skip_confirm":
+			return strings.Rename.SkipConfirm
+		case "get_current_branch_error":
+			return fmt.Sprintf(strings.Rename.GetCurrentBranchError, args...)
+		case "switching_from_current":
+			return strings.Rename.SwitchingFromCurrent
+		case "switch_branch_error":
+			return fmt.Sprintf(strings.Rename.SwitchBranchError, args...)
+		case "switched_to_branch":
+			return fmt.Sprintf(strings.Rename.SwitchedToBranch, args...)
+		case "renaming_local":
+			return strings.Rename.RenamingLocal
+		case "rename_local_error":
+			return fmt.Sprintf(strings.Rename.RenameLocalError, args...)
+		case "rename_local_success":
+			return fmt.Sprintf(strings.Rename.RenameLocalSuccess, args...)
+		case "deleting_remote":
+			return strings.Rename.DeletingRemote
+		case "delete_remote_error":
+			return fmt.Sprintf(strings.Rename.DeleteRemoteError, args...)
+		case "delete_remote_success":
+			return fmt.Sprintf(strings.Rename.DeleteRemoteSuccess, args...)
+		case "pushing_remote":
+			return strings.Rename.PushingRemote
+		case "push_remote_error":
+			return fmt.Sprintf(strings.Rename.PushRemoteError, args...)
+		case "push_remote_success":
+			return fmt.Sprintf(strings.Rename.PushRemoteSuccess, args...)
+		case "manual_rename":
+			return fmt.Sprintf(strings.Rename.ManualRename, args...)
+		case "manual_action":
+			return fmt.Sprintf(strings.Rename.ManualAction, args...)
+		}
+	case "restore":
+		switch key {
+		case "short":
+			return strings.Restore.Short
+		case "long":
+			return strings.Restore.Long
+		case "skip_confirm":
+			return strings.Restore.SkipConfirm
+		case "path_not_exist":
+			return fmt.Sprintf(strings.Restore.PathNotExist, args...)
+		case "not_git_repo":
+			return strings.Restore.NotGitRepo
+		case "restoring":
+			return fmt.Sprintf(strings.Restore.Restoring, args...)
+		case "restore_error":
+			return fmt.Sprintf(strings.Restore.RestoreError, args...)
+		case "restore_success":
+			return fmt.Sprintf(strings.Restore.RestoreSuccess, args...)
+		case "check_changes_error":
+			return fmt.Sprintf(strings.Restore.CheckChangesError, args...)
+		case "no_changes":
+			return fmt.Sprintf(strings.Restore.NoChanges, args...)
+		case "would_restore":
+			return fmt.Sprintf(strings.Restore.WouldRestore, args...)
 		}
 	case "utils_config":
 		switch key {
