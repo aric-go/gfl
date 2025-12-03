@@ -17,7 +17,8 @@
       "Bash(git branch:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(GFL_LANG=en-US ./gfl:*)"
     ],
     "deny": [],
     "ask": []
