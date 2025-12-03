@@ -84,6 +84,7 @@ zh-CN:
     manual_delete: "本地/远程分支 %s 包含关键词 %s，请手动删除"
     local_flag: "清理本地分支"
     remote_flag: "清理远程分支"
+    exact_flag: "精确匹配分支名"
 
   # Sync command
   sync:
@@ -297,6 +298,7 @@ en-US:
     manual_delete: "Local/Remote branch %s contains keyword %s, please delete manually"
     local_flag: "Clean local branches"
     remote_flag: "Clean remote branches"
+    exact_flag: "Exact match branch name"
 
   # Sync command
   sync:

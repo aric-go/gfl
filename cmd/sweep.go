@@ -12,8 +12,9 @@ import (
 )
 
 var (
-  localFlag  bool
-  remoteFlag bool
+  localFlag    bool
+  remoteFlag   bool
+  exactFlag    bool
 )
 
 var sweepCmd = &cobra.Command{
@@ -34,12 +35,12 @@ var sweepCmd = &cobra.Command{
 
     if localFlag {
       // 清理本地分支
-      cleanLocalBranches(keyword, confirm)
+      cleanLocalBranches(keyword, confirm, exactFlag)
     }
 
     if remoteFlag {
       // 清理远程分支
-      cleanRemoteBranches(keyword, confirm)
+      cleanRemoteBranches(keyword, confirm, exactFlag)
     }
 
     if !confirm {
@@ -48,7 +49,7 @@ var sweepCmd = &cobra.Command{
   },
 }
 
-func cleanLocalBranches(keyword string, confirm bool) {
+func cleanLocalBranches(keyword string, confirm bool, exactMatch bool) {
   // 获取本地分支列表
   branches, err := exec.Command("git", "branch").Output()
   if err != nil {
@@ -56,14 +57,22 @@ func cleanLocalBranches(keyword string, confirm bool) {
     return
   }
 
-  // 遍历本地分支列表并删除包含关键词的分支
+  // 遍历本地分支列表并删除匹配关键词的分支
   for _, branch := range str.Split(string(branches), "\n") {
     branch = str.TrimSpace(branch) // 去除空格
     if branch == "" {
       continue // 跳过空行
     }
 
-    if str.Contains(branch, keyword) {
+    // 根据精确匹配标志选择匹配方式
+    var shouldDelete bool
+    if exactMatch {
+      shouldDelete = branch == keyword
+    } else {
+      shouldDelete = str.Contains(branch, keyword)
+    }
+
+    if shouldDelete {
       // 执行命令: git branch -d branch-name
       command := fmt.Sprintf("git branch -d %s", branch)
       if confirm {
@@ -79,7 +88,7 @@ func cleanLocalBranches(keyword string, confirm bool) {
   }
 }
 
-func cleanRemoteBranches(keyword string, confirm bool) {
+func cleanRemoteBranches(keyword string, confirm bool, exactMatch bool) {
   // 获取远程分支列表
   branches, err := exec.Command("git", "branch", "-r").Output()
   if err != nil {
@@ -87,16 +96,25 @@ func cleanRemoteBranches(keyword string, confirm bool) {
     return
   }
 
-  // 遍历远程分支列表并删除包含关键词的分支
+  // 遍历远程分支列表并删除匹配关键词的分支
   for _, branch := range str.Split(string(branches), "\n") {
     branch = str.TrimSpace(branch) // 去除空格
     if branch == "" {
       continue // 跳过空行
     }
 
-    if str.Contains(branch, keyword) {
-      // 提取分支名称（去掉远程名）
-      remoteBranch := str.TrimPrefix(branch, "origin/")
+    // 提取分支名称（去掉远程名）
+    remoteBranch := str.TrimPrefix(branch, "origin/")
+
+    // 根据精确匹配标志选择匹配方式
+    var shouldDelete bool
+    if exactMatch {
+      shouldDelete = remoteBranch == keyword
+    } else {
+      shouldDelete = str.Contains(branch, keyword)
+    }
+
+    if shouldDelete {
       command := fmt.Sprintf("git push origin --delete %s", remoteBranch)
       if confirm {
         if err := utils.RunCommandWithSpin(command, strings.GetString("sweep", "deleting_remote")); err != nil {
@@ -122,5 +140,6 @@ func logRemove(branch string, keyword string) {
 func init() {
   sweepCmd.Flags().BoolVarP(&localFlag, "local", "l", false, strings.GetString("sweep", "local_flag"))
   sweepCmd.Flags().BoolVarP(&remoteFlag, "remote", "r", false, strings.GetString("sweep", "remote_flag"))
+  sweepCmd.Flags().BoolVarP(&exactFlag, "exact", "e", false, strings.GetString("sweep", "exact_flag"))
   rootCmd.AddCommand(sweepCmd)
 }
