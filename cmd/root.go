@@ -132,4 +132,10 @@ func updateCommandDescriptions() {
 			renameCmd.Flags().Lookup("delete").Usage = strings.GetString("rename", "delete_flag")
 		}
 	}
+
+	// Update restore command
+	if restoreCmd != nil {
+		restoreCmd.Short = strings.GetString("restore", "short")
+		restoreCmd.Long = strings.GetString("restore", "long")
+	}
 }

@@ -14,7 +14,10 @@
       "Bash(./gfl:*)",
       "Bash(git checkout:*)",
       "Bash(git rebase:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
