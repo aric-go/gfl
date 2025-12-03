@@ -146,7 +146,7 @@ zh-CN:
 
   # Rename command
   rename:
-    short: "重命名分支 (支持本地和远程)"
+    short: "重命名分支 (支持本地和远程)(alias: mv)"
     local_flag: "重命名本地分支"
     remote_flag: "重命名远程分支"
     delete_flag: "删除远程旧分支"
@@ -169,7 +169,7 @@ zh-CN:
 
   # Restore command
   restore:
-    short: "恢复文件到未修改之前"
+    short: "恢复文件到未修改之前(alias: r)"
     long: "恢复指定的文件或目录到 HEAD 提交的状态，丢弃所有本地变更（包括已暂存的）"
     skip_confirm: "🌱 如需跳过确认，请使用 -y 标志"
     path_not_exist: "路径 %s 不存在"
@@ -374,7 +374,7 @@ en-US:
 
   # Rename command
   rename:
-    short: "Rename a branch (supports local and remote)"
+    short: "Rename a branch (supports local and remote)(alias: mv)"
     local_flag: "Rename local branch"
     remote_flag: "Rename remote branch"
     delete_flag: "Delete old remote branch"
@@ -397,7 +397,7 @@ en-US:
 
   # Restore command
   restore:
-    short: "Restore files to unmodified state"
+    short: "Restore files to unmodified state(alias: r)"
     long: "Restore specified files or directories to HEAD commit state, discarding all local changes (including staged)"
     skip_confirm: "🌱 Use -y flag to skip confirmation"
     path_not_exist: "Path %s does not exist"

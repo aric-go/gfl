@@ -347,7 +347,7 @@ func GetStrings() *StringData {
 }
 
 // GetString returns a specific string by key (for generic access)
-func GetString(category, key string, args ...interface{}) string {
+func GetString(category, key string, args ...any) string {
 	strings := GetStrings()
 
 	// Use reflection or a map-based approach to access the specific string
