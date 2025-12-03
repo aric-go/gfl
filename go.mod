@@ -6,9 +6,9 @@ toolchain go1.23.0
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
-	github.com/afeiship/go-ipt v1.0.1
 	github.com/briandowns/spinner v1.23.1
 	github.com/fatih/color v1.14.1
+	github.com/jedib0t/go-pretty/v6 v6.7.5
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
@@ -20,7 +20,6 @@ require (
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/jedib0t/go-pretty/v6 v6.7.5 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
