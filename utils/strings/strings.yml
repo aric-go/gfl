@@ -143,6 +143,29 @@ zh-CN:
     priority_global: "🥉 全局配置文件 (.gfl.config.yml)\n"
     priority_default: "🏅 默认值\n"
 
+  # Rename command
+  rename:
+    short: "重命名分支 (支持本地和远程)"
+    local_flag: "重命名本地分支"
+    remote_flag: "重命名远程分支"
+    delete_flag: "删除远程旧分支"
+    skip_confirm: "🌱 如需跳过确认，请使用 -y 标志"
+    get_current_branch_error: "无法获取当前分支: %v"
+    switching_from_current: "正在从当前分支切换..."
+    switch_branch_error: "无法切换到 %s 分支: %v"
+    switched_to_branch: "已切换到 %s 分支"
+    renaming_local: "🔄 正在重命名本地分支\n"
+    rename_local_error: "重命名本地分支 %s 到 %s 失败: %v"
+    rename_local_success: "成功将本地分支 %s 重命名为 %s"
+    deleting_remote: "🗑️ 正在删除远程分支\n"
+    delete_remote_error: "删除远程分支 %s 失败: %v"
+    delete_remote_success: "远程分支 %s 删除成功"
+    pushing_remote: "📤 正在推送到远程仓库\n"
+    push_remote_error: "推送分支 %s 到远程仓库失败: %v"
+    push_remote_success: "成功推送分支 %s 到远程仓库"
+    manual_rename: "重命名分支: %s -> %s (%s)"
+    manual_action: "%s 分支: %s (%s)"
+
   # Utils - Logger
   logger:
     error: "ERROR"
@@ -332,6 +355,29 @@ en-US:
     priority_local: "🥈 Local Config File (.gfl.config.local.yml)\n"
     priority_global: "🥉 Global Config File (.gfl.config.yml)\n"
     priority_default: "🏅 Default Value"
+
+  # Rename command
+  rename:
+    short: "Rename a branch (supports local and remote)"
+    local_flag: "Rename local branch"
+    remote_flag: "Rename remote branch"
+    delete_flag: "Delete old remote branch"
+    skip_confirm: "🌱 Use -y flag to skip confirmation"
+    get_current_branch_error: "Failed to get current branch: %v"
+    switching_from_current: "Switching from current branch..."
+    switch_branch_error: "Failed to switch to %s branch: %v"
+    switched_to_branch: "Switched to %s branch"
+    renaming_local: "🔄 Renaming local branch\n"
+    rename_local_error: "Failed to rename local branch %s to %s: %v"
+    rename_local_success: "Successfully renamed local branch %s to %s"
+    deleting_remote: "🗑️ Deleting remote branch\n"
+    delete_remote_error: "Failed to delete remote branch %s: %v"
+    delete_remote_success: "Remote branch %s deleted successfully"
+    pushing_remote: "📤 Pushing to remote repository\n"
+    push_remote_error: "Failed to push branch %s to remote repository: %v"
+    push_remote_success: "Successfully pushed branch %s to remote repository"
+    manual_rename: "Rename branch: %s -> %s (%s)"
+    manual_action: "%s branch: %s (%s)"
 
   # Utils - Logger
   logger:
