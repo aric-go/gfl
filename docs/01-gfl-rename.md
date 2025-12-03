@@ -18,3 +18,6 @@ git push origin -u fix/kat-9723
 
 ## 注意
 - 编译使用 `npm run build`, 最终产物在 `dist` 目录下
+
+## resources
+- https://chat.qwen.ai/c/a068c033-3f0a-400e-a744-1465d22f4a6d
