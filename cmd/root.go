@@ -122,6 +122,9 @@ func updateCommandDescriptions() {
 	// Update rename command
 	if renameCmd != nil {
 		renameCmd.Short = strings.GetString("rename", "short")
+		renameCmd.Flags().Lookup("local").Usage = strings.GetString("rename", "local_flag")
+		renameCmd.Flags().Lookup("remote").Usage = strings.GetString("rename", "remote_flag")
+		renameCmd.Flags().Lookup("delete").Usage = strings.GetString("rename", "delete_flag")
 	}
 
 	// Update restore command
