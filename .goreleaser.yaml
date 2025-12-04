@@ -20,6 +20,17 @@ builds:
       - CGO_ENABLED=0
     goos:
       - darwin
+    goarch:
+      - amd64
+      - arm64
+    id: darwin
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+    id: linux
 
 archives:
   - format: tar.gz
@@ -35,6 +46,9 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
+    builds_info:
+      # Group archives by OS
+      group: "{{ .Os }}"
 
 changelog:
   sort: asc
