@@ -18,7 +18,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(cat:*)",
-      "Bash(GFL_LANG=en-US ./gfl:*)"
+      "Bash(GFL_LANG=en-US ./gfl:*)",
+      "Bash(goreleaser check:*)",
+      "Bash(goreleaser build:*)"
     ],
     "deny": [],
     "ask": []
