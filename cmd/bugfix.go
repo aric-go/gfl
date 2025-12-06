@@ -11,7 +11,7 @@ import (
 var bugfixCmd = &cobra.Command{
 	Use:     "bugfix [bug-name]",
 	Short:   strings.GetPath("bugfix.short"),
-	Aliases: []string{"fix"},
+	Aliases: []string{"b", "fix"},
 	Args:    cobra.ExactArgs(1), // 要求提供一个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		config := utils.ReadConfig()

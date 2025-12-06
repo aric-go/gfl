@@ -42,7 +42,7 @@ zh-CN:
 
   # Bugfix command
   bugfix:
-    short: "开始一个bug修复分支(alias: fix)"
+    short: "开始一个bug修复分支(alias: b, fix)"
     syncing: " 正在同步远程分支...\n"
     creating: " 正在创建Bugfix分支...\n"
     success: "已创建%s分支: %s"
@@ -277,7 +277,7 @@ en-US:
 
   # Bugfix command
   bugfix:
-    short: "Start a bug fix branch(alias: fix)"
+    short: "Start a bug fix branch(alias: b, fix)"
     syncing: " Syncing remote branches...\n"
     creating: " Creating Bugfix branch...\n"
     success: "Created %s branch: %s"
