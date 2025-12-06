@@ -241,7 +241,7 @@ en-US:
   # Root command
   root:
     short: "GitHub Flow CLI"
-    welcome: "🌈 Welcome to GitHub Flow CLI!"
+    welcome: "🌈 Welcome to "
     confirm_flag: "Confirm operation"
 
   # Init command
