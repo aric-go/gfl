@@ -132,4 +132,9 @@ func updateCommandDescriptions() {
 		restoreCmd.Short = strings.GetPath("restore.short")
 		restoreCmd.Long = strings.GetPath("restore.long")
 	}
+
+	// Update bugfix command
+	if bugfixCmd != nil {
+		bugfixCmd.Short = strings.GetPath("bugfix.short")
+	}
 }

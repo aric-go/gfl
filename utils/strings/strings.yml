@@ -40,6 +40,13 @@ zh-CN:
     creating: " 正在创建Hotfix分支...\n"
     success: "已创建Hotfix分支: %s"
 
+  # Bugfix command
+  bugfix:
+    short: "开始一个bug修复分支(alias: fix)"
+    syncing: " 正在同步远程分支...\n"
+    creating: " 正在创建Bugfix分支...\n"
+    success: "已创建%s分支: %s"
+
   # Tag command
   tag:
     short: "以最近 tag(eg:v1.0.0) 为基准，为 release 分支生成新的 tag 版本，以上一个 tag 为基准，生成新的 tag 版本"
@@ -267,6 +274,13 @@ en-US:
     syncing: " Syncing remote branches...\n"
     creating: " Creating Hotfix branch...\n"
     success: "Created Hotfix branch: %s"
+
+  # Bugfix command
+  bugfix:
+    short: "Start a bug fix branch(alias: fix)"
+    syncing: " Syncing remote branches...\n"
+    creating: " Creating Bugfix branch...\n"
+    success: "Created %s branch: %s"
 
   # Tag command
   tag:
