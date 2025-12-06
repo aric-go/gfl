@@ -17,6 +17,7 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		utils.DisplayLogo()
 		fmt.Println(strings.GetPath("root.welcome"))
+		fmt.Println()
 		_ = cmd.Help()
 	},
 }
