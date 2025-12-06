@@ -20,7 +20,10 @@
       "Bash(cat:*)",
       "Bash(GFL_LANG=en-US ./gfl:*)",
       "Bash(goreleaser check:*)",
-      "Bash(goreleaser build:*)"
+      "Bash(goreleaser build:*)",
+      "Bash(go list:*)",
+      "Bash(go mod tidy:*)",
+      "Bash(GFL_LANG=zh-CN ./gfl:*)"
     ],
     "deny": [],
     "ask": []

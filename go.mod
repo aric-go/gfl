@@ -6,6 +6,7 @@ toolchain go1.23.0
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
+	github.com/afeiship/go-yaml-path v1.0.3
 	github.com/briandowns/spinner v1.23.1
 	github.com/fatih/color v1.14.1
 	github.com/jedib0t/go-pretty/v6 v6.7.5
