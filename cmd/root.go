@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"gfl/utils"
 	"gfl/utils/strings"
 	"os"
@@ -14,7 +15,8 @@ var rootCmd = &cobra.Command{
 	Short:   "GitHub Flow CLI", // Will be updated after strings load
 	Version: "1.0.8",
 	Run: func(cmd *cobra.Command, args []string) {
-		utils.Info(strings.GetPath("root.welcome"))
+		utils.DisplayLogo()
+		fmt.Println(strings.GetPath("root.welcome"))
 		_ = cmd.Help()
 	},
 }
