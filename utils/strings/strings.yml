@@ -49,7 +49,7 @@ zh-CN:
 
   # Tag command
   tag:
-    short: "创建 Git Tag 版本"
+    short: "创建 Git Tag 版本(alias: t)"
     previous_version: "🌈 上一版本: %s"
     new_version: "🎉 新的版本: %s"
     step1: "1. 正在切换到 Release 分支...\n"
@@ -113,7 +113,7 @@ zh-CN:
 
   # Release command
   release:
-    short: "创建 GitHub Release"
+    short: "创建 GitHub Release(alias: rl)"
     previous_version: "🌈 上一版本: %s"
     new_version: "🎉 新的版本: %s"
     step1: "1. 正在同步远程分支...\n"
@@ -284,7 +284,7 @@ en-US:
 
   # Tag command
   tag:
-    short: "Create Git tag version"
+    short: "Create Git tag version(alias: t)"
     previous_version: "🌈 Previous version: %s"
     new_version: "🎉 New version: %s"
     step1: "1. Switching to Release branch...\n"
@@ -348,7 +348,7 @@ en-US:
 
   # Release command
   release:
-    short: "Create GitHub release"
+    short: "Create GitHub release(alias: rl)"
     previous_version: "🌈 Previous version: %s"
     new_version: "🎉 New version: %s"
     step1: "1. Syncing remote branches...\n"
