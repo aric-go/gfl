@@ -24,7 +24,8 @@
       "Bash(go list:*)",
       "Bash(go mod tidy:*)",
       "Bash(GFL_LANG=zh-CN ./gfl:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(git restore:*)"
     ],
     "deny": [],
     "ask": []
