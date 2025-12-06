@@ -27,16 +27,16 @@ var startCmd = &cobra.Command{
 
 		// 执行命令: git fetch origin
 		fetchCmd := "git fetch origin"
-		if err := utils.RunCommandWithSpin(fetchCmd, strings.GetString("start", "syncing")); err != nil {
+		if err := utils.RunCommandWithSpin(fetchCmd, strings.GetPath("start.syncing")); err != nil {
 			return
 		}
 
 		// 执行命令: git checkout -b feature/aric/new-feature origin/develop
 		checkoutCmd := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
-		if err := utils.RunCommandWithSpin(checkoutCmd, strings.GetString("start", "creating")); err != nil {
+		if err := utils.RunCommandWithSpin(checkoutCmd, strings.GetPath("start.creating")); err != nil {
 			return
 		}
-		utils.Successf(strings.GetString("start", "success", startName.ActionName, branchName))
+		utils.Successf(strings.GetPath("start.success", startName.ActionName, branchName))
 	},
 }
 

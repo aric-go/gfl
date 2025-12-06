@@ -15,7 +15,7 @@ var configCmd = &cobra.Command{
 	Use:     "config",
 	Aliases: []string{"c"},
 	Short:   "View current configuration",
-	Long:    strings.GetString("config", "long"),
+	Long:    strings.GetPath("config.long"),
 	Run: func(cmd *cobra.Command, args []string) {
 		configInfo := utils.ReadConfigWithSources()
 		finalConfig := configInfo.FinalConfig
@@ -23,15 +23,15 @@ var configCmd = &cobra.Command{
 		// 1. 显示最终配置 - 使用表格格式
 		t := table.NewWriter()
 		t.SetOutputMirror(os.Stdout)
-		t.SetTitle(strings.GetString("config", "title"))
+		t.SetTitle(strings.GetPath("config.title"))
 		t.SetStyle(table.StyleRounded)
 		t.Style().Options.SeparateRows = true
 		t.Style().Options.DrawBorder = true
 
 		t.AppendHeader(table.Row{
-			color.New(color.FgCyan, color.Bold).Sprint(strings.GetString("config", "config_key")),
-			color.New(color.FgGreen, color.Bold).Sprint(strings.GetString("config", "final_value")),
-			color.New(color.FgMagenta, color.Bold).Sprint(strings.GetString("config", "source")),
+			color.New(color.FgCyan, color.Bold).Sprint(strings.GetPath("config.config_key")),
+			color.New(color.FgGreen, color.Bold).Sprint(strings.GetPath("config.final_value")),
+			color.New(color.FgMagenta, color.Bold).Sprint(strings.GetPath("config.source")),
 		})
 
 		// 确定每个配置项的来源
@@ -76,19 +76,19 @@ var configCmd = &cobra.Command{
 				}
 			}
 
-			return strings.GetString("config", "default_value")
+			return strings.GetPath("config.default_value")
 		}
 
 		// 辅助函数：为来源添加颜色
 		colorizeSource := func(source string) string {
 			switch source {
-			case strings.GetString("config", "custom_config"):
+			case strings.GetPath("config.custom_config"):
 				return color.New(color.FgRed, color.Bold).Sprint(source)
-			case strings.GetString("config", "local_config"):
+			case strings.GetPath("config.local_config"):
 				return color.New(color.FgYellow, color.Bold).Sprint(source)
-			case strings.GetString("config", "global_config"):
+			case strings.GetPath("config.global_config"):
 				return color.New(color.FgBlue, color.Bold).Sprint(source)
-			case strings.GetString("config", "default_value"):
+			case strings.GetPath("config.default_value"):
 				return color.New(color.FgCyan).Sprint(source)
 			default:
 				return source
@@ -98,11 +98,11 @@ var configCmd = &cobra.Command{
 		// 辅助函数：为值添加颜色
 		colorizeValue := func(value string, source string) string {
 			switch source {
-			case strings.GetString("config", "custom_config"):
+			case strings.GetPath("config.custom_config"):
 				return color.New(color.FgRed).Sprint(value)
-			case strings.GetString("config", "local_config"):
+			case strings.GetPath("config.local_config"):
 				return color.New(color.FgYellow).Sprint(value)
-			case strings.GetString("config", "global_config"):
+			case strings.GetPath("config.global_config"):
 				return color.New(color.FgBlue).Sprint(value)
 			default:
 				return value
@@ -111,49 +111,49 @@ var configCmd = &cobra.Command{
 
 		debugSource := getSource("debug")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "debug_mode"),
+			strings.GetPath("config.debug_mode"),
 			fmt.Sprintf("%v", finalConfig.Debug),
 			colorizeSource(debugSource),
 		})
 
 		devBaseSource := getSource("devBaseBranch")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "develop_base_branch"),
+			strings.GetPath("config.develop_base_branch"),
 			colorizeValue(finalConfig.DevBaseBranch, devBaseSource),
 			colorizeSource(devBaseSource),
 		})
 
 		prodSource := getSource("productionBranch")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "production_branch"),
+			strings.GetPath("config.production_branch"),
 			colorizeValue(finalConfig.ProductionBranch, prodSource),
 			colorizeSource(prodSource),
 		})
 
 		nicknameSource := getSource("nickname")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "nickname"),
+			strings.GetPath("config.nickname"),
 			colorizeValue(finalConfig.Nickname, nicknameSource),
 			colorizeSource(nicknameSource),
 		})
 
 		featureSource := getSource("featurePrefix")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "feature_prefix"),
+			strings.GetPath("config.feature_prefix"),
 			colorizeValue(finalConfig.FeaturePrefix, featureSource),
 			colorizeSource(featureSource),
 		})
 
 		fixSource := getSource("fixPrefix")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "fix_prefix"),
+			strings.GetPath("config.fix_prefix"),
 			colorizeValue(finalConfig.FixPrefix, fixSource),
 			colorizeSource(fixSource),
 		})
 
 		hotfixSource := getSource("hotfixPrefix")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "hotfix_prefix"),
+			strings.GetPath("config.hotfix_prefix"),
 			colorizeValue(finalConfig.HotfixPrefix, hotfixSource),
 			colorizeSource(hotfixSource),
 		})
@@ -161,7 +161,7 @@ var configCmd = &cobra.Command{
 		t.AppendSeparator()
 		exampleBranch := utils.GenerateBranchName(&finalConfig, "feature", "new-feature")
 		t.AppendRow(table.Row{
-			strings.GetString("config", "example_feature_branch"),
+			strings.GetPath("config.example_feature_branch"),
 			color.New(color.FgGreen, color.Bold).Sprint(exampleBranch),
 			"",
 		})
@@ -169,17 +169,17 @@ var configCmd = &cobra.Command{
 		t.Render()
 
 		// 2. 显示配置来源详情 - 简化列表格式
-		fmt.Printf(strings.GetString("config", "config_sources_title"))
+		fmt.Printf(strings.GetPath("config.config_sources_title"))
 
 		for _, source := range configInfo.Sources {
 			if source.Exists {
 				var emoji string
 				switch source.Name {
-				case strings.GetString("config", "global_config"):
+				case strings.GetPath("config.global_config"):
 					emoji = "🌍"
-				case strings.GetString("config", "local_config"):
+				case strings.GetPath("config.local_config"):
 					emoji = "🏠"
-				case strings.GetString("config", "custom_config"):
+				case strings.GetPath("config.custom_config"):
 					emoji = "🎯"
 				default:
 					emoji = "📄"
@@ -191,15 +191,15 @@ var configCmd = &cobra.Command{
 		// GFL_CONFIG_FILE 环境变量
 		configFile := os.Getenv("GFL_CONFIG_FILE")
 		if configFile != "" {
-			fmt.Print(strings.GetString("config", "custom_config_file", configFile))
+			fmt.Print(strings.GetPath("config.custom_config_file", configFile))
 		}
 
 		// 3. 显示配置优先级说明
-		fmt.Printf(strings.GetString("config", "priority_title"))
-		fmt.Printf(strings.GetString("config", "priority_custom"))
-		fmt.Printf(strings.GetString("config", "priority_local"))
-		fmt.Printf(strings.GetString("config", "priority_global"))
-		fmt.Printf(strings.GetString("config", "priority_default"))
+		fmt.Printf(strings.GetPath("config.priority_title"))
+		fmt.Printf(strings.GetPath("config.priority_custom"))
+		fmt.Printf(strings.GetPath("config.priority_local"))
+		fmt.Printf(strings.GetPath("config.priority_global"))
+		fmt.Printf(strings.GetPath("config.priority_default"))
 	},
 }
 

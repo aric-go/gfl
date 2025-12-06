@@ -31,8 +31,8 @@ newVersion, err := utils.IncrementVersion(version, versionType)
 
 #### 步骤 2: 版本信息显示
 ```go
-utils.Infof(strings.GetString("release", "previous_version"), version)
-utils.Successf(strings.GetString("release", "new_version"), newVersion)
+utils.Infof(strings.GetPath("release.previous_version"), version)
+utils.Successf(strings.GetPath("release.new_version"), newVersion)
 ```
 
 #### 步骤 3: 基础分支选择

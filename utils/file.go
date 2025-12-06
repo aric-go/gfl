@@ -71,32 +71,32 @@ func AddGitIgnore() {
 func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
 	// Step 1: Validate file existence and Force option
 	if _, err := os.Stat(opts.Filename); err == nil && !opts.Force {
-		return fmt.Errorf(strings.GetString("init", "config_exists_error"), opts.Filename)
+		return fmt.Errorf(strings.GetPath("init.config_exists_error"), opts.Filename)
 	}
 
 	// Step 2: Create or overwrite the configuration file
 	file, err := os.Create(opts.Filename)
 	if err != nil {
-		return fmt.Errorf(strings.GetString("init", "create_config_error"), err)
+		return fmt.Errorf(strings.GetPath("init.create_config_error"), err)
 	}
 	defer file.Close()
 
 	// Step 3: Serialize configuration to YAML format
 	data, err := yaml.Marshal(&config)
 	if err != nil {
-		return fmt.Errorf(strings.GetString("init", "generate_yaml_error"), err)
+		return fmt.Errorf(strings.GetPath("init.generate_yaml_error"), err)
 	}
 
 	// Step 4: Write YAML data to file
 	if _, err := file.Write(data); err != nil {
-		return fmt.Errorf(strings.GetString("init", "write_config_error"), err)
+		return fmt.Errorf(strings.GetPath("init.write_config_error"), err)
 	}
 
 	// Step 5: Check if file is already in .gitignore
 	content, _ := os.ReadFile(".gitignore")
 	contentString := string(content)
 	if str.Contains(contentString, opts.Filename) {
-		Info(strings.GetString("init", "gitignore_skip"))
+		Info(strings.GetPath("init.gitignore_skip"))
 		return nil
 	}
 

@@ -23,7 +23,8 @@
       "Bash(goreleaser build:*)",
       "Bash(go list:*)",
       "Bash(go mod tidy:*)",
-      "Bash(GFL_LANG=zh-CN ./gfl:*)"
+      "Bash(GFL_LANG=zh-CN ./gfl:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

@@ -34,7 +34,7 @@ en-US:
 The `gfl/utils/strings` package provides functions to load and access strings:
 
 - `LoadStrings()`: Initializes the strings system by loading the YAML file
-- `GetString(category, key, args...interface{})`: Retrieves a string with optional formatting
+- `GetPath(path, args...interface{})`: Retrieves a string using dot notation (e.g., "category.key") with optional formatting
 - `SetLanguage(lang Language)`: Sets the current language
 - `GetLanguage()`: Gets the current language
 
@@ -70,14 +70,14 @@ en-US:
 
 ### 2. Update Go Code
 
-Import the strings package and use `GetString()`:
+Import the strings package and use `GetPath()`:
 
 ```go
 import "gfl/utils/strings"
 
 // In your command
-strings.GetString("new_command", "short")
-strings.GetString("new_command", "success", "arg1")
+strings.GetPath("new_command.short")
+strings.GetPath("new_command.success", "arg1")
 ```
 
 ### 3. Update Command Descriptions
@@ -89,7 +89,7 @@ func updateCommandDescriptions() {
     // ... existing code ...
 
     if newCommand != nil {
-        newCommand.Short = strings.GetString("new_command", "short")
+        newCommand.Short = strings.GetPath("new_command.short")
     }
 }
 ```
@@ -124,7 +124,7 @@ The system supports formatted strings with placeholders:
 success: "Created %s branch: %s"
 
 # In Go code
-strings.GetString("start", "success", "feature", "feature/new-login")
+strings.GetPath("start.success", "feature", "feature/new-login")
 ```
 
 ## Best Practices
@@ -165,7 +165,7 @@ The internationalization system is implemented and functional. The following com
 To complete the migration for remaining commands:
 
 1. Import `"gfl/utils/strings"` in each command file
-2. Replace hardcoded strings with `strings.GetString()` calls
+2. Replace hardcoded strings with `strings.GetPath()` calls
 3. Update command Short/Long descriptions to use placeholder text
 4. Add commands to `updateCommandDescriptions()` in `cmd/root.go`
 

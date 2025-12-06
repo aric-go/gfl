@@ -24,8 +24,8 @@ var releaseCmd = &cobra.Command{
 		}
 
 		// print new version
-		utils.Infof(strings.GetString("release", "previous_version"), version)
-		utils.Successf(strings.GetString("release", "new_version"), newVersion)
+		utils.Infof(strings.GetPath("release.previous_version", version))
+		utils.Successf(strings.GetPath("release.new_version", newVersion))
 
 		config := utils.ReadConfig()
 		if config == nil {
@@ -41,19 +41,19 @@ var releaseCmd = &cobra.Command{
 		baseRemoteBranch := fmt.Sprintf("origin/%s", remoteBranch)
 		// 1. fetch remote branch
 		command1 := "git fetch origin"
-		if err := utils.RunCommandWithSpin(command1, strings.GetString("release", "step1")); err != nil {
+		if err := utils.RunCommandWithSpin(command1, strings.GetPath("release.step1")); err != nil {
 			utils.Errorf("step 1 failed: %v", err)
 			return
 		}
 
 		// 2. create release branch
 		command2 := fmt.Sprintf("git checkout -b %s %s", branchName, baseRemoteBranch)
-		if err := utils.RunCommandWithSpin(command2, strings.GetString("release", "step2")); err != nil {
+		if err := utils.RunCommandWithSpin(command2, strings.GetPath("release.step2")); err != nil {
 			return
 		}
 		// 3. push release branch
 		command3 := fmt.Sprintf("git push -u origin %s", branchName)
-		if err := utils.RunCommandWithSpin(command3, strings.GetString("release", "step3")); err != nil {
+		if err := utils.RunCommandWithSpin(command3, strings.GetPath("release.step3")); err != nil {
 			utils.Errorf("step 2 failed: %v", err)
 			return
 		}
@@ -64,7 +64,7 @@ func init() {
 	rootCmd.AddCommand(releaseCmd)
 	// Here you will define your flags and configuration settings.
 	// add Type (MAJOR, MINOR, PATCH) enum
-	releaseCmd.Flags().StringP("type", "t", "patch", strings.GetString("release", "type_flag"))
+	releaseCmd.Flags().StringP("type", "t", "patch", strings.GetPath("release.type_flag"))
 	// add hotfix flag
-	releaseCmd.Flags().BoolP("hotfix", "x", false, strings.GetString("release", "hotfix_flag"))
+	releaseCmd.Flags().BoolP("hotfix", "x", false, strings.GetPath("release.hotfix_flag"))
 }

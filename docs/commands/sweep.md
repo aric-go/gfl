@@ -28,7 +28,7 @@ keyword := args[0]
 confirm, _ := cmd.Flags().GetBool("confirm")
 
 if !localFlag && !remoteFlag {
-    utils.Error(strings.GetString("sweep", "local_remote_required"))
+    utils.Error(strings.GetPath("sweep.local_remote_required"))
     return
 }
 ```

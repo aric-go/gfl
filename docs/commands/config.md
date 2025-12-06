@@ -13,7 +13,7 @@ var configCmd = &cobra.Command{
     Use:     "config",
     Aliases: []string{"c"},
     Short:   "View current configuration",
-    Long:    strings.GetString("config", "long"),
+    Long:    strings.GetPath("config.long"),
     Run: func(cmd *cobra.Command, args []string) {
         // 实现逻辑
     },
@@ -33,7 +33,7 @@ finalConfig := configInfo.FinalConfig
 ```go
 t := table.NewWriter()
 t.SetOutputMirror(os.Stdout)
-t.SetTitle(strings.GetString("config", "title"))
+t.SetTitle(strings.GetPath("config.title"))
 t.SetStyle(table.StyleRounded)
 t.Style().Options.SeparateRows = true
 t.Style().Options.DrawBorder = true
@@ -52,7 +52,7 @@ getSource := func(field string) string {
         // 检查该配置项是否在当前源中定义
         // ...
     }
-    return strings.GetString("config", "default_value")
+    return strings.GetPath("config.default_value")
 }
 ```
 

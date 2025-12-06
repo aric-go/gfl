@@ -54,21 +54,22 @@ func GetLanguage() Language {
 	return currentLanguage
 }
 
-// GetString returns a specific string by key using go-yaml-path with dot notation
-func GetString(category, key string, args ...any) string {
+// GetPath returns a specific string by direct dot-path notation (e.g., "rename.local_flag")
+// Uses language.path format with automatic fallback to zh-CN
+func GetPath(path string, args ...any) string {
 	if globalYPath == nil {
 		return ""
 	}
 
-	// Construct the full path using dot notation: language.category.key
-	path := fmt.Sprintf("%s.%s.%s", currentLanguage, category, key)
+	// Construct the full path using dot notation: language.path
+	fullPath := fmt.Sprintf("%s.%s", currentLanguage, path)
 
 	// Get the string value
-	value := globalYPath.GetString(path)
+	value := globalYPath.GetString(fullPath)
 
 	// If the value is not found, try fallback to zh-CN
 	if value == "" && currentLanguage != LanguageZHCN {
-		fallbackPath := fmt.Sprintf("%s.%s.%s", LanguageZHCN, category, key)
+		fallbackPath := fmt.Sprintf("%s.%s", LanguageZHCN, path)
 		value = globalYPath.GetString(fallbackPath)
 	}
 
@@ -79,4 +80,3 @@ func GetString(category, key string, args ...any) string {
 
 	return value
 }
-

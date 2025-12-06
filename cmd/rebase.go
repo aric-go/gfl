@@ -23,7 +23,7 @@ var rebaseCmd = &cobra.Command{
 		// Get current branch
 		currentBranch, err := utils.GetCurrentBranch()
 		if err != nil {
-			utils.Errorf(strings.GetString("rebase", "current_branch_error", err))
+			utils.Errorf(strings.GetPath("rebase.current_branch_error", err))
 			return
 		}
 
@@ -32,7 +32,7 @@ var rebaseCmd = &cobra.Command{
 		if config != nil && config.DevBaseBranch != "" {
 			devBranch = config.DevBaseBranch
 		} else {
-			utils.Infof(strings.GetString("rebase", "no_config"))
+			utils.Infof(strings.GetPath("rebase.no_config"))
 		}
 
 		// Check if we're already on the target branch
@@ -43,12 +43,12 @@ var rebaseCmd = &cobra.Command{
 
 		// Perform rebase
 		rebaseCmd := fmt.Sprintf("git rebase origin/%s", devBranch)
-		if err := utils.RunCommandWithSpin(rebaseCmd, fmt.Sprintf(strings.GetString("rebase", "rebasing", devBranch))); err != nil {
-			utils.Errorf(strings.GetString("rebase", "rebase_failed", err))
+		if err := utils.RunCommandWithSpin(rebaseCmd, fmt.Sprintf(strings.GetPath("rebase.rebasing", devBranch))); err != nil {
+			utils.Errorf(strings.GetPath("rebase.rebase_failed", err))
 			return
 		}
 
-		utils.Infof(strings.GetString("rebase", "success", devBranch))
+		utils.Infof(strings.GetPath("rebase.success", devBranch))
 	},
 }
 
@@ -56,5 +56,5 @@ func init() {
 	rootCmd.AddCommand(rebaseCmd)
 
 	// Update command description after strings are loaded
-	rebaseCmd.Short = strings.GetString("rebase", "short")
+	rebaseCmd.Short = strings.GetPath("rebase.short")
 }

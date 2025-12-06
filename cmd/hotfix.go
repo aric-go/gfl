@@ -23,17 +23,17 @@ var hotfixCmd = &cobra.Command{
 
 		// 执行命令: git fetch origin
 		command1 := "git fetch origin"
-		if err := utils.RunCommandWithSpin(command1, strings.GetString("hotfix", "syncing")); err != nil {
+		if err := utils.RunCommandWithSpin(command1, strings.GetPath("hotfix.syncing")); err != nil {
 			return
 		}
 
 		// 执行命令: git checkout -b hotfix/aric/new-feature origin/develop
 		command2 := fmt.Sprintf("git checkout -b %s origin/%s", branchName, config.ProductionBranch)
-		utils.Infof(strings.GetString("shell", "executing_command"), command2)
-		if err := utils.RunCommandWithSpin(command2, strings.GetString("hotfix", "creating")); err != nil {
+		utils.Infof(strings.GetPath("shell.executing_command"), command2)
+		if err := utils.RunCommandWithSpin(command2, strings.GetPath("hotfix.creating")); err != nil {
 			return
 		}
-		utils.Successf(strings.GetString("hotfix", "success"), branchName)
+		utils.Successf(strings.GetPath("hotfix.success"), branchName)
 	},
 }
 

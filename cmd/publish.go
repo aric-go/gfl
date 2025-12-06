@@ -12,10 +12,10 @@ var publishCmd = &cobra.Command{
 	Short:   "Publish current branch (alias: p)", // Will be updated after strings load
 	Run: func(cmd *cobra.Command, args []string) {
 		// 执行命令: git push -u origin HEAD
-		if err := utils.RunCommandWithSpin("git push -u origin HEAD", strings.GetString("publish", "pushing")); err != nil {
+		if err := utils.RunCommandWithSpin("git push -u origin HEAD", strings.GetPath("publish.pushing")); err != nil {
 			return
 		}
-		utils.Success(strings.GetString("publish", "success"))
+		utils.Success(strings.GetPath("publish.success"))
 	},
 }
 

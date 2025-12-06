@@ -27,7 +27,7 @@ var prCmd = &cobra.Command{
 		isSync, _ := cmd.Flags().GetBool("sync")
 		if isSync {
 			if !utils.SyncProductionToDev(config.ProductionBranch, config.DevBaseBranch) {
-				utils.Errorf(strings.GetString("pr", "sync_failed"))
+				utils.Errorf(strings.GetPath("pr.sync_failed"))
 			}
 			return
 		}
@@ -39,7 +39,7 @@ var prCmd = &cobra.Command{
 
 			err := browser.OpenURL(listUrl)
 			if err != nil {
-				utils.Errorf(strings.GetString("pr", "browser_error", err))
+				utils.Errorf(strings.GetPath("pr.browser_error", err))
 				return
 			}
 			return
@@ -48,7 +48,7 @@ var prCmd = &cobra.Command{
 		// 获取当前分支名称
 		currentBranch, err := utils.GetCurrentBranch()
 		if err != nil {
-			utils.Errorf(strings.GetString("pr", "current_branch_error", err))
+			utils.Errorf(strings.GetPath("pr.current_branch_error", err))
 			return
 		}
 
@@ -67,6 +67,6 @@ func init() {
 	rootCmd.AddCommand(prCmd)
 
 	// 添加命令标志
-	prCmd.Flags().BoolP("sync", "s", false, strings.GetString("pr", "sync_flag"))
-	prCmd.Flags().BoolP("open", "o", false, strings.GetString("pr", "open_flag"))
+	prCmd.Flags().BoolP("sync", "s", false, strings.GetPath("pr.sync_flag"))
+	prCmd.Flags().BoolP("open", "o", false, strings.GetPath("pr.open_flag"))
 }

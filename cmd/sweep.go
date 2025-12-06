@@ -29,7 +29,7 @@ var sweepCmd = &cobra.Command{
 
     // 如果没有设置本地或远程标志，打印错误并返回
     if !localFlag && !remoteFlag {
-      utils.Error(strings.GetString("sweep", "local_remote_required"))
+      utils.Error(strings.GetPath("sweep.local_remote_required"))
       return
     }
 
@@ -44,7 +44,7 @@ var sweepCmd = &cobra.Command{
     }
 
     if !confirm {
-      utils.Info(strings.GetString("sweep", "skip_confirm"))
+      utils.Info(strings.GetPath("sweep.skip_confirm"))
     }
   },
 }
@@ -53,7 +53,7 @@ func cleanLocalBranches(keyword string, confirm bool, exactMatch bool) {
   // 获取本地分支列表
   branches, err := exec.Command("git", "branch").Output()
   if err != nil {
-    utils.Errorf(strings.GetString("sweep", "local_branches_error", err))
+    utils.Errorf(strings.GetPath("sweep.local_branches_error", err))
     return
   }
 
@@ -76,10 +76,10 @@ func cleanLocalBranches(keyword string, confirm bool, exactMatch bool) {
       // 执行命令: git branch -d branch-name
       command := fmt.Sprintf("git branch -d %s", branch)
       if confirm {
-        if err := utils.RunCommandWithSpin(command, strings.GetString("sweep", "deleting_local")); err != nil {
-          utils.Errorf(strings.GetString("sweep", "delete_local_error", branch, err))
+        if err := utils.RunCommandWithSpin(command, strings.GetPath("sweep.deleting_local")); err != nil {
+          utils.Errorf(strings.GetPath("sweep.delete_local_error", branch, err))
         } else {
-          utils.Successf(strings.GetString("sweep", "delete_local_success", branch))
+          utils.Successf(strings.GetPath("sweep.delete_local_success", branch))
         }
       } else {
         logRemove(branch, keyword)
@@ -92,7 +92,7 @@ func cleanRemoteBranches(keyword string, confirm bool, exactMatch bool) {
   // 获取远程分支列表
   branches, err := exec.Command("git", "branch", "-r").Output()
   if err != nil {
-    utils.Errorf(strings.GetString("sweep", "remote_branches_error", err))
+    utils.Errorf(strings.GetPath("sweep.remote_branches_error", err))
     return
   }
 
@@ -117,10 +117,10 @@ func cleanRemoteBranches(keyword string, confirm bool, exactMatch bool) {
     if shouldDelete {
       command := fmt.Sprintf("git push origin --delete %s", remoteBranch)
       if confirm {
-        if err := utils.RunCommandWithSpin(command, strings.GetString("sweep", "deleting_remote")); err != nil {
-          utils.Errorf(strings.GetString("sweep", "delete_remote_error", branch, err))
+        if err := utils.RunCommandWithSpin(command, strings.GetPath("sweep.deleting_remote")); err != nil {
+          utils.Errorf(strings.GetPath("sweep.delete_remote_error", branch, err))
         } else {
-          utils.Successf(strings.GetString("sweep", "delete_remote_success", branch))
+          utils.Successf(strings.GetPath("sweep.delete_remote_success", branch))
         }
       } else {
         logRemove(branch, keyword)
@@ -133,13 +133,13 @@ func logRemove(branch string, keyword string) {
   colorBranch := color.GreenString(branch)
   colorKeyword := color.RedString(keyword)
   // list branches without confirm
-  msg := strings.GetString("sweep", "manual_delete", colorBranch, colorKeyword)
+  msg := strings.GetPath("sweep.manual_delete", colorBranch, colorKeyword)
   utils.Infof(msg)
 }
 
 func init() {
-  sweepCmd.Flags().BoolVarP(&localFlag, "local", "l", false, strings.GetString("sweep", "local_flag"))
-  sweepCmd.Flags().BoolVarP(&remoteFlag, "remote", "r", false, strings.GetString("sweep", "remote_flag"))
-  sweepCmd.Flags().BoolVarP(&exactFlag, "exact", "e", false, strings.GetString("sweep", "exact_flag"))
+  sweepCmd.Flags().BoolVarP(&localFlag, "local", "l", false, strings.GetPath("sweep.local_flag"))
+  sweepCmd.Flags().BoolVarP(&remoteFlag, "remote", "r", false, strings.GetPath("sweep.remote_flag"))
+  sweepCmd.Flags().BoolVarP(&exactFlag, "exact", "e", false, strings.GetPath("sweep.exact_flag"))
   rootCmd.AddCommand(sweepCmd)
 }

@@ -50,7 +50,7 @@ repo, _ := utils.GetRepository()
 ```go
 if isSync {
     if !utils.SyncProductionToDev(config.ProductionBranch, config.DevBaseBranch) {
-        utils.Errorf(strings.GetString("pr", "sync_failed"))
+        utils.Errorf(strings.GetPath("pr.sync_failed"))
     }
     return
 }
@@ -71,7 +71,7 @@ if isOpen {
     listUrl := fmt.Sprintf("https://github.com/%s/pulls", repo)
     err := browser.OpenURL(listUrl)
     if err != nil {
-        utils.Errorf(strings.GetString("pr", "browser_error"), err)
+        utils.Errorf(strings.GetPath("pr.browser_error"), err)
         return
     }
     return

@@ -30,8 +30,8 @@ newVersion, err := utils.IncrementVersion(version, versionType)
 
 #### 步骤 2: 版本信息显示
 ```go
-utils.Infof(strings.GetString("tag", "previous_version"), version)
-utils.Successf(strings.GetString("tag", "new_version"), newVersion)
+utils.Infof(strings.GetPath("tag.previous_version"), version)
+utils.Successf(strings.GetPath("tag.new_version"), newVersion)
 ```
 
 #### 步骤 3: Git 操作执行

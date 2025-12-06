@@ -27,7 +27,7 @@ var restoreCmd = &cobra.Command{
 		}
 
 		if !confirm {
-			utils.Info(strings.GetString("restore", "skip_confirm"))
+			utils.Info(strings.GetPath("restore.skip_confirm"))
 		}
 	},
 }

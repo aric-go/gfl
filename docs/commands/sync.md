@@ -22,15 +22,15 @@ var syncCmd = &cobra.Command{
 
 #### 步骤 1: 获取远程更新
 ```go
-if err := utils.RunCommandWithSpin("git fetch origin", strings.GetString("sync", "fetching")); err == nil {
-    utils.Success(strings.GetString("sync", "fetch_success"))
+if err := utils.RunCommandWithSpin("git fetch origin", strings.GetPath("sync.fetching")); err == nil {
+    utils.Success(strings.GetPath("sync.fetch_success"))
 }
 ```
 
 #### 步骤 2: 清理过时的远程分支引用
 ```go
-if err := utils.RunCommandWithSpin("git remote update origin --prune", strings.GetString("sync", "updating")); err == nil {
-    utils.Success(strings.GetString("sync", "sync_success"))
+if err := utils.RunCommandWithSpin("git remote update origin --prune", strings.GetPath("sync.updating")); err == nil {
+    utils.Success(strings.GetPath("sync.sync_success"))
 }
 ```
 

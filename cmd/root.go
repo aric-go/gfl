@@ -14,7 +14,7 @@ var rootCmd = &cobra.Command{
 	Short:   "GitHub Flow CLI", // Will be updated after strings load
 	Version: "1.0.8",
 	Run: func(cmd *cobra.Command, args []string) {
-		utils.Info(strings.GetString("root", "welcome"))
+		utils.Info(strings.GetPath("root.welcome"))
 		_ = cmd.Help()
 	},
 }
@@ -45,91 +45,91 @@ func init() {
 // updateCommandDescriptions updates all command descriptions after strings are loaded
 func updateCommandDescriptions() {
 	// Update root command
-	rootCmd.Short = strings.GetString("root", "short")
+	rootCmd.Short = strings.GetPath("root.short")
 
 	// Update flag description
-	rootCmd.PersistentFlags().Lookup("confirm").Usage = strings.GetString("root", "confirm_flag")
+	rootCmd.PersistentFlags().Lookup("confirm").Usage = strings.GetPath("root.confirm_flag")
 
 	// Update start command
 	if startCmd != nil {
-		startCmd.Short = strings.GetString("start", "short")
+		startCmd.Short = strings.GetPath("start.short")
 	}
 
 	// Update init command
 	if initCmd != nil {
-		initCmd.Short = strings.GetString("init", "short")
-		initCmd.Flags().Lookup("force").Usage = strings.GetString("init", "force_flag")
-		initCmd.Flags().Lookup("nickname").Usage = strings.GetString("init", "nickname_flag")
+		initCmd.Short = strings.GetPath("init.short")
+		initCmd.Flags().Lookup("force").Usage = strings.GetPath("init.force_flag")
+		initCmd.Flags().Lookup("nickname").Usage = strings.GetPath("init.nickname_flag")
 	}
 
 	// Update publish command
 	if publishCmd != nil {
-		publishCmd.Short = strings.GetString("publish", "short")
+		publishCmd.Short = strings.GetPath("publish.short")
 	}
 
 	// Update hotfix command
 	if hotfixCmd != nil {
-		hotfixCmd.Short = strings.GetString("hotfix", "short")
+		hotfixCmd.Short = strings.GetPath("hotfix.short")
 	}
 
 	// Update checkout command
 	if checkoutCmd != nil {
-		checkoutCmd.Short = strings.GetString("checkout", "short")
+		checkoutCmd.Short = strings.GetPath("checkout.short")
 	}
 
 	// Update sync command
 	if syncCmd != nil {
-		syncCmd.Short = strings.GetString("sync", "short")
+		syncCmd.Short = strings.GetPath("sync.short")
 	}
 
 	// Update tag command
 	if tagCmd != nil {
-		tagCmd.Short = strings.GetString("tag", "short")
-		tagCmd.Flags().Lookup("type").Usage = strings.GetString("tag", "type_flag")
+		tagCmd.Short = strings.GetPath("tag.short")
+		tagCmd.Flags().Lookup("type").Usage = strings.GetPath("tag.type_flag")
 	}
 
 	// Update pr command
 	if prCmd != nil {
-		prCmd.Short = strings.GetString("pr", "short")
-		prCmd.Flags().Lookup("sync").Usage = strings.GetString("pr", "sync_flag")
-		prCmd.Flags().Lookup("open").Usage = strings.GetString("pr", "open_flag")
+		prCmd.Short = strings.GetPath("pr.short")
+		prCmd.Flags().Lookup("sync").Usage = strings.GetPath("pr.sync_flag")
+		prCmd.Flags().Lookup("open").Usage = strings.GetPath("pr.open_flag")
 	}
 
 	// Update sweep command
 	if sweepCmd != nil {
-		sweepCmd.Short = strings.GetString("sweep", "short")
-		sweepCmd.Flags().Lookup("local").Usage = strings.GetString("sweep", "local_flag")
-		sweepCmd.Flags().Lookup("remote").Usage = strings.GetString("sweep", "remote_flag")
+		sweepCmd.Short = strings.GetPath("sweep.short")
+		sweepCmd.Flags().Lookup("local").Usage = strings.GetPath("sweep.local_flag")
+		sweepCmd.Flags().Lookup("remote").Usage = strings.GetPath("sweep.remote_flag")
 	}
 
 	// Update release command
 	if releaseCmd != nil {
-		releaseCmd.Short = strings.GetString("release", "short")
-		releaseCmd.Flags().Lookup("type").Usage = strings.GetString("release", "type_flag")
-		releaseCmd.Flags().Lookup("hotfix").Usage = strings.GetString("release", "hotfix_flag")
+		releaseCmd.Short = strings.GetPath("release.short")
+		releaseCmd.Flags().Lookup("type").Usage = strings.GetPath("release.type_flag")
+		releaseCmd.Flags().Lookup("hotfix").Usage = strings.GetPath("release.hotfix_flag")
 	}
 
 	// Update config command
 	if configCmd != nil {
-		configCmd.Short = strings.GetString("config", "short")
-		configCmd.Long = strings.GetString("config", "long")
+		configCmd.Short = strings.GetPath("config.short")
+		configCmd.Long = strings.GetPath("config.long")
 	}
 
 	if rebaseCmd != nil {
-		rebaseCmd.Short = strings.GetString("rebase", "short")
+		rebaseCmd.Short = strings.GetPath("rebase.short")
 	}
 
 	// Update rename command
 	if renameCmd != nil {
-		renameCmd.Short = strings.GetString("rename", "short")
-		renameCmd.Flags().Lookup("local").Usage = strings.GetString("rename", "local_flag")
-		renameCmd.Flags().Lookup("remote").Usage = strings.GetString("rename", "remote_flag")
-		renameCmd.Flags().Lookup("delete").Usage = strings.GetString("rename", "delete_flag")
+		renameCmd.Short = strings.GetPath("rename.short")
+		renameCmd.Flags().Lookup("local").Usage = strings.GetPath("rename.local_flag")
+		renameCmd.Flags().Lookup("remote").Usage = strings.GetPath("rename.remote_flag")
+		renameCmd.Flags().Lookup("delete").Usage = strings.GetPath("rename.delete_flag")
 	}
 
 	// Update restore command
 	if restoreCmd != nil {
-		restoreCmd.Short = strings.GetString("restore", "short")
-		restoreCmd.Long = strings.GetString("restore", "long")
+		restoreCmd.Short = strings.GetPath("restore.short")
+		restoreCmd.Long = strings.GetPath("restore.long")
 	}
 }

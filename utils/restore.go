@@ -13,13 +13,13 @@ import (
 func RestorePath(path string, confirm bool) error {
 	// 检查路径是否存在
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		Errorf(strings.GetString("restore", "path_not_exist", path))
+		Errorf(strings.GetPath("restore.path_not_exist", path))
 		return err
 	}
 
 	// 检查是否是 git 仓库
 	if !isGitRepository() {
-		Error(strings.GetString("restore", "not_git_repo"))
+		Error(strings.GetPath("restore.not_git_repo"))
 		return fmt.Errorf("not a git repository")
 	}
 
@@ -28,11 +28,11 @@ func RestorePath(path string, confirm bool) error {
 
 	if confirm {
 		// 执行实际的恢复操作
-		if err := RunCommandWithSpin(command, strings.GetString("restore", "restoring", path)); err != nil {
-			Errorf(strings.GetString("restore", "restore_error", path, err))
+		if err := RunCommandWithSpin(command, strings.GetPath("restore.restoring", path)); err != nil {
+			Errorf(strings.GetPath("restore.restore_error", path, err))
 			return err
 		}
-		Successf(strings.GetString("restore", "restore_success", path))
+		Successf(strings.GetPath("restore.restore_success", path))
 	} else {
 		// Dry-run 模式，显示将要执行的操作
 		LogRestore(path)
@@ -52,17 +52,17 @@ func LogRestore(path string) {
 	// 检查路径是否有变化
 	hasChanges, err := checkPathChanges(path)
 	if err != nil {
-		Errorf(strings.GetString("restore", "check_changes_error", path, err))
+		Errorf(strings.GetPath("restore.check_changes_error", path, err))
 		return
 	}
 
 	if !hasChanges {
-		Infof(strings.GetString("restore", "no_changes", path))
+		Infof(strings.GetPath("restore.no_changes", path))
 		return
 	}
 
 	absPath, _ := filepath.Abs(path)
-	Infof(strings.GetString("restore", "would_restore", absPath))
+	Infof(strings.GetPath("restore.would_restore", absPath))
 }
 
 // checkPathChanges checks if a path has any changes compared to HEAD

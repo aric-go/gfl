@@ -46,14 +46,14 @@ var renameCmd = &cobra.Command{
 		}
 
 		if !confirm {
-			utils.Info(strings.GetString("rename", "skip_confirm"))
+			utils.Info(strings.GetPath("rename.skip_confirm"))
 		}
 	},
 }
 
 func init() {
-	renameCmd.Flags().BoolVarP(&renameLocalFlag, "local", "l", false, strings.GetString("rename", "local_flag"))
-	renameCmd.Flags().BoolVarP(&renameRemoteFlag, "remote", "r", false, strings.GetString("rename", "remote_flag"))
-	renameCmd.Flags().BoolVarP(&renameDeleteFlag, "delete", "d", false, strings.GetString("rename", "delete_flag"))
+	renameCmd.Flags().BoolVarP(&renameLocalFlag, "local", "l", false, strings.GetPath("rename.local_flag"))
+	renameCmd.Flags().BoolVarP(&renameRemoteFlag, "remote", "r", false, strings.GetPath("rename.remote_flag"))
+	renameCmd.Flags().BoolVarP(&renameDeleteFlag, "delete", "d", false, strings.GetPath("rename.delete_flag"))
 	rootCmd.AddCommand(renameCmd)
 }
