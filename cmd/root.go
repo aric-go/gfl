@@ -16,8 +16,8 @@ var rootCmd = &cobra.Command{
 	Version: "1.0.8",
 	Run: func(cmd *cobra.Command, args []string) {
 		utils.DisplayLogo()
-		fmt.Println(strings.GetPath("root.welcome"))
-		fmt.Println()
+		fmt.Println() // Keep for spacing
+		fmt.Printf("%s", strings.GetPath("root.welcome"))
 		_ = cmd.Help()
 	},
 }

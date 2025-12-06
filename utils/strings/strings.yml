@@ -6,7 +6,7 @@ zh-CN:
   # Root command
   root:
     short: "GitHub Flow CLI"
-    welcome: "🌈 Welcome to GitHub Flow CLI!"
+    welcome: "🌈 Welcome to "
     confirm_flag: "确认操作"
 
   # Init command
