@@ -3,36 +3,28 @@ package strings
 import (
 	_ "embed"
 	"fmt"
-	"os"
 
 	"github.com/afeiship/go-yaml-path"
+	"gfl/utils/lang"
 )
 
 //go:embed strings.yml
 var stringsData string
 
-// Language represents the supported languages
-type Language string
-
-const (
-	LanguageZHCN Language = "zh-CN"
-	LanguageENUS Language = "en-US"
-)
+// Import language types from utils package
 
 var (
 	// Global YPath instance for the entire strings data
 	globalYPath *ypath.YPath
 
 	// Current language (can be set via environment variable or config)
-	currentLanguage Language = LanguageZHCN // Default to Chinese
+	currentLanguage lang.Language = lang.LanguageZHCN // Default to Chinese
 )
 
 // LoadStrings initializes the strings package by loading the embedded strings.yml data using go-yaml-path
 func LoadStrings() error {
-	// Get the current language from environment variable or default to zh-CN
-	if lang := os.Getenv("GFL_LANG"); lang != "" {
-		currentLanguage = Language(lang)
-	}
+	// Use the language priority logic from lang package
+	currentLanguage = lang.GetLanguagePriority()
 
 	// Parse the embedded YAML data using go-yaml-path
 	yp, err := ypath.New([]byte(stringsData))
@@ -45,12 +37,12 @@ func LoadStrings() error {
 }
 
 // SetLanguage sets the current language
-func SetLanguage(lang Language) {
-	currentLanguage = lang
+func SetLanguage(language lang.Language) {
+	currentLanguage = language
 }
 
 // GetLanguage returns the current language
-func GetLanguage() Language {
+func GetLanguage() lang.Language {
 	return currentLanguage
 }
 
@@ -68,8 +60,8 @@ func GetPath(path string, args ...any) string {
 	value := globalYPath.GetString(fullPath)
 
 	// If the value is not found, try fallback to zh-CN
-	if value == "" && currentLanguage != LanguageZHCN {
-		fallbackPath := fmt.Sprintf("%s.%s", LanguageZHCN, path)
+	if value == "" && currentLanguage != lang.LanguageZHCN {
+		fallbackPath := fmt.Sprintf("%s.%s", lang.LanguageZHCN, path)
 		value = globalYPath.GetString(fallbackPath)
 	}
 

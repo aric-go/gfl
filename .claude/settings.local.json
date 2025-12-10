@@ -25,7 +25,10 @@
       "Bash(go mod tidy:*)",
       "Bash(GFL_LANG=zh-CN ./gfl:*)",
       "Bash(python3:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(GFL_LANG= ./gfl:*)",
+      "Bash(LANG=en_US.UTF-8 ./gfl:*)",
+      "Bash(LANG=zh_CN.UTF-8 ./gfl:*)"
     ],
     "deny": [],
     "ask": []
