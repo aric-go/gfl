@@ -104,3 +104,35 @@ func GetCurrentBranch() (string, error) {
 	branchName := strings.TrimSpace(string(output))
 	return branchName, nil
 }
+
+// GetRemoteBranches retrieves a list of all remote branches from the origin.
+// It executes 'git branch -r' and parses the output into a clean slice of branch names.
+//
+// Returns:
+//   - []string: List of remote branch names (e.g., ["origin/main", "origin/develop"])
+//   - error: Error if the command execution fails
+//
+// Note:
+//   - The branch names include the "origin/" prefix
+//   - Empty lines and whitespace are trimmed
+func GetRemoteBranches() ([]string, error) {
+	cmd := exec.Command("git", "branch", "-r")
+	output, err := cmd.Output()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get remote branches: %w", err)
+	}
+
+	// Parse the output into a slice of branch names
+	var branches []string
+	lines := strings.Split(string(output), "\n")
+	for _, line := range lines {
+		branch := strings.TrimSpace(line)
+		// Skip empty lines and HEAD pointer
+		if branch == "" || strings.Contains(branch, "->") {
+			continue
+		}
+		branches = append(branches, branch)
+	}
+
+	return branches, nil
+}

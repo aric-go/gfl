@@ -105,6 +105,11 @@ zh-CN:
   forward:
     short: "将 main 分支 forward 到 dev 分支(alias: fwd)"
     same_branch_error: "开发分支和发布分支不能相同，请检查配置文件"
+    syncing: " 正在同步远程分支...\n"
+    sync_error: "同步远程分支失败: %v"
+    base_branch_not_exist: "目标分支 %s 在远程仓库中不存在，请先创建该分支"
+    head_branch_not_exist: "源分支 %s 在远程仓库中不存在，请先推送该分支"
+    pr_already_exists: "已存在一个开放的 PR: %s\n如需创建新 PR，请先关闭或合并现有的 PR"
     creating_pr: " 正在创建 PR...\n"
     create_pr_error: "创建 PR 失败: %v"
     success: "成功创建 PR: %s -> %s"
@@ -350,6 +355,11 @@ en-US:
   forward:
     short: "Forward main branch to dev branch via PR(alias: fwd)"
     same_branch_error: "Development branch and production branch cannot be the same, please check configuration"
+    syncing: " Syncing remote branches...\n"
+    sync_error: "Failed to sync remote branches: %v"
+    base_branch_not_exist: "Target branch %s does not exist in remote repository, please create it first"
+    head_branch_not_exist: "Source branch %s does not exist in remote repository, please push it first"
+    pr_already_exists: "An open PR already exists: %s\nPlease close or merge the existing PR before creating a new one"
     creating_pr: " Creating PR...\n"
     create_pr_error: "Failed to create PR: %v"
     success: "Successfully created PR: %s -> %s"

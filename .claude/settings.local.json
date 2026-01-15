@@ -32,7 +32,11 @@
       "WebSearch",
       "Bash(GFL_CONFIG_FILE=/tmp/test-lower.yml ./gfl start:*)",
       "Bash(GFL_CONFIG_FILE=/tmp/test-pascal.yml git checkout:*)",
-      "Bash(GFL_CONFIG_FILE=/tmp/test-pascal.yml ./gfl start:*)"
+      "Bash(GFL_CONFIG_FILE=/tmp/test-pascal.yml ./gfl start:*)",
+      "Bash(gh pr create:*)",
+      "Bash(ls:*)",
+      "Bash(gh pr list:*)",
+      "Bash(/Users/afei/aric-go/gfl/gfl forward:*)"
     ],
     "deny": [],
     "ask": []

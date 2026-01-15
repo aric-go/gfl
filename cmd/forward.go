@@ -3,7 +3,9 @@ package cmd
 import (
 	"fmt"
 	"gfl/utils"
-	"gfl/utils/strings"
+	str "gfl/utils/strings"
+	"os/exec"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -24,7 +26,61 @@ var forwardCmd = &cobra.Command{
 
 		// Check if production branch and dev branch are the same
 		if config.ProductionBranch == config.DevBaseBranch {
-			utils.Errorf(strings.GetPath("forward.same_branch_error"))
+			utils.Errorf(str.GetPath("forward.same_branch_error"))
+			return
+		}
+
+		// Sync remote branches first to ensure we have latest info
+		if err := utils.RunCommandWithSpin("git fetch origin", str.GetPath("forward.syncing")); err != nil {
+			utils.Errorf(str.GetPath("forward.sync_error"), err)
+			return
+		}
+
+		// Check if remote branches exist
+		remoteBranches, err := utils.GetRemoteBranches()
+		if err != nil {
+			utils.Errorf(str.GetPath("forward.sync_error"), err)
+			return
+		}
+
+		baseBranch := "origin/" + config.DevBaseBranch
+		headBranch := "origin/" + config.ProductionBranch
+
+		baseExists := false
+		headExists := false
+		for _, branch := range remoteBranches {
+			if branch == baseBranch {
+				baseExists = true
+			}
+			if branch == headBranch {
+				headExists = true
+			}
+		}
+
+		if !baseExists {
+			utils.Errorf(str.GetPath("forward.base_branch_not_exist"), config.DevBaseBranch)
+			return
+		}
+
+		if !headExists {
+			utils.Errorf(str.GetPath("forward.head_branch_not_exist"), config.ProductionBranch)
+			return
+		}
+
+		// Check if PR already exists
+		checkCmd := fmt.Sprintf("gh pr list --head %s --base %s --state open --json url,title,number --jq '. | length'",
+			config.ProductionBranch,
+			config.DevBaseBranch)
+		output, _ := exec.Command("bash", "-c", checkCmd).Output()
+		outputStr := strings.TrimSpace(string(output))
+		if outputStr != "" && outputStr != "0" {
+			// PR already exists, get its details
+			listCmd := fmt.Sprintf("gh pr list --head %s --base %s --state open --json number,title,url --jq '.[0]\"",
+				config.ProductionBranch,
+			config.DevBaseBranch)
+			prDetailsBytes, _ := exec.Command("bash", "-c", listCmd).Output()
+			prDetails := string(prDetailsBytes)
+			utils.Errorf(str.GetPath("forward.pr_already_exists"), prDetails)
 			return
 		}
 
@@ -48,12 +104,12 @@ var forwardCmd = &cobra.Command{
 			prTitle,
 			prBody)
 
-		if err := utils.RunCommandWithSpin(prCmd, strings.GetPath("forward.creating_pr")); err != nil {
-			utils.Errorf(strings.GetPath("forward.create_pr_error"), err)
+		if err := utils.RunCommandWithSpin(prCmd, str.GetPath("forward.creating_pr")); err != nil {
+			utils.Errorf(str.GetPath("forward.create_pr_error"), err)
 			return
 		}
 
-		utils.Successf(strings.GetPath("forward.success"), config.ProductionBranch, config.DevBaseBranch)
+		utils.Successf(str.GetPath("forward.success"), config.ProductionBranch, config.DevBaseBranch)
 	},
 }
 
