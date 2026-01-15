@@ -28,7 +28,11 @@
       "Bash(git restore:*)",
       "Bash(GFL_LANG= ./gfl:*)",
       "Bash(LANG=en_US.UTF-8 ./gfl:*)",
-      "Bash(LANG=zh_CN.UTF-8 ./gfl:*)"
+      "Bash(LANG=zh_CN.UTF-8 ./gfl:*)",
+      "WebSearch",
+      "Bash(GFL_CONFIG_FILE=/tmp/test-lower.yml ./gfl start:*)",
+      "Bash(GFL_CONFIG_FILE=/tmp/test-pascal.yml git checkout:*)",
+      "Bash(GFL_CONFIG_FILE=/tmp/test-pascal.yml ./gfl start:*)"
     ],
     "deny": [],
     "ask": []

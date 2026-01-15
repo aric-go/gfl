@@ -35,6 +35,10 @@ type YamlConfig struct {
 	// HotfixPrefix defines the prefix for hotfix branches (default: "hotfix")
 	HotfixPrefix string `yaml:"hotfixPrefix,omitempty"`
 
+	// BranchCaseFormat defines the case format for branch names (default: "original")
+	// Supported values: "lower", "upper", "snake", "camel", "pascal", "kebab", "original"
+	BranchCaseFormat string `yaml:"branchCaseFormat,omitempty"`
+
 	// NicknameSet indicates whether nickname was explicitly set in config
 	// This field is not serialized to YAML (yaml:"-")
 	NicknameSet bool `yaml:"-"`
@@ -99,6 +103,7 @@ func ReadConfigWithSources() ConfigInfo {
 		FeaturePrefix:    "feature",
 		FixPrefix:        "fix",
 		HotfixPrefix:     "hotfix",
+		BranchCaseFormat: "original",
 	}
 
 	// 2. Load global configuration file
@@ -212,6 +217,9 @@ func mergeConfig(base *YamlConfig, override YamlConfig) {
 	}
 	if override.HotfixPrefix != "" {
 		base.HotfixPrefix = override.HotfixPrefix
+	}
+	if override.BranchCaseFormat != "" {
+		base.BranchCaseFormat = override.BranchCaseFormat
 	}
 }
 
