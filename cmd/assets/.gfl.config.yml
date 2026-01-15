@@ -5,3 +5,4 @@ nickname: aric
 featurePrefix: feature
 fixPrefix: fix
 hotfixPrefix: hotfix
+branchCaseFormat: original
