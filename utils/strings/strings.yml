@@ -104,8 +104,6 @@ zh-CN:
   # Forward command
   forward:
     short: "将 main 分支 forward 到 dev 分支(alias: fwd)"
-    get_branch_error: "无法获取当前分支: %v"
-    must_be_on_main: "必须在 %s 分支上执行此命令"
     same_branch_error: "开发分支和发布分支不能相同，请检查配置文件"
     creating_pr: " 正在创建 PR...\n"
     create_pr_error: "创建 PR 失败: %v"
@@ -351,8 +349,6 @@ en-US:
   # Forward command
   forward:
     short: "Forward main branch to dev branch via PR(alias: fwd)"
-    get_branch_error: "Failed to get current branch: %v"
-    must_be_on_main: "Must be on %s branch to run this command"
     same_branch_error: "Development branch and production branch cannot be the same, please check configuration"
     creating_pr: " Creating PR...\n"
     create_pr_error: "Failed to create PR: %v"

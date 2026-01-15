@@ -28,19 +28,6 @@ var forwardCmd = &cobra.Command{
 			return
 		}
 
-		// Get current branch
-		currentBranch, err := utils.GetCurrentBranch()
-		if err != nil {
-			utils.Errorf(strings.GetPath("forward.get_branch_error"), err)
-			return
-		}
-
-		// Check if current branch is production branch (main)
-		if currentBranch != config.ProductionBranch {
-			utils.Errorf(strings.GetPath("forward.must_be_on_main"), config.ProductionBranch)
-			return
-		}
-
 		// Set default PR title if not provided
 		prTitle := forwardTitle
 		if prTitle == "" {
@@ -53,7 +40,8 @@ var forwardCmd = &cobra.Command{
 			prBody = fmt.Sprintf("Forwarding changes from `%s` to `%s`.", config.ProductionBranch, config.DevBaseBranch)
 		}
 
-		// Create PR using gh CLI
+		// Create PR using gh CLI with remote branches
+		// GitHub PR automatically uses remote branches for both base and head
 		prCmd := fmt.Sprintf("gh pr create --base %s --head %s --title \"%s\" --body \"%s\"",
 			config.DevBaseBranch,
 			config.ProductionBranch,

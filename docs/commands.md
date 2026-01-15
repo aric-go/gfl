@@ -248,7 +248,43 @@ gfl sync
 - 更新远程分支引用
 - 不影响本地工作分支
 
-### 10. version - 显示版本信息
+### 10. forward - 将 main 分支 forward 到 dev 分支
+
+通过创建 Pull Request 的方式将 main 分支的代码同步到 dev 分支。
+
+```bash
+# 基本用法（使用默认标题和描述）
+gfl forward
+
+# 使用别名
+gfl fwd
+
+# 自定义 PR 标题
+gfl forward --title "Hotfix sync to dev"
+gfl fwd -t "Hotfix sync to dev"
+
+# 自定义标题和描述
+gfl forward --title "Sync release changes" --body "Forwarding release branch changes to dev"
+gfl fwd -t "Sync release changes" -b "Forwarding release branch changes to dev"
+```
+
+**功能说明：**
+- 基于远程分支创建从 `origin/main` 到 `origin/dev` 的 Pull Request
+- 使用默认或自定义的 PR 标题和描述
+- 默认标题: "Sync main to dev"
+- 默认描述: "Forwarding changes from `main` to `dev`."
+- 需要安装 [GitHub CLI](https://cli.github.com/)
+
+**使用场景：**
+- 将已发布的代码同步到开发分支
+- 将热修复同步到开发分支
+
+**前置条件：**
+- 已安装 GitHub CLI (gh)
+- 配置文件中 `devBaseBranch` 和 `productionBranch` 不能相同
+- 已通过 `gh auth login` 完成 GitHub 认证
+
+### 11. version - 显示版本信息
 
 显示 GFL 工具的当前版本。
 
@@ -260,7 +296,7 @@ gfl version
 gfl -v
 ```
 
-### 11. completion - 生成 Shell 自动补全
+### 12. completion - 生成 Shell 自动补全
 
 生成指定 Shell 的自动补全脚本。
 
