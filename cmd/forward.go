@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"gfl/utils"
 	str "gfl/utils/strings"
-	"os/exec"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -67,22 +65,6 @@ var forwardCmd = &cobra.Command{
 			return
 		}
 
-		// Check if PR already exists
-		checkCmd := fmt.Sprintf("gh pr list --head %s --base %s --state open --json url,title,number --jq '. | length'",
-			config.ProductionBranch,
-			config.DevBaseBranch)
-		output, _ := exec.Command("bash", "-c", checkCmd).Output()
-		outputStr := strings.TrimSpace(string(output))
-		if outputStr != "" && outputStr != "0" {
-			// PR already exists, get its details
-			listCmd := fmt.Sprintf("gh pr list --head %s --base %s --state open --json number,title,url --jq '.[0]\"",
-				config.ProductionBranch,
-			config.DevBaseBranch)
-			prDetailsBytes, _ := exec.Command("bash", "-c", listCmd).Output()
-			prDetails := string(prDetailsBytes)
-			utils.Errorf(str.GetPath("forward.pr_already_exists"), prDetails)
-			return
-		}
 
 		// Set default PR title if not provided
 		prTitle := forwardTitle
