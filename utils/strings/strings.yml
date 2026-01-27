@@ -92,6 +92,7 @@ zh-CN:
     local_flag: "清理本地分支"
     remote_flag: "清理远程分支"
     exact_flag: "精确匹配分支名"
+    force_flag: "强制删除分支（使用 -D 代替 -d）"
 
   # Sync command
   sync:
@@ -341,6 +342,7 @@ en-US:
     local_flag: "Clean local branches"
     remote_flag: "Clean remote branches"
     exact_flag: "Exact match branch name"
+    force_flag: "Force delete branch (use -D instead of -d)"
 
   # Sync command
   sync:

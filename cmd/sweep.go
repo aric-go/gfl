@@ -15,6 +15,7 @@ var (
   localFlag    bool
   remoteFlag   bool
   exactFlag    bool
+  forceFlag    bool
 )
 
 var sweepCmd = &cobra.Command{
@@ -35,7 +36,7 @@ var sweepCmd = &cobra.Command{
 
     if localFlag {
       // 清理本地分支
-      cleanLocalBranches(keyword, confirm, exactFlag)
+      cleanLocalBranches(keyword, confirm, exactFlag, forceFlag)
     }
 
     if remoteFlag {
@@ -49,7 +50,7 @@ var sweepCmd = &cobra.Command{
   },
 }
 
-func cleanLocalBranches(keyword string, confirm bool, exactMatch bool) {
+func cleanLocalBranches(keyword string, confirm bool, exactMatch bool, force bool) {
   // 获取本地分支列表
   branches, err := exec.Command("git", "branch").Output()
   if err != nil {
@@ -73,8 +74,12 @@ func cleanLocalBranches(keyword string, confirm bool, exactMatch bool) {
     }
 
     if shouldDelete {
-      // 执行命令: git branch -d branch-name
-      command := fmt.Sprintf("git branch -d %s", branch)
+      // 执行命令: git branch -d branch-name (安全删除) 或 git branch -D branch-name (强制删除)
+      deleteFlag := "-d"
+      if force {
+        deleteFlag = "-D"
+      }
+      command := fmt.Sprintf("git branch %s %s", deleteFlag, branch)
       if confirm {
         if err := utils.RunCommandWithSpin(command, strings.GetPath("sweep.deleting_local")); err != nil {
           utils.Errorf(strings.GetPath("sweep.delete_local_error", branch, err))
@@ -141,5 +146,6 @@ func init() {
   sweepCmd.Flags().BoolVarP(&localFlag, "local", "l", false, strings.GetPath("sweep.local_flag"))
   sweepCmd.Flags().BoolVarP(&remoteFlag, "remote", "r", false, strings.GetPath("sweep.remote_flag"))
   sweepCmd.Flags().BoolVarP(&exactFlag, "exact", "e", false, strings.GetPath("sweep.exact_flag"))
+  sweepCmd.Flags().BoolVarP(&forceFlag, "force", "f", false, strings.GetPath("sweep.force_flag"))
   rootCmd.AddCommand(sweepCmd)
 }

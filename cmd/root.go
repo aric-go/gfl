@@ -103,6 +103,8 @@ func updateCommandDescriptions() {
 		sweepCmd.Short = strings.GetPath("sweep.short")
 		sweepCmd.Flags().Lookup("local").Usage = strings.GetPath("sweep.local_flag")
 		sweepCmd.Flags().Lookup("remote").Usage = strings.GetPath("sweep.remote_flag")
+		sweepCmd.Flags().Lookup("exact").Usage = strings.GetPath("sweep.exact_flag")
+		sweepCmd.Flags().Lookup("force").Usage = strings.GetPath("sweep.force_flag")
 	}
 
 	// Update release command
