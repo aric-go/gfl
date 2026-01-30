@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gfl/utils"
 	str "gfl/utils/strings"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -68,13 +69,14 @@ var forwardCmd = &cobra.Command{
 		// Set default PR title if not provided
 		prTitle := forwardTitle
 		if prTitle == "" {
-			prTitle = fmt.Sprintf("Sync %s to %s", config.ProductionBranch, config.DevBaseBranch)
+			now := time.Now()
+			prTitle = fmt.Sprintf("chore: forward %s to %s (%s)", config.ProductionBranch, config.DevBaseBranch, now.Format("2006-01-02 Mon 15:04"))
 		}
 
 		// Set default PR body if not provided
 		prBody := forwardBody
 		if prBody == "" {
-			prBody = fmt.Sprintf("Forwarding changes from `%s` to `%s`.", config.ProductionBranch, config.DevBaseBranch)
+			prBody = fmt.Sprintf("✨ Automated forward from `%s` to `%s`.\n\n_Powered by [gfl](https://github.com/aric-go/gfl) 🚀_", config.ProductionBranch, config.DevBaseBranch)
 		}
 
 		// Create PR using gh CLI with remote branches
