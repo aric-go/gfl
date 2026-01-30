@@ -73,6 +73,10 @@ var configCmd = &cobra.Command{
 					if source.Config.HotfixPrefix != "" {
 						return source.Name
 					}
+				case "branchCaseFormat":
+					if source.Config.BranchCaseFormat != "" {
+						return source.Name
+					}
 				}
 			}
 
@@ -156,6 +160,13 @@ var configCmd = &cobra.Command{
 			strings.GetPath("config.hotfix_prefix"),
 			colorizeValue(finalConfig.HotfixPrefix, hotfixSource),
 			colorizeSource(hotfixSource),
+		})
+
+		caseFormatSource := getSource("branchCaseFormat")
+		t.AppendRow(table.Row{
+			strings.GetPath("config.branch_case_format"),
+			colorizeValue(finalConfig.BranchCaseFormat, caseFormatSource),
+			colorizeSource(caseFormatSource),
 		})
 
 		t.AppendSeparator()
