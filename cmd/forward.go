@@ -65,7 +65,6 @@ var forwardCmd = &cobra.Command{
 			return
 		}
 
-
 		// Set default PR title if not provided
 		prTitle := forwardTitle
 		if prTitle == "" {
@@ -80,13 +79,15 @@ var forwardCmd = &cobra.Command{
 
 		// Create PR using gh CLI with remote branches
 		// GitHub PR automatically uses remote branches for both base and head
-		prCmd := fmt.Sprintf("gh pr create --base %s --head %s --title \"%s\" --body \"%s\"",
-			config.DevBaseBranch,
-			config.ProductionBranch,
-			prTitle,
-			prBody)
+		prArgs := []string{
+			"pr", "create",
+			"--base", config.DevBaseBranch,
+			"--head", config.ProductionBranch,
+			"--title", prTitle,
+			"--body", prBody,
+		}
 
-		if err := utils.RunCommandWithSpin(prCmd, str.GetPath("forward.creating_pr")); err != nil {
+		if err := utils.RunCommandWithArgs("gh", prArgs, str.GetPath("forward.creating_pr")); err != nil {
 			utils.Errorf(str.GetPath("forward.create_pr_error"), err)
 			return
 		}

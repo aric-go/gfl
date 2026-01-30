@@ -2,11 +2,12 @@ package utils
 
 import (
 	"fmt"
-	"github.com/briandowns/spinner"
 	"log"
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/briandowns/spinner"
 )
 
 // spin is a global spinner instance used for command execution visualization.
@@ -97,6 +98,61 @@ func RunCommandWithSpin(command string, message string) error {
 	if err := cmd.Run(); err != nil {
 		spin.Stop()
 		return fmt.Errorf("command execution failed: %w, command: %s", err, command)
+	}
+
+	spin.Stop()
+	return nil
+}
+
+// RunCommandWithArgs executes a command with explicit arguments and a spinner.
+// This is an alternative to RunCommandWithSpin when you have pre-split arguments.
+//
+// Parameters:
+//   - executable: The command to execute (e.g., "git", "gh", "npm")
+//   - args: Slice of command arguments
+//   - message: The message to display with the spinner
+//
+// Returns:
+//   - error: Error if command execution fails
+//
+// Features:
+//   - Same spinner behavior as RunCommandWithSpin
+//   - No shell interpretation, args are passed directly
+//   - Safer for commands with user-provided arguments
+//   - Debug mode support
+//
+// Example:
+//   - RunCommandWithArgs("git", []string{"fetch", "origin"}, "Fetching remote changes...")
+//   - RunCommandWithArgs("gh", []string{"pr", "create", "--title", "My PR"}, "Creating PR...")
+func RunCommandWithArgs(executable string, args []string, message string) error {
+	_ = spin.Color("green")
+	spin.Start()
+	spin.Suffix = message
+
+	config := ReadConfig()
+	if config == nil {
+		spin.Stop()
+		log.Fatal("Failed to read configuration file")
+	}
+
+	if config.Debug {
+		// Quote arguments that contain spaces to make debug output clear
+		var quotedArgs []string
+		for _, arg := range args {
+			if strings.ContainsAny(arg, " \t\n") {
+				quotedArgs = append(quotedArgs, `"`+arg+`"`)
+			} else {
+				quotedArgs = append(quotedArgs, arg)
+			}
+		}
+		fullCmd := executable + " " + strings.Join(quotedArgs, " ")
+		Infof("🌈 Executing command: %s", fullCmd)
+	}
+
+	cmd := exec.Command(executable, args...)
+	if err := cmd.Run(); err != nil {
+		spin.Stop()
+		return fmt.Errorf("command execution failed: %w, command: %s %s", err, executable, strings.Join(args, " "))
 	}
 
 	spin.Stop()
