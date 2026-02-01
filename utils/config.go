@@ -2,8 +2,51 @@ package utils
 
 import (
 	"os"
+	"sync"
+
 	"github.com/spf13/viper"
 )
+
+// debugOverride stores the global debug flag value from command line.
+// When set via --debug flag, it takes precedence over config file values.
+var (
+	debugOverride bool
+	debugMutex    sync.RWMutex
+)
+
+// SetDebugOverride sets the global debug flag override from command line.
+// This is called by rootCmd's PersistentPreRun before command execution.
+//
+// Parameters:
+//   - value: The debug flag value from --debug/-d flag
+func SetDebugOverride(value bool) {
+	debugMutex.Lock()
+	defer debugMutex.Unlock()
+	debugOverride = value
+}
+
+// IsDebugMode returns whether debug mode is enabled.
+// It checks the command-line flag override first, then falls back to config.
+//
+// Returns:
+//   - bool: true if debug mode is enabled (via flag or config), false otherwise
+func IsDebugMode() bool {
+	debugMutex.RLock()
+	defer debugMutex.RUnlock()
+
+	// Command-line flag takes precedence
+	if debugOverride {
+		return true
+	}
+
+	// Fall back to config file
+	config := ReadConfig()
+	if config != nil {
+		return config.Debug
+	}
+
+	return false
+}
 
 // YamlConfig represents the configuration structure for GFL (GitHub Flow CLI).
 // It defines all available configuration options with their YAML tags for serialization.
