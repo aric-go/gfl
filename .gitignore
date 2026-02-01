@@ -20,3 +20,7 @@ dist/
 
 /.gfl.config.local.yml
 /gfl
+
+
+# Claude
+.claude/*.local.json
