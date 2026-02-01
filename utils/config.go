@@ -17,31 +17,51 @@ type YamlConfig struct {
 	// Debug enables verbose logging and debugging output
 	Debug bool `yaml:"debug"`
 
+	// DebugSet indicates whether debug was explicitly set in config
+	DebugSet bool `yaml:"-"`
+
 	// DevBaseBranch specifies the base branch for feature development (default: "develop")
 	DevBaseBranch string `yaml:"devBaseBranch,omitempty"`
+
+	// DevBaseBranchSet indicates whether devBaseBranch was explicitly set
+	DevBaseBranchSet bool `yaml:"-"`
 
 	// ProductionBranch specifies the main production branch (default: "main")
 	ProductionBranch string `yaml:"productionBranch,omitempty"`
 
+	// ProductionBranchSet indicates whether productionBranch was explicitly set
+	ProductionBranchSet bool `yaml:"-"`
+
 	// Nickname is the developer's identifier used in branch naming
 	Nickname string `yaml:"nickname,omitempty"`
+
+	// NicknameSet indicates whether nickname was explicitly set in config
+	NicknameSet bool `yaml:"-"`
 
 	// FeaturePrefix defines the prefix for feature branches (default: "feature")
 	FeaturePrefix string `yaml:"featurePrefix,omitempty"`
 
+	// FeaturePrefixSet indicates whether featurePrefix was explicitly set
+	FeaturePrefixSet bool `yaml:"-"`
+
 	// FixPrefix defines the prefix for bug fix branches (default: "fix")
 	FixPrefix string `yaml:"fixPrefix,omitempty"`
 
+	// FixPrefixSet indicates whether fixPrefix was explicitly set
+	FixPrefixSet bool `yaml:"-"`
+
 	// HotfixPrefix defines the prefix for hotfix branches (default: "hotfix")
 	HotfixPrefix string `yaml:"hotfixPrefix,omitempty"`
+
+	// HotfixPrefixSet indicates whether hotfixPrefix was explicitly set
+	HotfixPrefixSet bool `yaml:"-"`
 
 	// BranchCaseFormat defines the case format for branch names (default: "original")
 	// Supported values: "lower", "upper", "snake", "camel", "pascal", "kebab", "original"
 	BranchCaseFormat string `yaml:"branchCaseFormat,omitempty"`
 
-	// NicknameSet indicates whether nickname was explicitly set in config
-	// This field is not serialized to YAML (yaml:"-")
-	NicknameSet bool `yaml:"-"`
+	// BranchCaseFormatSet indicates whether branchCaseFormat was explicitly set
+	BranchCaseFormatSet bool `yaml:"-"`
 }
 
 // ConfigSource represents a single configuration source with metadata.
@@ -178,10 +198,31 @@ func loadConfigFile(filename string) YamlConfig {
 		return YamlConfig{}
 	}
 
-	// Check if nickname was explicitly set in the config file
-	// This includes cases where nickname is set to an empty string
+	// Check if fields were explicitly set in the config file
+	// This includes cases where fields are set to empty string or false
+	if v.IsSet("debug") {
+		config.DebugSet = true
+	}
+	if v.IsSet("devBaseBranch") {
+		config.DevBaseBranchSet = true
+	}
+	if v.IsSet("productionBranch") {
+		config.ProductionBranchSet = true
+	}
 	if v.IsSet("nickname") {
 		config.NicknameSet = true
+	}
+	if v.IsSet("featurePrefix") {
+		config.FeaturePrefixSet = true
+	}
+	if v.IsSet("fixPrefix") {
+		config.FixPrefixSet = true
+	}
+	if v.IsSet("hotfixPrefix") {
+		config.HotfixPrefixSet = true
+	}
+	if v.IsSet("branchCaseFormat") {
+		config.BranchCaseFormatSet = true
 	}
 
 	return config
@@ -195,31 +236,38 @@ func loadConfigFile(filename string) YamlConfig {
 //   - base: Pointer to the base configuration to be modified
 //   - override: Configuration containing values to override
 func mergeConfig(base *YamlConfig, override YamlConfig) {
-	if override.Debug {
+	// Only override fields if they were explicitly set (including empty string or false)
+	if override.DebugSet {
 		base.Debug = override.Debug
+		base.DebugSet = true
 	}
-	if override.DevBaseBranch != "" {
+	if override.DevBaseBranchSet {
 		base.DevBaseBranch = override.DevBaseBranch
+		base.DevBaseBranchSet = true
 	}
-	if override.ProductionBranch != "" {
+	if override.ProductionBranchSet {
 		base.ProductionBranch = override.ProductionBranch
+		base.ProductionBranchSet = true
 	}
-	// Only override nickname if it was explicitly set (including empty string)
 	if override.NicknameSet {
 		base.Nickname = override.Nickname
 		base.NicknameSet = true
 	}
-	if override.FeaturePrefix != "" {
+	if override.FeaturePrefixSet {
 		base.FeaturePrefix = override.FeaturePrefix
+		base.FeaturePrefixSet = true
 	}
-	if override.FixPrefix != "" {
+	if override.FixPrefixSet {
 		base.FixPrefix = override.FixPrefix
+		base.FixPrefixSet = true
 	}
-	if override.HotfixPrefix != "" {
+	if override.HotfixPrefixSet {
 		base.HotfixPrefix = override.HotfixPrefix
+		base.HotfixPrefixSet = true
 	}
-	if override.BranchCaseFormat != "" {
+	if override.BranchCaseFormatSet {
 		base.BranchCaseFormat = override.BranchCaseFormat
+		base.BranchCaseFormatSet = true
 	}
 }
 

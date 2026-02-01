@@ -40,7 +40,9 @@
       "Bash(/Users/feizheng/aric-go/gfl/gfl forward:*)",
       "Bash(GFL_CONFIG_FILE=/Users/feizheng/aric-notes/gfl-notes/.gfl.yaml ./gfl forward:*)",
       "Bash(GFL_CONFIG_FILE=/Users/feizheng/aric-notes/gfl-notes/.gfl.config.yml ./gfl forward:*)",
-      "Bash(GFL_CONFIG_FILE=.gfl.config.yml /Users/feizheng/aric-go/gfl/gfl forward:*)"
+      "Bash(GFL_CONFIG_FILE=.gfl.config.yml /Users/feizheng/aric-go/gfl/gfl forward:*)",
+      "Bash(go get:*)",
+      "Bash(/Users/feizheng/aric-go/gfl/gfl config:*)"
     ],
     "deny": [],
     "ask": []

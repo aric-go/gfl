@@ -45,36 +45,35 @@ var configCmd = &cobra.Command{
 
 				switch field {
 				case "debug":
-					if source.Config.Debug {
+					if source.Config.DebugSet {
 						return source.Name
 					}
 				case "devBaseBranch":
-					if source.Config.DevBaseBranch != "" {
+					if source.Config.DevBaseBranchSet {
 						return source.Name
 					}
 				case "productionBranch":
-					if source.Config.ProductionBranch != "" {
+					if source.Config.ProductionBranchSet {
 						return source.Name
 					}
 				case "nickname":
-					// 如果显式设置了 nickname（包括空字符串），则作为来源
 					if source.Config.NicknameSet {
 						return source.Name
 					}
 				case "featurePrefix":
-					if source.Config.FeaturePrefix != "" {
+					if source.Config.FeaturePrefixSet {
 						return source.Name
 					}
 				case "fixPrefix":
-					if source.Config.FixPrefix != "" {
+					if source.Config.FixPrefixSet {
 						return source.Name
 					}
 				case "hotfixPrefix":
-					if source.Config.HotfixPrefix != "" {
+					if source.Config.HotfixPrefixSet {
 						return source.Name
 					}
 				case "branchCaseFormat":
-					if source.Config.BranchCaseFormat != "" {
+					if source.Config.BranchCaseFormatSet {
 						return source.Name
 					}
 				}

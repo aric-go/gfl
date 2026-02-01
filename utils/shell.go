@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/afeiship/go-box"
 	"github.com/briandowns/spinner"
 )
 
@@ -18,6 +19,17 @@ import (
 //   - Interval: 200ms between animation frames
 //   - Color: Green (set in RunCommandWithSpin)
 var spin = spinner.New(spinner.CharSets[35], 200*time.Millisecond)
+
+// debugBox prints debug information in a compact ASCII box.
+// Uses go-box library for visual output with borders and colors.
+func debugBox(title, command string) {
+	lines := []string{
+		"\x1b[33m⚙ DEBUG\x1b[0m " + "\x1b[36m" + title + "\x1b[0m",
+		command,
+	}
+	box.PrintASCIIBox(lines)
+	fmt.Println()
+}
 
 // RunShell executes a shell command and returns its output.
 // This function provides a simple interface for executing shell commands
@@ -74,7 +86,7 @@ func RunCommandWithSpin(command string, message string) error {
 
 	// Show debug information if enabled (before spinner starts)
 	if config.Debug {
-		Infof("🌈 Executing command: %s", command)
+		debugBox("Executing command", command)
 	}
 
 	// Configure spinner appearance
@@ -140,7 +152,7 @@ func RunCommandWithArgs(executable string, args []string, message string) error 
 			}
 		}
 		fullCmd := executable + " " + strings.Join(quotedArgs, " ")
-		Infof("🌈 Executing command: %s", fullCmd)
+		debugBox("Executing command with args", fullCmd)
 	}
 
 	_ = spin.Color("green")
