@@ -129,6 +129,23 @@ err := utils.RunCommandWithArgs("git", []string{"fetch", "origin"}, "Fetching...
 
 **Debug Mode**: When `debug: true` is set in config, commands display detailed execution info using `utils.debugBox()` which outputs ASCII box formatting via go-box library.
 
+### Global Flags
+
+The following flags are available on all commands (defined as PersistentFlags in rootCmd):
+
+| Flag | Alias | Description |
+|------|-------|-------------|
+| `--confirm` | `-y` | Confirm operation without prompting (for dangerous operations) |
+| `--debug` | `-d` | Enable debug mode (shows detailed command execution) |
+| `--version` | `-v` | Show version information (auto-added by Cobra) |
+| `--help` | `-h` | Show help for any command (auto-added by Cobra) |
+
+Example usage:
+```bash
+gfl start new-feature --debug     # Enable debug for this command
+gfl pr --confirm                   # Create PR without confirmation
+```
+
 ### Git Integration Patterns
 
 The codebase relies on these key utilities:

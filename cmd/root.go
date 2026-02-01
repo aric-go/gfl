@@ -43,6 +43,7 @@ func Execute() {
 func init() {
 	// Cobra will automatically add --version/-v flag when Version field is set
 	rootCmd.PersistentFlags().BoolP("confirm", "y", false, "Confirm operation") // Will be updated after strings load
+	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Enable debug mode")    // Will be updated after strings load
 }
 
 // updateCommandDescriptions updates all command descriptions after strings are loaded
@@ -50,8 +51,9 @@ func updateCommandDescriptions() {
 	// Update root command
 	rootCmd.Short = strings.GetPath("root.short")
 
-	// Update flag description
+	// Update flag descriptions
 	rootCmd.PersistentFlags().Lookup("confirm").Usage = strings.GetPath("root.confirm_flag")
+	rootCmd.PersistentFlags().Lookup("debug").Usage = strings.GetPath("root.debug_flag")
 
 	// Update start command
 	if startCmd != nil {

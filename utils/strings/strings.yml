@@ -8,6 +8,7 @@ zh-CN:
     short: "GitHub Flow CLI"
     welcome: "🌈 Welcome to "
     confirm_flag: "确认操作"
+    debug_flag: "启用调试模式"
 
   # Init command
   init:
@@ -263,6 +264,7 @@ en-US:
     short: "GitHub Flow CLI"
     welcome: "🌈 Welcome to "
     confirm_flag: "Confirm operation"
+    debug_flag: "Enable debug mode"
 
   # Init command
   init:
