@@ -66,22 +66,21 @@ func RunShell(cmd string) (string, error) {
 //   - Shows the actual command being executed
 //   - Provides rainbow emoji indicator for debug visibility
 func RunCommandWithSpin(command string, message string) error {
+	// Load configuration for debug mode
+	config := ReadConfig()
+	if config == nil {
+		log.Fatal("Failed to read configuration file")
+	}
+
+	// Show debug information if enabled (before spinner starts)
+	if config.Debug {
+		Infof("🌈 Executing command: %s", command)
+	}
+
 	// Configure spinner appearance
 	_ = spin.Color("green")
 	spin.Start()
 	spin.Suffix = message
-
-	// Load configuration for debug mode
-	config := ReadConfig()
-	if config == nil {
-		spin.Stop()
-		log.Fatal("Failed to read configuration file")
-	}
-
-	// Show debug information if enabled
-	if config.Debug {
-		Infof("🌈 Executing command: %s", command)
-	}
 
 	// Parse command into executable and arguments
 	// This handles commands with spaces and quotes properly
@@ -97,7 +96,7 @@ func RunCommandWithSpin(command string, message string) error {
 	// Run the command and handle errors
 	if err := cmd.Run(); err != nil {
 		spin.Stop()
-		return fmt.Errorf("command execution failed: %w, command: %s", err, command)
+		return fmt.Errorf("command execution failed: %w", err)
 	}
 
 	spin.Stop()
@@ -125,13 +124,8 @@ func RunCommandWithSpin(command string, message string) error {
 //   - RunCommandWithArgs("git", []string{"fetch", "origin"}, "Fetching remote changes...")
 //   - RunCommandWithArgs("gh", []string{"pr", "create", "--title", "My PR"}, "Creating PR...")
 func RunCommandWithArgs(executable string, args []string, message string) error {
-	_ = spin.Color("green")
-	spin.Start()
-	spin.Suffix = message
-
 	config := ReadConfig()
 	if config == nil {
-		spin.Stop()
 		log.Fatal("Failed to read configuration file")
 	}
 
@@ -149,10 +143,14 @@ func RunCommandWithArgs(executable string, args []string, message string) error 
 		Infof("🌈 Executing command: %s", fullCmd)
 	}
 
+	_ = spin.Color("green")
+	spin.Start()
+	spin.Suffix = message
+
 	cmd := exec.Command(executable, args...)
 	if err := cmd.Run(); err != nil {
 		spin.Stop()
-		return fmt.Errorf("command execution failed: %w, command: %s %s", err, executable, strings.Join(args, " "))
+		return fmt.Errorf("command execution failed: %w", err)
 	}
 
 	spin.Stop()
