@@ -136,3 +136,33 @@ func GetRemoteBranches() ([]string, error) {
 
 	return branches, nil
 }
+
+// RemoteBranchExists checks if a branch exists in the remote repository.
+// It retrieves the list of remote branches and checks if the specified branch
+// (with 'origin/' prefix) is present.
+//
+// Parameters:
+//   - branchName: The branch name to check (without 'origin/' prefix)
+//
+// Returns:
+//   - bool: true if the branch exists in remote, false otherwise
+//   - error: Error if failed to retrieve remote branch list
+//
+// Example:
+//   - RemoteBranchExists("develop") -> true, nil
+//   - RemoteBranchExists("nonexistent") -> false, nil
+func RemoteBranchExists(branchName string) (bool, error) {
+	remoteBranches, err := GetRemoteBranches()
+	if err != nil {
+		return false, err
+	}
+
+	remoteWithPrefix := "origin/" + branchName
+	for _, branch := range remoteBranches {
+		if branch == remoteWithPrefix {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}

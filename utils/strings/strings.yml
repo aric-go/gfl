@@ -23,9 +23,13 @@ zh-CN:
   # Start command
   start:
     short: "开始一个新功能(alias: s)"
+    base_flag: "指定基础分支（@ 表示当前分支）"
     syncing: " 正在同步远程分支...\n"
     creating: " 正在创建分支...\n"
     success: "已创建%s分支: %s"
+    check_remote_failed: "检查远程分支失败: %v"
+    current_branch_not_exist: "当前分支 '%s' 在远程仓库中不存在，请先推送该分支"
+    base_not_exist: "指定的基础分支 '%s' 在远程仓库中不存在，请检查分支名称"
 
   # Publish command
   publish:
@@ -274,9 +278,13 @@ en-US:
   # Start command
   start:
     short: "Start a new feature (alias: s)"
+    base_flag: "Specify base branch (@ for current branch)"
     syncing: " Syncing remote branches...\n"
     creating: " Creating branch...\n"
     success: "Created %s branch: %s"
+    check_remote_failed: "Failed to check remote branches: %v"
+    current_branch_not_exist: "Current branch '%s' does not exist in remote repository, please push it first"
+    base_not_exist: "Specified base branch '%s' does not exist in remote repository, please check the branch name"
 
   # Publish command
   publish:
