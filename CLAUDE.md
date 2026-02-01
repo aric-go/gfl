@@ -4,17 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build and Development Commands
 
+This project uses npm scripts to manage the Go build process:
+
 ```bash
-# Build the CLI
-go build
+# Build the CLI (outputs to dist/gfl)
+npm run build
 
-# Install for testing
-go install
+# Run directly without building
+npm start [arguments]
 
-# Test the CLI
-./gfl [command]
+# Link binary to /usr/local/bin/gfl
+npm run bin:link
 
-# Dependency management
+# Unlink binary
+npm run bin:unlink
+
+# Test the built CLI
+./dist/gfl [command]
+
+# Go dependency management
 go mod tidy
 ```
 
