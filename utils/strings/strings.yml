@@ -52,6 +52,22 @@ zh-CN:
     creating: " 正在创建Bugfix分支...\n"
     success: "已创建%s分支: %s"
 
+  # Info command
+  info:
+    short: "显示仓库信息(alias: i)"
+    current_branch: "当前分支"
+    tracking: "跟踪分支"
+    not_tracking: "未跟踪"
+    position: "相对位置"
+    ahead: "↑%d 领先"
+    behind: "↓%d 落后"
+    up_to_date: "✓ 与远程同步"
+    working_dir: "工作目录"
+    working_dir_clean: "✅ 干净"
+    working_dir_dirty: "⚠️  有未提交更改"
+    remote: "远程仓库"
+    not_configured: "未配置"
+
   # Tag command
   tag:
     short: "创建 Git Tag 版本(alias: t)"
@@ -307,6 +323,22 @@ en-US:
     syncing: " Syncing remote branches...\n"
     creating: " Creating Bugfix branch...\n"
     success: "Created %s branch: %s"
+
+  # Info command
+  info:
+    short: "Display repository info(alias: i)"
+    current_branch: "Current Branch"
+    tracking: "Tracking"
+    not_tracking: "Not tracking"
+    position: "Position"
+    ahead: "↑%d ahead"
+    behind: "↓%d behind"
+    up_to_date: "✓ Up to date"
+    working_dir: "Working Directory"
+    working_dir_clean: "✅ Clean"
+    working_dir_dirty: "⚠️  Dirty"
+    remote: "Remote"
+    not_configured: "Not configured"
 
   # Tag command
   tag:

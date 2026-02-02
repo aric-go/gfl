@@ -153,4 +153,9 @@ func updateCommandDescriptions() {
 	if bugfixCmd != nil {
 		bugfixCmd.Short = strings.GetPath("bugfix.short")
 	}
+
+	// Update info command
+	if infoCmd != nil {
+		infoCmd.Short = strings.GetPath("info.short")
+	}
 }
