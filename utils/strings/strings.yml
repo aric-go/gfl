@@ -21,6 +21,23 @@ zh-CN:
     write_config_error: "无法写入配置文件: %v"
     gitignore_skip: "配置文件已存在于 .gitignore 中, skip"
 
+  # Copy command
+  copy:
+    short: "复制当前分支到新分支(alias: cp)"
+    copying: " 正在复制分支...\n"
+    success: "已成功复制分支 '%s' 到 '%s'"
+    confirm_flag: "自动生成分支名时需要确认"
+    error:
+      dirty: "工作目录不干净，请先提交或暂存更改"
+      notInRemote: "当前分支 '%s' 在远程仓库中不存在，请先推送该分支"
+      alreadyExists: "分支 '%s' 已存在，请使用其他名称"
+      failed: "复制分支失败: %v"
+      confirm_required: "未提供分支名，将自动生成 '%s' -> '%s'"
+    info:
+      from: "源分支"
+      to: "目标分支"
+      use_confirm_flag: "使用 -y 或 --confirm 标志确认操作"
+
   # Start command
   start:
     short: "开始一个新功能(alias: s)"
@@ -292,6 +309,23 @@ en-US:
     generate_yaml_error: "Failed to generate YAML: %v"
     write_config_error: "Failed to write configuration file: %v"
     gitignore_skip: "Configuration file already exists in .gitignore, skip"
+
+  # Copy command
+  copy:
+    short: "Copy current branch to new branch(alias: cp)"
+    copying: " Copying branch...\n"
+    success: "Successfully copied branch '%s' to '%s'"
+    confirm_flag: "Require confirmation when auto-generating branch name"
+    error:
+      dirty: "Working directory is not clean, please commit or stash changes first"
+      notInRemote: "Current branch '%s' does not exist in remote repository, please push it first"
+      alreadyExists: "Branch '%s' already exists, please use a different name"
+      failed: "Failed to copy branch: %v"
+      confirm_required: "No branch name provided, will auto-generate '%s' -> '%s'"
+    info:
+      from: "Source branch"
+      to: "Target branch"
+      use_confirm_flag: "Use -y or --confirm flag to confirm operation"
 
   # Start command
   start:
