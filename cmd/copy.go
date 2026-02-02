@@ -14,7 +14,7 @@ var copyConfirm bool // 存储 --confirm 参数值
 
 var copyCmd = &cobra.Command{
 	Use:     "copy [new-branch-name]",
-	Short:   gflstrings.GetPath("copy.short"),
+	Short:   "Copy current branch to new branch(alias: cp)", // Will be updated after strings load
 	Aliases: []string{"cp"},
 	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {

@@ -158,4 +158,10 @@ func updateCommandDescriptions() {
 	if infoCmd != nil {
 		infoCmd.Short = strings.GetPath("info.short")
 	}
+
+	// Update copy command
+	if copyCmd != nil {
+		copyCmd.Short = strings.GetPath("copy.short")
+		copyCmd.Flags().Lookup("confirm").Usage = strings.GetPath("copy.confirm_flag")
+	}
 }
