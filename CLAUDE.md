@@ -167,12 +167,43 @@ Version handling uses `golang.org/x/mod/semver`:
 
 ### Adding a New Command
 
+**IMPORTANT**: When creating a new command, you cannot use `strings.GetPath()` directly in the command definition's `Short` field because strings are not loaded yet at init time. You must use a hardcoded Short description and then update it dynamically in `root.go`.
+
+Steps:
 1. Create `cmd/yourcommand.go`
-2. Define command with Use, Short, Aliases, Run
+2. Define command with Use, Short (hardcoded), Aliases, Run
 3. Register in `init()` with `rootCmd.AddCommand()`
 4. Add string keys to `utils/strings/strings.yml`
-5. Use `strings.GetPath()` for all user-facing text
-6. Add aliases in Short description: `"功能描述(alias: 短, 长)"`
+5. **CRITICAL**: Add command update to `updateCommandDescriptions()` in `cmd/root.go`:
+   ```go
+   // Update yourcommand command
+   if yourcommandCmd != nil {
+       yourcommandCmd.Short = strings.GetPath("yourcommand.short")
+       // Also update any flags if needed
+       yourcommandCmd.Flags().Lookup("flagname").Usage = strings.GetPath("yourcommand.flag_flag")
+   }
+   ```
+6. Use `strings.GetPath()` for all user-facing text in Run function
+7. Add aliases in Short description: `"功能描述(alias: 短, 长)"`
+
+**Example**:
+```go
+// cmd/yourcommand.go
+var yourcommandCmd = &cobra.Command{
+    Use:     "yourcommand [args]",
+    Short:   "Your command description (alias: yc)", // Hardcoded, will be updated
+    Aliases: []string{"yc"},
+    Run: func(cmd *cobra.Command, args []string) {
+        // Use strings.GetPath() here
+        utils.Info(strings.GetPath("yourcommand.message"))
+    },
+}
+
+// cmd/root.go - in updateCommandDescriptions()
+if yourcommandCmd != nil {
+    yourcommandCmd.Short = strings.GetPath("yourcommand.short")
+}
+```
 
 ### Configuration Display
 
