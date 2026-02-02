@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"os/exec"
 	"strings"
 	"time"
@@ -78,14 +77,9 @@ func RunShell(cmd string) (string, error) {
 //   - Shows the actual command being executed
 //   - Provides rainbow emoji indicator for debug visibility
 func RunCommandWithSpin(command string, message string) error {
-	// Load configuration for debug mode
-	config := ReadConfig()
-	if config == nil {
-		log.Fatal("Failed to read configuration file")
-	}
-
 	// Show debug information if enabled (before spinner starts)
-	if config.Debug {
+	// Checks command-line flag first, then config file
+	if IsDebugMode() {
 		debugBox("Executing command", command)
 	}
 
@@ -136,12 +130,9 @@ func RunCommandWithSpin(command string, message string) error {
 //   - RunCommandWithArgs("git", []string{"fetch", "origin"}, "Fetching remote changes...")
 //   - RunCommandWithArgs("gh", []string{"pr", "create", "--title", "My PR"}, "Creating PR...")
 func RunCommandWithArgs(executable string, args []string, message string) error {
-	config := ReadConfig()
-	if config == nil {
-		log.Fatal("Failed to read configuration file")
-	}
-
-	if config.Debug {
+	// Show debug information if enabled (before spinner starts)
+	// Checks command-line flag first, then config file
+	if IsDebugMode() {
 		// Quote arguments that contain spaces to make debug output clear
 		var quotedArgs []string
 		for _, arg := range args {

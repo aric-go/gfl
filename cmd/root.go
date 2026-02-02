@@ -9,6 +9,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Global flag variables
+var (
+	debugFlagValue bool
+)
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "gfl",
@@ -19,6 +24,10 @@ var rootCmd = &cobra.Command{
 		fmt.Println() // Keep for spacing
 		fmt.Printf("%s", strings.GetPath("root.welcome"))
 		_ = cmd.Help()
+	},
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		// Apply debug flag override before command execution
+		utils.SetDebugOverride(debugFlagValue)
 	},
 }
 
@@ -43,7 +52,7 @@ func Execute() {
 func init() {
 	// Cobra will automatically add --version/-v flag when Version field is set
 	rootCmd.PersistentFlags().BoolP("confirm", "y", false, "Confirm operation") // Will be updated after strings load
-	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Enable debug mode")    // Will be updated after strings load
+	rootCmd.PersistentFlags().BoolVarP(&debugFlagValue, "debug", "d", false, "Enable debug mode") // Will be updated after strings load
 }
 
 // updateCommandDescriptions updates all command descriptions after strings are loaded
@@ -143,5 +152,10 @@ func updateCommandDescriptions() {
 	// Update bugfix command
 	if bugfixCmd != nil {
 		bugfixCmd.Short = strings.GetPath("bugfix.short")
+	}
+
+	// Update info command
+	if infoCmd != nil {
+		infoCmd.Short = strings.GetPath("info.short")
 	}
 }
