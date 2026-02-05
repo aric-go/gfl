@@ -1,8 +1,9 @@
-debug: true
-devBaseBranch: dev
-productionBranch: main
-nickname: aric
-featurePrefix: feature
-fixPrefix: fix
-hotfixPrefix: hotfix
+debug: true                  # Enable debug mode for detailed output
+devBaseBranch: dev           # Base branch for feature development
+productionBranch: main       # Main production branch
+nickname: aric               # Developer identifier for branch naming (optional)
+featurePrefix: feature       # Prefix for feature branches
+fixPrefix: fix               # Prefix for bug fix branches
+hotfixPrefix: hotfix         # Prefix for hotfix branches
+# Branch case format: lower, upper, snake, camel, pascal, kebab, original
 branchCaseFormat: original
