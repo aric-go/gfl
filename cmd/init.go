@@ -40,7 +40,7 @@ var initCmd = &cobra.Command{
 		// create .gfl.config.yml file
 		err := utils.CreateGflConfig(gflConfigYaml, utils.CreateGflConfigOptions{
 			Filename:     ".gfl.config.yml",
-			Force:        false,
+			Force:        force,
 			AddGitIgnore: false,
 		})
 
