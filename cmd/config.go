@@ -6,6 +6,7 @@ import (
 	"gfl/utils/strings"
 	"os"
 
+	"github.com/afeiship/go-box"
 	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
@@ -181,27 +182,46 @@ var configCmd = &cobra.Command{
 		// 2. 显示配置来源详情 - 简化列表格式
 		fmt.Printf(strings.GetPath("config.config_sources_title"))
 
+		customConfigFile := os.Getenv("GFL_CONFIG_FILE")
+		var customConfigLine string
+
 		for _, source := range configInfo.Sources {
-			if source.Exists {
-				var emoji string
-				switch source.Name {
-				case strings.GetPath("config.global_config"):
-					emoji = "🌍"
-				case strings.GetPath("config.local_config"):
-					emoji = "🏠"
-				case strings.GetPath("config.custom_config"):
-					emoji = "🎯"
-				default:
-					emoji = "📄"
-				}
-				fmt.Printf("  %s %s: %s\n", emoji, source.Name, source.Path)
+			if !source.Exists {
+				continue
+			}
+
+			var emoji string
+			switch source.Name {
+			case strings.GetPath("config.global_config"):
+				emoji = "🌍"
+			case strings.GetPath("config.local_config"):
+				emoji = "🏠"
+			case strings.GetPath("config.custom_config"):
+				emoji = "🎯"
+			default:
+				emoji = "📄"
+			}
+
+			// 为 GFL_CONFIG_FILE 添加标注
+			pathDisplay := source.Path
+			if source.Name == strings.GetPath("config.custom_config") && source.Path == customConfigFile {
+				pathDisplay = fmt.Sprintf("%s (GFL_CONFIG_FILE)", source.Path)
+			}
+
+			// Custom Config 单独用 box 显示（不加前导空格）
+			if source.Name == strings.GetPath("config.custom_config") && source.Path == customConfigFile {
+				customConfigLine = fmt.Sprintf("%s %s: %s", emoji, source.Name, pathDisplay)
+			} else {
+				fmt.Printf("  %s %s: %s\n", emoji, source.Name, pathDisplay)
 			}
 		}
 
-		// GFL_CONFIG_FILE 环境变量
-		configFile := os.Getenv("GFL_CONFIG_FILE")
-		if configFile != "" {
-			fmt.Print(strings.GetPath("config.custom_config_file", configFile))
+		// 单独显示 Custom Config (使用 box + 黄色高亮)
+		if customConfigLine != "" {
+			fmt.Println()
+			// 给整行添加黄色高亮
+			coloredLine := color.New(color.FgHiYellow).Sprint(customConfigLine)
+			box.PrintASCIIBox([]string{coloredLine})
 		}
 
 		// 3. 显示配置优先级说明
