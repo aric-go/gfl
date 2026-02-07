@@ -95,5 +95,26 @@ func buildInfoLines(info *utils.BranchInfo) []string {
 		strings.GetPath("info.remote"),
 		remoteLabel))
 
+	// Add separator line
+	lines = append(lines, "")
+
+	// Git User Name
+	userNameLabel := strings.GetPath("info.not_configured")
+	if info.UserName != "" {
+		userNameLabel = info.UserName
+	}
+	lines = append(lines, fmt.Sprintf("👤 %s: %s",
+		strings.GetPath("info.user_name"),
+		userNameLabel))
+
+	// Git User Email
+	userEmailLabel := strings.GetPath("info.not_configured")
+	if info.UserEmail != "" {
+		userEmailLabel = info.UserEmail
+	}
+	lines = append(lines, fmt.Sprintf("📧 %s: %s",
+		strings.GetPath("info.user_email"),
+		userEmailLabel))
+
 	return lines
 }

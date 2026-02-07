@@ -13,6 +13,8 @@ type BranchInfo struct {
 	BehindCommits    int
 	WorkingDirClean  bool
 	RemoteURL        string
+	UserName         string
+	UserEmail        string
 }
 
 // GetTrackingBranch returns the remote tracking branch
@@ -77,6 +79,24 @@ func GetRemoteURL() string {
 	return url
 }
 
+// GetGitUserName returns the configured git user.name
+func GetGitUserName() string {
+	output, err := RunShell("git config user.name")
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(output)
+}
+
+// GetGitUserEmail returns the configured git user.email
+func GetGitUserEmail() string {
+	output, err := RunShell("git config user.email")
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(output)
+}
+
 // GetBranchInfo collects all branch information
 func GetBranchInfo() (*BranchInfo, error) {
 	info := &BranchInfo{}
@@ -106,6 +126,10 @@ func GetBranchInfo() (*BranchInfo, error) {
 
 	// Get remote URL
 	info.RemoteURL = GetRemoteURL()
+
+	// Get git user info
+	info.UserName = GetGitUserName()
+	info.UserEmail = GetGitUserEmail()
 
 	return info, nil
 }

@@ -84,6 +84,8 @@ zh-CN:
     working_dir_dirty: "⚠️  有未提交更改"
     remote: "远程仓库"
     not_configured: "未配置"
+    user_name: "用户名"
+    user_email: "邮箱"
 
   # Tag command
   tag:
@@ -373,6 +375,8 @@ en-US:
     working_dir_dirty: "⚠️  Dirty"
     remote: "Remote"
     not_configured: "Not configured"
+    user_name: "User Name"
+    user_email: "User Email"
 
   # Tag command
   tag:
