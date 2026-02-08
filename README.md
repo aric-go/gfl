@@ -1,5 +1,13 @@
 # GFL - GitHub Flow CLI
 
+```
+  ◄───┐
+   ┌──┴──┐
+───┤ GFL ├──►
+   └─────┘
+GitHub Flow CLI
+```
+
 > A powerful command-line tool that simplifies GitHub Flow workflows.
 
 ![Alt text](./__uml__/img.png)
