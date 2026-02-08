@@ -1,14 +1,13 @@
 # GFL - GitHub Flow CLI
 
-```
-  ◄───┐
-   ┌──┴──┐
-───┤ GFL ├──►
-   └─────┘
-GitHub Flow CLI
-```
+![GFL Logo](./assets/logo.svg)
 
 > A powerful command-line tool that simplifies GitHub Flow workflows.
+
+**Note:** For web projects, add this to your HTML head:
+```html
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+```
 
 ![Alt text](./__uml__/img.png)
 
