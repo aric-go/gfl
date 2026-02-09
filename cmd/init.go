@@ -23,22 +23,8 @@ var initCmd = &cobra.Command{
 		gflConfig, _ := assets.ReadFile("assets/.gfl.config.yml")
 		gflLocalConfig, _ := assets.ReadFile("assets/.gfl.config.local.yml")
 
-		// convert to YamlConfig
-		var gflConfigYaml utils.YamlConfig
-		var gflLocalConfigYaml utils.YamlConfig
-
-		_ = yaml.Unmarshal(gflConfig, &gflConfigYaml)
-		_ = yaml.Unmarshal(gflLocalConfig, &gflLocalConfigYaml)
-
-		if nickname != "" {
-			gflLocalConfigYaml.Nickname = nickname
-		}
-
-		// remove empty fields for local config
-		utils.RemoveEmptyFields(&gflLocalConfigYaml)
-
-		// create .gfl.config.yml file
-		err := utils.CreateGflConfig(gflConfigYaml, utils.CreateGflConfigOptions{
+		// create .gfl.config.yml file (direct copy to preserve comments)
+		err := utils.CreateGflConfigFromBytes(gflConfig, utils.CreateGflConfigOptions{
 			Filename:     ".gfl.config.yml",
 			Force:        force,
 			AddGitIgnore: false,
@@ -49,11 +35,26 @@ var initCmd = &cobra.Command{
 		}
 
 		// create .gfl.config.local.yml file
-		err = utils.CreateGflConfig(gflLocalConfigYaml, utils.CreateGflConfigOptions{
-			Filename:     ".gfl.config.local.yml",
-			Force:        force,
-			AddGitIgnore: true,
-		})
+		if nickname != "" {
+			// Parse and update local config if nickname is provided
+			var gflLocalConfigYaml utils.YamlConfig
+			_ = yaml.Unmarshal(gflLocalConfig, &gflLocalConfigYaml)
+			gflLocalConfigYaml.Nickname = nickname
+			utils.RemoveEmptyFields(&gflLocalConfigYaml)
+
+			err = utils.CreateGflConfig(gflLocalConfigYaml, utils.CreateGflConfigOptions{
+				Filename:     ".gfl.config.local.yml",
+				Force:        force,
+				AddGitIgnore: true,
+			})
+		} else {
+			// Direct copy to preserve comments if no nickname
+			err = utils.CreateGflConfigFromBytes(gflLocalConfig, utils.CreateGflConfigOptions{
+				Filename:     ".gfl.config.local.yml",
+				Force:        force,
+				AddGitIgnore: true,
+			})
+		}
 
 		if err != nil {
 			utils.Error(err.Error())

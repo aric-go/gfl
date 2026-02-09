@@ -112,6 +112,58 @@ func CreateGflConfig(config YamlConfig, opts CreateGflConfigOptions) error {
 	return nil
 }
 
+// CreateGflConfigFromBytes creates a GFL configuration file from raw bytes.
+// This function directly writes the provided byte data to the file without YAML parsing,
+// which preserves comments and formatting in the original content.
+//
+// Parameters:
+//   - data: Raw YAML file content as bytes
+//   - opts: Options controlling file creation behavior
+//
+// Returns:
+//   - error: Error if file creation fails, nil on success
+//
+// Use Cases:
+//   - Copying template configuration files with comments
+//   - Preserving YAML formatting and comments
+//   - Creating config files from embedded assets
+func CreateGflConfigFromBytes(data []byte, opts CreateGflConfigOptions) error {
+	// Step 1: Validate file existence and Force option
+	if _, err := os.Stat(opts.Filename); err == nil && !opts.Force {
+		return fmt.Errorf(strings.GetPath("init.config_exists_error"), opts.Filename)
+	}
+
+	// Step 2: Create or overwrite the configuration file
+	file, err := os.Create(opts.Filename)
+	if err != nil {
+		return fmt.Errorf(strings.GetPath("init.create_config_error"), err)
+	}
+	defer file.Close()
+
+	// Step 3: Write raw data to file
+	if _, err := file.Write(data); err != nil {
+		return fmt.Errorf(strings.GetPath("init.write_config_error"), err)
+	}
+
+	// Step 4: Check if file is already in .gitignore
+	content, _ := os.ReadFile(".gitignore")
+	contentString := string(content)
+	if str.Contains(contentString, opts.Filename) {
+		Info(strings.GetPath("init.gitignore_skip"))
+		return nil
+	}
+
+	// Step 5: Add to .gitignore if requested
+	if opts.AddGitIgnore {
+		if f, err := os.OpenFile(".gitignore", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600); err == nil {
+			defer f.Close()
+			f.WriteString(fmt.Sprintf("\n%s\n", opts.Filename))
+		}
+	}
+
+	return nil
+}
+
 // RemoveEmptyFields creates a clean configuration object by removing empty fields.
 // This function filters out zero-value fields to create a minimal configuration
 // representation that contains only explicitly set values.
