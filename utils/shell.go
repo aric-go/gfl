@@ -174,7 +174,8 @@ func RunCommandWithArgs(executable string, args []string, message string) error 
 //
 // Example output:
 //   - ["* main", "  develop", "  feature/user-auth", "  hotfix/security-fix"]
-func GetLocalBranches() []string {
+// If keyword is provided, returns only branches containing the keyword (case-insensitive)
+func GetLocalBranches(keyword ...string) []string {
 	output, err := RunShell("git branch")
 	if err != nil {
 		Errorf("Failed to get local branches: %v", err)
@@ -188,6 +189,19 @@ func GetLocalBranches() []string {
 	}
 
 	branches := strings.Split(outputStr, "\n")
+
+	// Filter by keyword if provided
+	if len(keyword) > 0 && keyword[0] != "" {
+		filter := strings.ToLower(keyword[0])
+		filtered := []string{}
+		for _, branch := range branches {
+			if strings.Contains(strings.ToLower(branch), filter) {
+				filtered = append(filtered, branch)
+			}
+		}
+		return filtered
+	}
+
 	return branches
 }
 
