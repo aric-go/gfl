@@ -1,19 +1,39 @@
 package cmd
 
 import (
+	"strings"
+
 	"gfl/utils"
 	"github.com/spf13/cobra"
 )
 
 // checkoutCmd represents the co command
 var checkoutCmd = &cobra.Command{
-	Use:     "checkout",
+	Use:     "checkout [filter]",
 	Aliases: []string{"co"},
 	Short:   "Interactive git branch switching (alias: co)", // Will be updated after strings load
 	Run: func(cmd *cobra.Command, args []string) {
 		branches := utils.GetLocalBranches()
+
+		// Filter branches if filter argument is provided
+		if len(args) > 0 {
+			filter := args[0]
+			filteredBranches := []string{}
+			for _, branch := range branches {
+				if contains(branch, filter) {
+					filteredBranches = append(filteredBranches, branch)
+				}
+			}
+			branches = filteredBranches
+		}
+
 		utils.BuildCommandList(branches)
 	},
+}
+
+// contains checks if a string contains a substring (case-insensitive)
+func contains(s, substr string) bool {
+	return strings.Contains(strings.ToLower(s), strings.ToLower(substr))
 }
 
 func init() {
