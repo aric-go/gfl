@@ -40,10 +40,16 @@ func CreatePr(base string, head string) {
 	var prUrl string
 	switch GetPlatform() {
 	case "gitlab":
-		// Example: https://gitlab.com/owner/repo/-/merge_requests/new?merge_request[source_branch]=head&merge_request[target_branch]=base
-		// Branch names containing "/" must be URL-encoded
-		prUrl = fmt.Sprintf("https://gitlab.com/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
-			repo, url.QueryEscape(head), url.QueryEscape(base))
+		// Use the actual host from the remote URL so self-hosted GitLab
+		// instances work. Branch names containing "/" must be URL-encoded.
+		host, err := GetGitHost()
+		if err != nil {
+			Errorf("Failed to get git host: %v", err)
+			return
+		}
+		// Example: https://gitlab.example.com/owner/repo/-/merge_requests/new?...
+		prUrl = fmt.Sprintf("https://%s/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
+			host, repo, url.QueryEscape(head), url.QueryEscape(base))
 	default:
 		// Example: https://github.com/owner/repo/compare/base...head?expand=1
 		prUrl = fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", repo, base, head)
@@ -76,10 +82,13 @@ func GetPlatform() string {
 }
 
 // GetPrListUrl returns the URL of the pull request / merge request list page
-// for the current repository, based on the configured platform.
+// for the current repository, based on the configured platform. For GitLab
+// the host is taken from the remote URL (supports self-hosted instances).
 func GetPrListUrl(repo string) string {
 	if GetPlatform() == "gitlab" {
-		return fmt.Sprintf("https://gitlab.com/%s/-/merge_requests", repo)
+		if host, err := GetGitHost(); err == nil {
+			return fmt.Sprintf("https://%s/%s/-/merge_requests", host, repo)
+		}
 	}
 	return fmt.Sprintf("https://github.com/%s/pulls", repo)
 }

@@ -25,7 +25,7 @@ import (
 //   - "https://github.com/user/project.git" -> "user/project"
 func extractOwnerAndRepo(url string) (string, error) {
 	if strings.HasPrefix(url, "git@") {
-		// Handle SSH format: git@github.com:owner/repo.git
+		// Handle SSH format: git@host:owner/repo.git
 		parts := strings.Split(url, ":")
 		if len(parts) != 2 {
 			return "", fmt.Errorf("invalid SSH git URL format: %s", url)
@@ -34,7 +34,7 @@ func extractOwnerAndRepo(url string) (string, error) {
 		path := strings.TrimSuffix(parts[1], ".git")
 		return path, nil
 	} else if strings.HasPrefix(url, "https://") {
-		// Handle HTTPS format: https://github.com/owner/repo.git
+		// Handle HTTPS format: https://host/owner/repo.git
 		parts := strings.Split(url, "/")
 		if len(parts) < 2 {
 			return "", fmt.Errorf("invalid HTTPS git URL format: %s", url)
@@ -46,6 +46,52 @@ func extractOwnerAndRepo(url string) (string, error) {
 	}
 
 	return "", fmt.Errorf("unsupported git URL format: %s", url)
+}
+
+// extractHost extracts the host from a Git remote URL.
+// It supports both SSH and HTTPS URL formats.
+//
+// Supported formats:
+//   - SSH: git@host:owner/repo.git       -> "host"
+//   - HTTPS: https://host/owner/repo.git -> "host"
+//
+// Parameters:
+//   - url: The Git repository URL
+//
+// Returns:
+//   - string: The host (e.g. "github.com", "gitlab.example.com")
+//   - error: Error if URL format is unsupported
+func extractHost(url string) (string, error) {
+	if strings.HasPrefix(url, "git@") {
+		// SSH format: git@host:owner/repo.git
+		parts := strings.Split(url, ":")
+		if len(parts) != 2 {
+			return "", fmt.Errorf("invalid SSH git URL format: %s", url)
+		}
+		return strings.TrimPrefix(parts[0], "git@"), nil
+	} else if strings.HasPrefix(url, "https://") {
+		// HTTPS format: https://host/owner/repo.git
+		trimmed := strings.TrimPrefix(url, "https://")
+		parts := strings.Split(trimmed, "/")
+		if len(parts) < 2 || parts[0] == "" {
+			return "", fmt.Errorf("invalid HTTPS git URL format: %s", url)
+		}
+		return parts[0], nil
+	}
+
+	return "", fmt.Errorf("unsupported git URL format: %s", url)
+}
+
+// GetGitHost returns the host of the remote origin URL (e.g. "github.com",
+// "gitlab.example.com"). It is used to build platform-aware PR/MR URLs for
+// self-hosted GitLab instances.
+func GetGitHost() (string, error) {
+	cmd := exec.Command("git", "config", "--get", "remote.origin.url")
+	url, err := cmd.Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to get repository URL: %w", err)
+	}
+	return extractHost(strings.TrimSpace(string(url)))
 }
 
 // GetRepository retrieves the current Git repository's owner and name.
