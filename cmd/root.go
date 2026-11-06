@@ -18,7 +18,7 @@ var (
 var rootCmd = &cobra.Command{
 	Use:     "gfl",
 	Short:   "GitHub Flow CLI", // Will be updated after strings load
-	Version: "1.0.11",
+	Version: "1.0.12",
 	Run: func(cmd *cobra.Command, args []string) {
 		utils.DisplayLogo()
 		fmt.Println() // Keep for spacing
