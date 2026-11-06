@@ -10,15 +10,24 @@ import (
 )
 
 // gitlabMrUrl builds the GitLab "new merge request" URL. Branch names may
-// contain "/" (e.g. feature/aric/x) and must be encoded as %2F in query
-// params, otherwise GitLab fails to resolve the branch.
+// contain "/" (e.g. feature/aric/x) and the query params must be fully
+// percent-encoded, otherwise GitLab fails to resolve the branch.
 func gitlabMrUrl(host, repo, base, head string) string {
 	return fmt.Sprintf(
-		"https://%s/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
-		host, repo, encodeBranch(head), encodeBranch(base))
+		"https://%s/%s/-/merge_requests/new?%s=%s&%s=%s",
+		host, repo,
+		encodeParam("merge_request[source_branch]"), encodeBranch(head),
+		encodeParam("merge_request[target_branch]"), encodeBranch(base))
 }
 
-// encodeBranch encodes a branch name for use in a URL query param.
+// encodeParam encodes a Rails-style bracketed query param name.
+func encodeParam(param string) string {
+	s := strings.ReplaceAll(param, "[", "%5B")
+	return strings.ReplaceAll(s, "]", "%5D")
+}
+
+// encodeBranch encodes a branch name for use in a GitLab MR URL query param.
+// "/" must be %2F — the raw form is misparsed by GitLab.
 func encodeBranch(branch string) string {
 	return strings.ReplaceAll(branch, "/", "%2F")
 }
