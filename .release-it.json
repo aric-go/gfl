@@ -9,7 +9,7 @@
   },
   "hooks": {
     "after:init": ["t2k"],
-    "after:bump": ["syncv -p cmd/root.go"]
+    "after:bump": ["syncv -p cmd/root.go", "pnpm build"]
   },
   "github": {
     "release": false,
