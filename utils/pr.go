@@ -9,6 +9,20 @@ import (
 	"github.com/pkg/browser"
 )
 
+// gitlabMrUrl builds the GitLab "new merge request" URL. Branch names may
+// contain "/" (e.g. feature/aric/x) and must be encoded as %2F in query
+// params, otherwise GitLab fails to resolve the branch.
+func gitlabMrUrl(host, repo, base, head string) string {
+	return fmt.Sprintf(
+		"https://%s/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
+		host, repo, encodeBranch(head), encodeBranch(base))
+}
+
+// encodeBranch encodes a branch name for use in a URL query param.
+func encodeBranch(branch string) string {
+	return strings.ReplaceAll(branch, "/", "%2F")
+}
+
 // CreatePr creates a Pull Request / Merge Request by opening the creation
 // page in the default browser, based on the configured platform.
 //
@@ -39,9 +53,7 @@ func CreatePr(base string, head string) {
 	var prUrl string
 	switch GetPlatform() {
 	case "gitlab":
-		// Example: https://gitlab.example.com/owner/repo/-/merge_requests/new?...
-		prUrl = fmt.Sprintf("https://%s/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
-			parsed.Hostname, parsed.RepoName, strings.ReplaceAll(head, "/", "%2F"), strings.ReplaceAll(base, "/", "%2F"))
+		prUrl = gitlabMrUrl(parsed.Hostname, parsed.RepoName, base, head)
 	default:
 		// Example: https://github.com/owner/repo/compare/base...head?expand=1
 		prUrl = fmt.Sprintf("https://%s/%s/compare/%s...%s?expand=1",
