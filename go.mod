@@ -5,6 +5,7 @@ go 1.24.0
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
 	github.com/afeiship/go-box v1.0.7
+	github.com/afeiship/go-gitinfo v1.0.23
 	github.com/afeiship/go-yaml-path v1.0.3
 	github.com/briandowns/spinner v1.23.1
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be

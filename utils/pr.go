@@ -6,32 +6,32 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/afeiship/go-gitinfo"
 	"github.com/pkg/browser"
 )
 
-// CreatePr creates a GitHub Pull Request by opening the PR creation page in the default browser.
-// This function constructs the GitHub comparison URL and opens it for manual completion.
+// CreatePr creates a Pull Request / Merge Request by opening the creation
+// page in the default browser, based on the configured platform.
 //
-// The function follows the GitHub URL pattern:
-//   https://github.com/{owner}/{repo}/compare/{base}...{head}?expand=1
+// GitHub URL pattern:
+//
+//	https://github.com/{owner}/{repo}/compare/{base}...{head}?expand=1
+//
+// GitLab URL pattern (host taken from the remote URL, so self-hosted
+// instances are supported):
+//
+//	https://{host}/{owner}/{repo}/-/merge_requests/new?merge_request[source_branch]={head}&merge_request[target_branch]={base}
 //
 // Parameters:
 //   - base: The target branch to merge into (e.g., "main", "develop")
 //   - head: The source branch containing changes (e.g., "feature/aric/user-auth")
 //
-// URL Query Parameters:
-//   - expand=1: Automatically expands the comparison view
-//   - The URL format handles cross-branch comparisons
-//
 // Side Effects:
-//   - Opens the default browser with the PR creation URL
+//   - Opens the default browser with the PR/MR creation URL
 //   - Logs success or error messages
 //   - Does not create the PR automatically (user must complete manually)
-//
-// Example URL:
-//   https://github.com/myorg/myproject/compare/develop...feature/aric/user-auth?expand=1
 func CreatePr(base string, head string) {
-	repo, err := GetRepository()
+	parsed, err := getRemoteInfo()
 	if err != nil {
 		Errorf("Failed to get repository information: %v", err)
 		return
@@ -40,19 +40,13 @@ func CreatePr(base string, head string) {
 	var prUrl string
 	switch GetPlatform() {
 	case "gitlab":
-		// Use the actual host from the remote URL so self-hosted GitLab
-		// instances work. Branch names containing "/" must be URL-encoded.
-		host, err := GetGitHost()
-		if err != nil {
-			Errorf("Failed to get git host: %v", err)
-			return
-		}
 		// Example: https://gitlab.example.com/owner/repo/-/merge_requests/new?...
 		prUrl = fmt.Sprintf("https://%s/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
-			host, repo, url.QueryEscape(head), url.QueryEscape(base))
+			parsed.Hostname, parsed.RepoName, url.QueryEscape(head), url.QueryEscape(base))
 	default:
 		// Example: https://github.com/owner/repo/compare/base...head?expand=1
-		prUrl = fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", repo, base, head)
+		prUrl = fmt.Sprintf("https://%s/%s/compare/%s...%s?expand=1",
+			parsed.Hostname, parsed.RepoName, base, head)
 	}
 
 	// Open the URL in the default browser
@@ -63,6 +57,17 @@ func CreatePr(base string, head string) {
 	} else {
 		Infof("Opened PR creation page: %s", prUrl)
 	}
+}
+
+// getRemoteInfo parses the remote origin URL using go-gitinfo, returning
+// the normalized hostname and "owner/repo" identifier.
+func getRemoteInfo() (*gitinfo.GitUrl, error) {
+	cmd := exec.Command("git", "config", "--get", "remote.origin.url")
+	raw, err := cmd.Output()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get repository URL: %w", err)
+	}
+	return gitinfo.ParseGitUrl(strings.TrimSpace(string(raw)))
 }
 
 // GetPlatform returns the configured remote hosting platform.
@@ -86,8 +91,8 @@ func GetPlatform() string {
 // the host is taken from the remote URL (supports self-hosted instances).
 func GetPrListUrl(repo string) string {
 	if GetPlatform() == "gitlab" {
-		if host, err := GetGitHost(); err == nil {
-			return fmt.Sprintf("https://%s/%s/-/merge_requests", host, repo)
+		if parsed, err := getRemoteInfo(); err == nil {
+			return fmt.Sprintf("https://%s/%s/-/merge_requests", parsed.Hostname, repo)
 		}
 	}
 	return fmt.Sprintf("https://github.com/%s/pulls", repo)
@@ -99,14 +104,14 @@ func GetPrListUrl(repo string) string {
 // new development cycles.
 //
 // Process Overview:
-//   1. Verify working directory is clean
-//   2. Save current branch for later restoration
-//   3. Fetch latest changes from remote
-//   4. Switch to development branch
-//   5. Update development branch with remote changes
-//   6. Merge production branch into development branch
-//   7. Push synchronized development branch to remote
-//   8. Restore original branch
+//  1. Verify working directory is clean
+//  2. Save current branch for later restoration
+//  3. Fetch latest changes from remote
+//  4. Switch to development branch
+//  5. Update development branch with remote changes
+//  6. Merge production branch into development branch
+//  7. Push synchronized development branch to remote
+//  8. Restore original branch
 //
 // Parameters:
 //   - productionBranch: The production branch name (e.g., "main", "master")
@@ -138,11 +143,11 @@ func SyncProductionToDev(productionBranch, devBranch string) bool {
 
 	// Step 3: Define the sequence of Git commands for synchronization
 	commands := [][]string{
-		{"git", "fetch", "origin"},                                 // Fetch latest remote changes
-		{"git", "checkout", devBranch},                             // Switch to development branch
-		{"git", "pull", "origin", devBranch},                       // Update development branch
-		{"git", "merge", "origin/" + productionBranch},             // Merge production into development
-		{"git", "push", "origin", devBranch},                       // Push synchronized development branch
+		{"git", "fetch", "origin"},                     // Fetch latest remote changes
+		{"git", "checkout", devBranch},                 // Switch to development branch
+		{"git", "pull", "origin", devBranch},           // Update development branch
+		{"git", "merge", "origin/" + productionBranch}, // Merge production into development
+		{"git", "push", "origin", devBranch},           // Push synchronized development branch
 	}
 
 	// Step 4: Execute each command with error handling and rollback capability
@@ -216,9 +221,9 @@ func isWorkingDirectoryClean() bool {
 //   - "Already up to date" messages
 func containsImportantOutput(output string) bool {
 	return strings.Contains(output, "Already up to date") ||
-		   strings.Contains(output, "Fast-forward") ||
-		   strings.Contains(output, "Merge") ||
-		   strings.Contains(output, "file changed") ||
-		   strings.Contains(output, "insertion") ||
-		   strings.Contains(output, "deletion")
+		strings.Contains(output, "Fast-forward") ||
+		strings.Contains(output, "Merge") ||
+		strings.Contains(output, "file changed") ||
+		strings.Contains(output, "insertion") ||
+		strings.Contains(output, "deletion")
 }

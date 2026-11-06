@@ -4,6 +4,8 @@ github.com/Netflix/go-expect v0.0.0-20220104043353-73e0943537d2 h1:+vx7roKuyA63n
 github.com/Netflix/go-expect v0.0.0-20220104043353-73e0943537d2/go.mod h1:HBCaDeC1lPdgDeDbhX8XFpy1jqjK0IBG8W5K+xYqA0w=
 github.com/afeiship/go-box v1.0.7 h1:nOz0t65lgPQCTxAgJ60Q/NITZiIjlFkOCeB9/fqw25Y=
 github.com/afeiship/go-box v1.0.7/go.mod h1:MI00ssPxCWepZ3lwiQjSX97lR2UpyLkfZ/FbR9kMWCo=
+github.com/afeiship/go-gitinfo v1.0.23 h1:wgNX3V9w0eOoAhD7t9qr2Q7Fgw+59qaxAgsnN34D/d0=
+github.com/afeiship/go-gitinfo v1.0.23/go.mod h1:5UAWcs69Hl3eb1HPsejsGlpDEfR/I3d7GYvcTL6FdRQ=
 github.com/afeiship/go-yaml-path v1.0.3 h1:yx1bWTPCHL8vjoY0YdZm7nvsC3pueQ3XFHPqtzfq318=
 github.com/afeiship/go-yaml-path v1.0.3/go.mod h1:Q808fgk64NLKbdP+Idr55RNpltyB8lNMTpEZI0tVdjU=
 github.com/briandowns/spinner v1.23.1 h1:t5fDPmScwUjozhDj4FA46p5acZWIPXYE30qW2Ptu650=
