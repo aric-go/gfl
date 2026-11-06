@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"net/url"
 	"os/exec"
 	"strings"
 
@@ -42,7 +41,7 @@ func CreatePr(base string, head string) {
 	case "gitlab":
 		// Example: https://gitlab.example.com/owner/repo/-/merge_requests/new?...
 		prUrl = fmt.Sprintf("https://%s/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
-			parsed.Hostname, parsed.RepoName, url.QueryEscape(head), url.QueryEscape(base))
+			parsed.Hostname, parsed.RepoName, strings.ReplaceAll(head, "/", "%2F"), strings.ReplaceAll(base, "/", "%2F"))
 	default:
 		// Example: https://github.com/owner/repo/compare/base...head?expand=1
 		prUrl = fmt.Sprintf("https://%s/%s/compare/%s...%s?expand=1",

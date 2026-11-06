@@ -103,7 +103,7 @@ zh-CN:
 
   # PR command
   pr:
-    short: "创建代码审查请求（PR/MR）"
+    short: "创建 PR / Merge Request（MR）(alias: mr)"
     sync_failed: "同步失败，请检查错误信息并重试"
     browser_error: "无法打开浏览器: %v"
     current_branch_error: "无法获取当前分支: %v"
@@ -395,7 +395,7 @@ en-US:
 
   # PR command
   pr:
-    short: "Create pull request / merge request (PR/MR)"
+    short: "Create a pull request / merge request (alias: mr)"
     sync_failed: "Sync failed, please check error messages and retry"
     browser_error: "Failed to open browser: %v"
     current_branch_error: "Failed to get current branch: %v"

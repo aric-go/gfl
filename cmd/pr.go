@@ -11,8 +11,8 @@ import (
 // prCmd represents the pr command
 var prCmd = &cobra.Command{
 	Use:     "pr",
-	Aliases: []string{"rv"},
-	Short:   "Create pull request (PR)",
+	Aliases: []string{"mr"},
+	Short:   "Create pull request (PR/MR)",
 	Run: func(cmd *cobra.Command, args []string) {
 		// 读取配置文件获取默认分支和仓库
 		config := utils.ReadConfig()
