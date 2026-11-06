@@ -34,6 +34,7 @@ GitLab 的 source/target 分支参数使用 `net/url.QueryEscape` 编码（分�
 - `cmd/config.go` 展示表格新增 `platform` 行（含来源颜色）
 - `strings.yml` 中英文新增 `pr.platform_invalid`；`pr.short` 更新为提及 MR
 - `CLAUDE.md` 配置字段表新增 `platform` 行
+- `cmd/assets/.gfl.config.yml`（`gfl init` 使用的默认模板）新增 `platform: github` 条目
 
 ## 不做的事
 

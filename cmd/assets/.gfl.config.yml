@@ -5,5 +5,7 @@ nickname: aric               # Developer identifier for branch naming (optional)
 featurePrefix: feature       # Prefix for feature branches
 fixPrefix: fix               # Prefix for bug fix branches
 hotfixPrefix: hotfix         # Prefix for hotfix branches
+# Platform for PR/MR: github, gitlab
+platform: github
 # Branch case format: lower, upper, snake, camel, pascal, kebab, original
 branchCaseFormat: original

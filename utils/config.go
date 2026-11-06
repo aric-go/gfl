@@ -105,6 +105,13 @@ type YamlConfig struct {
 
 	// BranchCaseFormatSet indicates whether branchCaseFormat was explicitly set
 	BranchCaseFormatSet bool `yaml:"-"`
+
+	// Platform specifies the remote hosting platform for PR/MR creation (default: "github")
+	// Supported values: "github", "gitlab"
+	Platform string `yaml:"platform,omitempty"`
+
+	// PlatformSet indicates whether platform was explicitly set
+	PlatformSet bool `yaml:"-"`
 }
 
 // ConfigSource represents a single configuration source with metadata.
@@ -167,6 +174,7 @@ func ReadConfigWithSources() ConfigInfo {
 		FixPrefix:        "fix",
 		HotfixPrefix:     "hotfix",
 		BranchCaseFormat: "original",
+		Platform:         "github",
 	}
 
 	// 2. Load global configuration file
@@ -267,6 +275,9 @@ func loadConfigFile(filename string) YamlConfig {
 	if v.IsSet("branchCaseFormat") {
 		config.BranchCaseFormatSet = true
 	}
+	if v.IsSet("platform") {
+		config.PlatformSet = true
+	}
 
 	return config
 }
@@ -311,6 +322,10 @@ func mergeConfig(base *YamlConfig, override YamlConfig) {
 	if override.BranchCaseFormatSet {
 		base.BranchCaseFormat = override.BranchCaseFormat
 		base.BranchCaseFormatSet = true
+	}
+	if override.PlatformSet {
+		base.Platform = override.Platform
+		base.PlatformSet = true
 	}
 }
 

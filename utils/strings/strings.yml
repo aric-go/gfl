@@ -103,7 +103,7 @@ zh-CN:
 
   # PR command
   pr:
-    short: "创建代码审查请求（PR）"
+    short: "创建代码审查请求（PR/MR）"
     sync_failed: "同步失败，请检查错误信息并重试"
     browser_error: "无法打开浏览器: %v"
     current_branch_error: "无法获取当前分支: %v"
@@ -198,6 +198,7 @@ zh-CN:
     fix_prefix: "修复分支前缀"
     hotfix_prefix: "热修复分支前缀"
     branch_case_format: "分支名称格式"
+    platform: "PR/MR 平台"
     example_feature_branch: "示例功能分支"
     config_sources_title: "\n📁 配置来源详情:\n"
     custom_config_file: "🎯 自定义配置: %s (GFL_CONFIG_FILE)\n"
@@ -394,7 +395,7 @@ en-US:
 
   # PR command
   pr:
-    short: "Create pull request (PR)"
+    short: "Create pull request / merge request (PR/MR)"
     sync_failed: "Sync failed, please check error messages and retry"
     browser_error: "Failed to open browser: %v"
     current_branch_error: "Failed to get current branch: %v"
@@ -489,6 +490,7 @@ en-US:
     fix_prefix: "Fix Branch Prefix"
     hotfix_prefix: "Hotfix Branch Prefix"
     branch_case_format: "Branch Case Format"
+    platform: "PR/MR Platform"
     example_feature_branch: "Example Feature Branch"
     config_sources_title: "\n📁 Configuration Source Details:\n"
     custom_config_file: "🎯 Custom Config: %s (GFL_CONFIG_FILE)\n"

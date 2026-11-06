@@ -2,8 +2,10 @@ package utils
 
 import (
 	"fmt"
+	"net/url"
 	"os/exec"
 	"strings"
+
 	"github.com/pkg/browser"
 )
 
@@ -35,18 +37,51 @@ func CreatePr(base string, head string) {
 		return
 	}
 
-	// Generate GitHub PR URL for branch comparison
-	// Example: https://github.com/owner/repo/compare/base...head?expand=1
-	url := fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", repo, base, head)
+	var prUrl string
+	switch GetPlatform() {
+	case "gitlab":
+		// Example: https://gitlab.com/owner/repo/-/merge_requests/new?merge_request[source_branch]=head&merge_request[target_branch]=base
+		// Branch names containing "/" must be URL-encoded
+		prUrl = fmt.Sprintf("https://gitlab.com/%s/-/merge_requests/new?merge_request[source_branch]=%s&merge_request[target_branch]=%s",
+			repo, url.QueryEscape(head), url.QueryEscape(base))
+	default:
+		// Example: https://github.com/owner/repo/compare/base...head?expand=1
+		prUrl = fmt.Sprintf("https://github.com/%s/compare/%s...%s?expand=1", repo, base, head)
+	}
 
 	// Open the URL in the default browser
-	err = browser.OpenURL(url)
+	err = browser.OpenURL(prUrl)
 	if err != nil {
 		Errorf("Failed to open browser: %v", err)
-		Infof("Please manually open this URL: %s", url)
+		Infof("Please manually open this URL: %s", prUrl)
 	} else {
-		Infof("Opened PR creation page: %s", url)
+		Infof("Opened PR creation page: %s", prUrl)
 	}
+}
+
+// GetPlatform returns the configured remote hosting platform.
+// Valid values are "github" and "gitlab". Any other value (including an
+// empty one, though config defaults to "github") falls back to "github"
+// with a warning.
+func GetPlatform() string {
+	platform := "github"
+	if config := ReadConfig(); config != nil && config.Platform != "" {
+		platform = config.Platform
+	}
+	if platform != "github" && platform != "gitlab" {
+		Warningf("Invalid platform '%s', falling back to 'github' (supported: github, gitlab)", platform)
+		return "github"
+	}
+	return platform
+}
+
+// GetPrListUrl returns the URL of the pull request / merge request list page
+// for the current repository, based on the configured platform.
+func GetPrListUrl(repo string) string {
+	if GetPlatform() == "gitlab" {
+		return fmt.Sprintf("https://gitlab.com/%s/-/merge_requests", repo)
+	}
+	return fmt.Sprintf("https://github.com/%s/pulls", repo)
 }
 
 // SyncProductionToDev synchronizes the production branch with the development branch.

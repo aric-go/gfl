@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"gfl/utils"
 	"gfl/utils/strings"
 
@@ -35,7 +34,7 @@ var prCmd = &cobra.Command{
 		// 处理打开列表页面标志
 		isOpen, _ := cmd.Flags().GetBool("open")
 		if isOpen {
-			listUrl := fmt.Sprintf("https://github.com/%s/pulls", repo)
+			listUrl := utils.GetPrListUrl(repo)
 
 			err := browser.OpenURL(listUrl)
 			if err != nil {

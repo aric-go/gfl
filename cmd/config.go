@@ -77,6 +77,10 @@ var configCmd = &cobra.Command{
 					if source.Config.BranchCaseFormatSet {
 						return source.Name
 					}
+				case "platform":
+					if source.Config.PlatformSet {
+						return source.Name
+					}
 				}
 			}
 
@@ -167,6 +171,13 @@ var configCmd = &cobra.Command{
 			strings.GetPath("config.branch_case_format"),
 			colorizeValue(finalConfig.BranchCaseFormat, caseFormatSource),
 			colorizeSource(caseFormatSource),
+		})
+
+		platformSource := getSource("platform")
+		t.AppendRow(table.Row{
+			strings.GetPath("config.platform"),
+			colorizeValue(finalConfig.Platform, platformSource),
+			colorizeSource(platformSource),
 		})
 
 		t.AppendSeparator()

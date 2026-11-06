@@ -250,5 +250,6 @@ Current configuration fields (utils/config.go:16-64):
 | `fixPrefix` | string | "fix" | Prefix for bug fix branches |
 | `hotfixPrefix` | string | "hotfix" | Prefix for hotfix branches |
 | `branchCaseFormat` | string | "original" | Case format for branch names |
+| `platform` | string | "github" | Remote platform for PR/MR: "github" or "gitlab" |
 
 All fields must have corresponding `*Set` boolean flags for proper config merging.
