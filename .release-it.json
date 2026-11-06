@@ -13,7 +13,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "Release ${version}",
+    "releaseName": "v${version}",
     "skipChecks": true,
     "releaseNotes": "git log --no-merges --pretty=format:\"* %s %h\" ${latestTag}...main"
   },
