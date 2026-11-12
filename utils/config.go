@@ -2,6 +2,9 @@ package utils
 
 import (
 	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/spf13/viper"
@@ -177,8 +180,18 @@ func ReadConfigWithSources() ConfigInfo {
 		Platform:         "github",
 	}
 
-	// 2. Load global configuration file
+	// Resolve config file paths: when inside a git repository, look for
+	// config files at the repo root so running from a subdirectory works.
+	// Fall back to CWD-relative names when not in a repo.
+	repoRoot := getRepoRoot()
 	globalConfigFile := ".gfl.config.yml"
+	localConfigFile := ".gfl.config.local.yml"
+	if repoRoot != "" {
+		globalConfigFile = filepath.Join(repoRoot, ".gfl.config.yml")
+		localConfigFile = filepath.Join(repoRoot, ".gfl.config.local.yml")
+	}
+
+	// 2. Load global configuration file
 	globalConfig := loadConfigFile(globalConfigFile)
 	info.Sources = append(info.Sources, ConfigSource{
 		Name:   "Global Config",
@@ -188,7 +201,6 @@ func ReadConfigWithSources() ConfigInfo {
 	})
 
 	// 3. Load local configuration file
-	localConfigFile := ".gfl.config.local.yml"
 	localConfig := loadConfigFile(localConfigFile)
 	info.Sources = append(info.Sources, ConfigSource{
 		Name:   "Local Config",
@@ -200,9 +212,12 @@ func ReadConfigWithSources() ConfigInfo {
 	// 4. Load custom configuration file from environment variable
 	var customConfig YamlConfig
 	customConfigFile := os.Getenv("GFL_CONFIG_FILE")
+	// Compare absolute paths so an env var pointing at the same global/local
+	// config file does not cause double-loading.
+	customAbsPath, _ := filepath.Abs(customConfigFile)
 	if customConfigFile != "" &&
-	   customConfigFile != globalConfigFile &&
-	   customConfigFile != localConfigFile {
+	   customAbsPath != absPath(globalConfigFile) &&
+	   customAbsPath != absPath(localConfigFile) {
 		customConfig = loadConfigFile(customConfigFile)
 		info.Sources = append(info.Sources, ConfigSource{
 			Name:   "Custom Config",
@@ -220,6 +235,21 @@ func ReadConfigWithSources() ConfigInfo {
 	mergeConfig(&info.FinalConfig, customConfig)
 
 	return info
+}
+
+// absPath converts a path to its absolute form, ignoring conversion errors.
+func absPath(p string) string {
+	abs, _ := filepath.Abs(p)
+	return abs
+}
+
+// getRepoRoot returns the git repository root, or "" if not in a repo / git fails.
+func getRepoRoot() string {
+	out, err := exec.Command("git", "rev-parse", "--show-toplevel").Output()
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(string(out))
 }
 
 // loadConfigFile loads and parses a YAML configuration file.
