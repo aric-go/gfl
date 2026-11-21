@@ -63,23 +63,29 @@ func ReadPkgVersion() (string, error) {
 }
 
 // syncRootVersion writes the new version into the Version field of cmd/root.go.
-func syncRootVersion(version string) error {
+// Returns false without error when the file does not exist, so bump also works
+// in repositories that only have package.json.
+func syncRootVersion(version string) (bool, error) {
 	const path = "cmd/root.go"
 	data, err := os.ReadFile(path)
+	if os.IsNotExist(err) {
+		return false, nil
+	}
 	if err != nil {
-		return fmt.Errorf("failed to read %s: %w", path, err)
+		return false, fmt.Errorf("failed to read %s: %w", path, err)
 	}
 	if !rootVersionPattern.Match(data) {
-		return fmt.Errorf("version field not found in %s", path)
+		return false, fmt.Errorf("version field not found in %s", path)
 	}
 	updated := rootVersionPattern.ReplaceAll(data, fmt.Appendf(nil, `Version: "%s"`, version))
 	if err := os.WriteFile(path, updated, 0644); err != nil {
-		return fmt.Errorf("failed to write %s: %w", path, err)
+		return false, fmt.Errorf("failed to write %s: %w", path, err)
 	}
-	return nil
+	return true, nil
 }
 
-// RunBump bumps the version via pnpm, syncs cmd/root.go, then commits both files (no push).
+// RunBump bumps the version via pnpm, syncs cmd/root.go when present,
+// then commits the changed files (no push).
 func RunBump(bumpType, preid string) error {
 	args := []string{"version", bumpType, "--no-git-tag-version"}
 	if preid != "" {
@@ -93,12 +99,18 @@ func RunBump(bumpType, preid string) error {
 	if err != nil {
 		return err
 	}
-	if err := syncRootVersion(version); err != nil {
-		return err
-	}
 	Successf(strings.GetPath("bump.updated", version))
 
-	if err := RunCommandWithArgs("git", []string{"add", "package.json", "cmd/root.go"}, strings.GetPath("bump.committing")); err != nil {
+	files := []string{"package.json"}
+	synced, err := syncRootVersion(version)
+	if err != nil {
+		return err
+	}
+	if synced {
+		files = append(files, "cmd/root.go")
+	}
+
+	if err := RunCommandWithArgs("git", append([]string{"add"}, files...), strings.GetPath("bump.committing")); err != nil {
 		return err
 	}
 	msg := fmt.Sprintf("chore(release): v%s [gfl]", version)
