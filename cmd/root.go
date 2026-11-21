@@ -131,6 +131,12 @@ func updateCommandDescriptions() {
 		configCmd.Long = strings.GetPath("config.long")
 	}
 
+	// Update bump command
+	if bumpCmd != nil {
+		bumpCmd.Short = strings.GetPath("bump.short")
+		bumpCmd.Flags().Lookup("preid").Usage = strings.GetPath("bump.preid_flag")
+	}
+
 	if rebaseCmd != nil {
 		rebaseCmd.Short = strings.GetPath("rebase.short")
 	}

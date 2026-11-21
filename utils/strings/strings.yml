@@ -101,6 +101,15 @@ zh-CN:
     gh_not_installed: "gh cli 未安装，请手动创建 Release..."
     type_flag: "版本类型: major, minor, patch"
 
+  # Bump command
+  bump:
+    short: "递增 npm 版本并同步提交 package.json 和 cmd/root.go(不 push)(alias: bp)"
+    bumping: "正在递增版本号(pnpm)..."
+    updated: "版本已更新: %s"
+    committing: "正在提交版本更新..."
+    success: "🎉 版本已递增并提交(未 push)"
+    preid_flag: "prerelease 标识(eg: beta/rc)"
+
   # PR command
   pr:
     short: "创建 PR / Merge Request（MR）(alias: mr)"
@@ -392,6 +401,15 @@ en-US:
     release_success: "Release %s created successfully!"
     gh_not_installed: "gh cli not installed, please create Release manually..."
     type_flag: "Version type: major, minor, patch"
+
+  # Bump command
+  bump:
+    short: "Bump npm version and commit package.json and cmd/root.go (no push) (alias: bp)"
+    bumping: "Bumping version (pnpm)..."
+    updated: "Version updated: %s"
+    committing: "Committing version changes..."
+    success: "🎉 Version bumped and committed (not pushed)"
+    preid_flag: "Pre-release identifier (eg: beta/rc)"
 
   # PR command
   pr:
