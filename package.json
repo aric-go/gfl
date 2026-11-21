@@ -6,10 +6,11 @@
   "description": "GitHub flow command line tool.",
   "license": "MIT",
   "scripts": {
-    "start": "go run main.go",
-    "build": "go build -ldflags '-s -w' -o dist/gfl main.go",
-    "bin:link": "ln -sf $(pwd)/dist/gfl /usr/local/bin/gfl",
-    "bin:unlink": "rm /usr/local/bin/gfl",
+    "tidy": "just tidy",
+    "start": "just start",
+    "build": "just macos-build",
+    "bin:link": "just macos-link",
+    "bin:unlink": "just macos-unlink",
     "prepare": "husky",
     "release": "release-it"
   },
